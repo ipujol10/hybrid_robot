@@ -19,7 +19,7 @@
     <!-- ==================================================== -->
     <!-- Startup simulated world -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find first_world)/world/world.world"/>
+        <arg name="world_name" value="$(find hybrid_robot)/first_model/world/world.world"/>
         <!-- <arg name="world_name" default="world/empty.world"/> -->
         <arg name="verbose" value="true"/>
         <arg name="paused" value="$(arg paused)"/>
