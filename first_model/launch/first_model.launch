@@ -1,0 +1,29 @@
+<launch>
+    <!-- ==================================================== -->
+    <!--
+    By default, hide joint_state_publisher's GUI. The joint_state_publisher
+    maintains and publishes the current joint configuration of the simulated robot.
+    It also provides a GUI to move the simulated robot around "manually".
+    -->
+    <!-- ==================================================== -->
+    <arg name="use_gui" default="false"/>
+
+    <!-- ==================================================== -->
+    <!-- Gazebo specific options                              -->
+    <!-- ==================================================== -->
+    <arg name="gazebo_gui" default="true"/>
+    <arg name="paused" default="true"/>
+
+    <!-- ==================================================== -->
+    <!-- Launch Gazebo with a world                           -->
+    <!-- ==================================================== -->
+    <!-- Startup simulated world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find first_world)/world/world.world"/>
+        <!-- <arg name="world_name" default="world/empty.world"/> -->
+        <arg name="verbose" value="true"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="gui" value="$(arg gazebo_gui)"/>
+    </include>
+
+</launch>
