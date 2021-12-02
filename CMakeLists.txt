@@ -20,7 +20,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Trial trial.cpp)
 
-#target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+target_link_libraries(Trial ${catkin_LIBRARIES})
 
 catkin_install_python(PROGRAMS trial.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
