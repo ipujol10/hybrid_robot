@@ -3,7 +3,7 @@
 
     <xacro:property name="wheel_r" value="0.20"/>
     <xacro:property name="wheel_width" value="0.05"/>
-<!--    <xacro:property name="pi" value="3.1415" />-->
+    <!--    <xacro:property name="pi" value="3.1415" />-->
 
     <material name="black">
         <color rgba="0 0 0 1"/>

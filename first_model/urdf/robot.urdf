@@ -10,7 +10,7 @@
   </material>
   <link name="wheel">
     <visual>
-      <origin rpy="1.5707963267948966 0 0" xyz="0 0 0.7"/>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 0.2"/>
       <geometry>
         <cylinder length="0.05" radius="0.2"/>
       </geometry>
@@ -25,6 +25,14 @@
       <mass value="1"/>
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
     </inertial>
+    <!--        <gazebo reference="${link}">-->
+    <gazebo>
+      <material>Gazebo/Black</material>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <kp>10000</kp>
+      <kd>0</kd>
+    </gazebo>
   </link>
 </robot>
 
