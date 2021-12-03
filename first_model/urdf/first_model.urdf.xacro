@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot name="hybrid_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:property name="wheel_r" value="0.20"/>
+    <xacro:property name="wheel_width" value="0.05"/>
+    <xacro:property name="pi" value="3.1415" />
+
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <xacro:macro name="default_inertial" params="mass">
+        <inertial>
+            <mass value="${mass}"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="wheel" params="prefix sufix reflect:=1">
+
+        <link name="${prefix}_${sufix}_wheel">
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+                <geometry>
+                    <cylinder radius="${wheel_r}" length="{wheel_width}"/>
+                </geometry>
+                <material name="black"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+                <geometry>
+                    <cylinder radius="${wheel_r}" length="{wheel_width}"/>
+                </geometry>
+            </collision>
+            <xacro:default_inertia mass="1"/>
+        </link>
+        <joint name="${prefix}_${sufix}_wheel_joint" type="continuous">
+            <axis xyz="0 1 0" rpy="0 0 0"/>
+            <parent link="${prefix}_base"/>
+            <child link="${prefix}_${sufix}_wheel"/>
+            <origin xyz="0 0 -${wheel_r+wheel_width/2}" rpy="0 0 0"/>
+        </joint>
+
+    </xacro:macro>
+
+    <link name="wheel">
+        <visual>
+            <origin xyz="0 0 ${wheel_r+0.5}" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_r}" length="{wheel_width}"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="${wheel_r}" length="{wheel_width}"/>
+            </geometry>
+        </collision>
+        <xacro:default_inertia mass="1"/>
+    </link>
+
+</robot>
