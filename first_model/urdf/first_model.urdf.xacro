@@ -3,7 +3,7 @@
 
     <xacro:property name="wheel_r" value="0.20"/>
     <xacro:property name="wheel_width" value="0.05"/>
-    <xacro:property name="pi" value="3.1415" />
+<!--    <xacro:property name="pi" value="3.1415" />-->
 
     <material name="black">
         <color rgba="0 0 0 1"/>
@@ -22,17 +22,17 @@
             <visual>
                 <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
                 <geometry>
-                    <cylinder radius="${wheel_r}" length="{wheel_width}"/>
+                    <cylinder radius="${wheel_r}" length="${wheel_width}"/>
                 </geometry>
                 <material name="black"/>
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
                 <geometry>
-                    <cylinder radius="${wheel_r}" length="{wheel_width}"/>
+                    <cylinder radius="${wheel_r}" length="${wheel_width}"/>
                 </geometry>
             </collision>
-            <xacro:default_inertia mass="1"/>
+            <xacro:default_inertial mass="1"/>
         </link>
         <joint name="${prefix}_${sufix}_wheel_joint" type="continuous">
             <axis xyz="0 1 0" rpy="0 0 0"/>
@@ -47,16 +47,16 @@
         <visual>
             <origin xyz="0 0 ${wheel_r+0.5}" rpy="${pi/2} 0 0"/>
             <geometry>
-                <cylinder radius="${wheel_r}" length="{wheel_width}"/>
+                <cylinder radius="${wheel_r}" length="${wheel_width}"/>
             </geometry>
             <material name="black"/>
         </visual>
         <collision>
             <geometry>
-                <cylinder radius="${wheel_r}" length="{wheel_width}"/>
+                <cylinder radius="${wheel_r}" length="${wheel_width}"/>
             </geometry>
         </collision>
-        <xacro:default_inertia mass="1"/>
+        <xacro:default_inertial mass="1"/>
     </link>
 
 </robot>
