@@ -45,7 +45,7 @@
 
     <link name="wheel">
         <visual>
-            <origin xyz="0 0 ${wheel_r+0.5}" rpy="${pi/2} 0 0"/>
+            <origin xyz="0 0 ${wheel_r}" rpy="${pi/2} 0 0"/>
             <geometry>
                 <cylinder radius="${wheel_r}" length="${wheel_width}"/>
             </geometry>

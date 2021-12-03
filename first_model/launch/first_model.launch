@@ -29,16 +29,17 @@
     <!-- ==================================================== -->
     <!-- Send robot urdf to param server                      -->
     <!-- ==================================================== -->
-<!--    <param name="robot_description"-->
-<!--        command="$(find xacro)/xacro '$(find hybrid_robot)/first_model/urdf/first_model.urdf.xacro' use_cylinder_collision_model:=false use_gazebo_sim:=true"/>-->
     <param name="robot_description"
-        command="$(find xacro)/xacro '$(find hybrid_robot)/first_model/urdf/first_model.urdf.xacro' use_gazebo_sim:=true"/>
+        command="$(find xacro)/xacro '$(find hybrid_robot)/first_model/urdf/first_model.urdf.xacro' use_cylinder_collision_model:=false use_gazebo_sim:=true"/>
+<!--     <param name="robot_description" -->
+<!--         command="$(find xacro)/xacro '$(find hybrid_robot)/first_model/urdf/first_model.urdf.xacro' use_gazebo_sim:=true"/> -->
 
     <!-- ==================================================== -->
     <!-- Spawn robot in Gazebo                                -->
     <!-- ==================================================== -->
     <!-- Push robot_description to factory and spawn robot in gazebo at the origin, change x,y,z arguments to spawn in a different position -->
-    <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model hybrid_robot"
+    <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model hybrid_robot
+        -z 0.2 -unpause"
         respawn="false" output="screen" />
 
 </launch>
