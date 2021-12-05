@@ -3,7 +3,9 @@
 
     <xacro:property name="wheel_r" value="0.20"/>
     <xacro:property name="wheel_width" value="0.05"/>
-    <!--    <xacro:property name="pi" value="3.1415" />-->
+    <xacro:property name="base_length" value="1"/>
+    <xacro:property name="base_width" value="1"/>
+    <xacro:property name="base_height" value="1"/>
 
     <material name="black">
         <color rgba="0 0 0 1"/>
@@ -16,7 +18,7 @@
         </inertial>
     </xacro:macro>
 
-    <xacro:macro name="wheel" params="prefix sufix reflect:=1">
+    <xacro:macro name="wheel" params="prefix sufix reflect">
 
         <link name="${prefix}_${sufix}_wheel">
             <visual>
@@ -43,20 +45,21 @@
 
     </xacro:macro>
 
-    <link name="wheel">
+    <link name="base">
         <visual>
-            <origin xyz="0 0 ${wheel_r}" rpy="${pi/2} 0 0"/>
+            <origin xyz="0 0 ${base_height}/2"/>
             <geometry>
-                <cylinder radius="${wheel_r}" length="${wheel_width}"/>
+                <box size="${base_length} ${base_width}  ${base_height}"/>
             </geometry>
             <material name="black"/>
         </visual>
         <collision>
+            <origin xyz="0 0 ${base_height}/2"/>
             <geometry>
-                <cylinder radius="${wheel_r}" length="${wheel_width}"/>
+                <box size="${base_length} ${base_width}  ${base_height}"/>
             </geometry>
         </collision>
-        <xacro:default_inertial mass="1"/>
+        <xacro:default_inertial mass="10"/>
     </link>
 
 </robot>
