@@ -81,7 +81,7 @@
             <geometry>
                 <box size="${extension_length} ${extension_width} ${extension_height}"/>
             </geometry>
-            <material name="balck"/>
+            <material name="black"/>
         </visual>
         <collision>
             <geometry>
@@ -90,7 +90,7 @@
         </collision>
         <inertial>
             <mass value="10"/>
-            <inertia ixx="0.9208333333333332" ixy="0" ixz="0" iyy="1.5854166666666663" iyz="0" izz="1.0020833333333334"/>
+            <inertia ixx="0.17627083333333335" ixy="0" ixz="0" iyy="0.8408541666666667" iyz="0" izz="1.0020833333333334"/>
         </inertial>
     </link>
     <joint name="extension_base_joint" type="prismatic">
