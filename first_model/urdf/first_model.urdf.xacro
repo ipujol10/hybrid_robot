@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <robot name="hybrid_robot" xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:property name="wheel_r" value="0.20"/>
-    <xacro:property name="wheel_width" value="0.05"/>
+    <xacro:property name="wheel_r" value="0.10"/>
+    <xacro:property name="wheel_width" value="0.02"/>
     <xacro:property name="base_length" value="1"/>
-    <xacro:property name="base_width" value="1"/>
-    <xacro:property name="base_height" value="1"/>
+    <xacro:property name="base_width" value="0.5"/>
+    <xacro:property name="base_height" value="0.1"/>
+
 
     <material name="black">
         <color rgba="0 0 0 1"/>
@@ -47,19 +48,22 @@
 
     <link name="base">
         <visual>
-            <origin xyz="0 0 ${base_height}/2"/>
+            <origin xyz="0 0 ${wheel_r}"/>
             <geometry>
                 <box size="${base_length} ${base_width}  ${base_height}"/>
             </geometry>
             <material name="black"/>
         </visual>
         <collision>
-            <origin xyz="0 0 ${base_height}/2"/>
+            <origin xyz="0 0 ${wheel_r}"/>
             <geometry>
                 <box size="${base_length} ${base_width}  ${base_height}"/>
             </geometry>
         </collision>
-        <xacro:default_inertial mass="10"/>
+        <inertial>
+            <mass value="10"/>
+            <inertia ixx="0.21666666666666667" ixy="0" ixz="0" iyy="0.8416666666666667" iyz="0" izz="1.0416666666666665"/>
+        </inertial>
     </link>
 
 </robot>
