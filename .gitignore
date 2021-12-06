@@ -1,4 +1,4 @@
 # Folders
-cmake-build-debug
+hybrid_robot/cmake-build-debug
 venv
 .idea
