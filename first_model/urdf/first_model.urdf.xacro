@@ -15,12 +15,13 @@
         <color rgba="0 0 0 1"/>
     </material>
 
-    <xacro:macro name="default_inertial" params="mass">
-        <inertial>
-            <mass value="${mass}"/>
-            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
-        </inertial>
-    </xacro:macro>
+    <material name="red">
+        <color rgba="1 0 0 1"/>
+    </material>
+
+    <material name="blue">
+        <color rgba="0 0 1 1"/>
+    </material>
 
     <xacro:macro name="wheel" params="position side parent">
 
@@ -36,7 +37,10 @@
                     <cylinder radius="${wheel_r}" length="${wheel_width}"/>
                 </geometry>
             </collision>
-            <xacro:default_inertial mass="1"/>
+            <inertial>
+                <mass value="1"/>
+                <inertia ixx="0.005658333333333333" ixy="0" ixz="0" iyy="0.005658333333333333" iyz="0" izz="0.01125"/>
+            </inertial>
         </link>
         <joint name="${position}_${side}_wheel_joint" type="continuous">
             <xacro:property name="origin_x" value="${base_length/2-0.05}"/>
@@ -63,7 +67,7 @@
             <geometry>
                 <box size="${base_length} ${base_width}  ${base_height}"/>
             </geometry>
-            <material name="black"/>
+            <material name="blue"/>
         </visual>
         <collision>
             <geometry>
@@ -81,7 +85,7 @@
             <geometry>
                 <box size="${extension_length} ${extension_width} ${extension_height}"/>
             </geometry>
-            <material name="black"/>
+            <material name="red"/>
         </visual>
         <collision>
             <geometry>
@@ -97,13 +101,69 @@
         <axis xyz="1 0 0"/>
         <parent link="base"/>
         <child link="extension"/>
-        <origin xyz="-.1 0 0"/>
-        <limit lower="0" upper="1" effort="100" velocity="10"/>
+        <origin xyz="-0.1 0 0"/>
+        <limit lower="-0.9" upper="0" effort="100" velocity="10"/>
     </joint>
 
     <xacro:wheel position="front" side="right" parent="base"/>
     <xacro:wheel position="front" side="left" parent="base"/>
     <xacro:wheel position="back" side="right" parent="extension"/>
     <xacro:wheel position="back" side="left" parent="extension"/>
+
+    <transmission name="trans_extension_base_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="extension_base_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="extension_base_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_front_right_wheel_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="front_right_wheel_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="front_right_wheel_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_front_left_wheel_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="front_left_wheel_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="front_left_wheel_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_back_right_wheel_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="back_right_wheel_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="back_right_wheel_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_back_left_wheel_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="back_left_wheel_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="back_left_wheel_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo>
 
 </robot>
