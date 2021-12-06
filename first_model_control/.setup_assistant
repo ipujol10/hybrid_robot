@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: hybrid_robot
+    relative_path: first_model/urdf/first_model.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/hybrid_robot.srdf
+  CONFIG:
+    author_name: Iñaki Pujol
+    author_email: ipujol20@student.aau.dk
+    generated_timestamp: 1638814063
