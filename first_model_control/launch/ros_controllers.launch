@@ -6,6 +6,6 @@
 
   <!-- Load the controllers -->
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" args="prismatic_controller_rename front_right_controller_rename front_left_controller_rename back_right_controller_rename back_left_controller_rename "/>
+    output="screen" args="prismatic_controller front_right_controller front_left_controller back_right_controller back_left_controller "/>
 
 </launch>
