@@ -56,7 +56,7 @@
 
       <!-- load the controllers -->
       <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-        output="screen" ns="/rrbot" args="prismatic_controller front_right_controller front_left_controller back_right_controller
+        output="screen" ns="/hybrid_robot" args="prismatic_controller front_right_controller front_left_controller back_right_controller
         back_left_controller joint_state_controller"/>
 
       <!-- convert joint states to TF transforms for rviz, etc -->
