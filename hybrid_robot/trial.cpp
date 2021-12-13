@@ -3,26 +3,35 @@
 //
 
 #include <ros/ros.h>
-#include <iostream>
-#include <std_msgs/String.h>
-#include <string>
+#include <std_msgs/Float64.h>
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "talker");
-    ros::NodeHandle n;
-    ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
-    ros::Rate(10);
+  ros::init(argc, argv, "trial");
 
-    std_msgs::String message;
-    std::string str;
-    std::cout << "Enter message: ";
-    std::cin >> str;
-    message.data = str;
+  ros::NodeHandle n;
 
-    ROS_INFO("%s", message.data.c_str());
-    chatter_pub.publish(message);
+  ros::Publisher publisher = n.advertise<std_msgs::Float64>("/hybrid_robot/prismatic_controller/command", 100);
 
-    std::cout << "ok" << std::endl;
+  ros::Rate loop_rate(10);
 
-    return 0;
+  bool cont = true;
+  double c;
+  while (cont) {
+    std::cout << "input: ";
+    std::cin >> c;
+    if (c > 0 || c < -0.9) {
+      ROS_INFO("Invalid input");
+      ROS_INFO("-0.9 <= input <= 0");
+    }
+    else cont = false;
+  }
+
+  ROS_INFO("Going to publish");
+  loop_rate.sleep();
+  std_msgs::Float64 msg;
+  msg.data = c;
+  publisher.publish(msg);
+  ROS_INFO("Published: %f", c);
+
+  return 0;
 }
