@@ -5,10 +5,15 @@ find_package(catkin REQUIRED COMPONENTS
         rospy
         roscpp
         std_msgs
+        gazebo_ros
 )
 
-catkin_package(
+# Depend on system install of Gazebo
+find_package(gazebo REQUIRED)
 
+catkin_package(
+    DEPENDS
+      gazebo_ros
 )
 
 include_directories(
@@ -20,7 +25,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Trial trial.cpp)
 
-#target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+target_link_libraries(Trial ${catkin_LIBRARIES})
 
 catkin_install_python(PROGRAMS trial.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
