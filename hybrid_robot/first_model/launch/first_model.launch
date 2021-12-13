@@ -35,7 +35,34 @@
     <!-- Spawn robot in Gazebo                                -->
     <!-- ==================================================== -->
     <!-- Push robot_description to factory and spawn robot in gazebo at the origin, change x,y,z arguments to spawn in a different position -->
-    <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model hybrid_robot -unpause"
+    <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model hybrid_robot -z 1 -unpause"
         respawn="false" output="screen" />
+
+<!--      --><!-- Load joint controller configurations from YAML file to parameter server -->
+<!--     <rosparam file="$(find first_model_control)/config/ros_controllers.yaml" command="load"/> -->
+
+<!--      --><!-- load the controllers -->
+<!--     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" -->
+<!--         output="screen" ns="/hybrid_robot" args="prismatic_controller front_right_controller front_left_controller back_right_controller back_left_controller"/> -->
+
+<!--      --><!-- convert joint states to TF transforms for rviz, etc -->
+<!--     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" -->
+<!--         respawn="false" output="screen"> -->
+<!--         <remap from="/joint_states" to="/hybrid_robot/joint_states" /> -->
+<!--     </node> -->
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+      <rosparam file="$(find first_control)/config/controllers.yaml" command="load"/>
+
+      <!-- load the controllers -->
+      <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/hybrid_robot" args="prismatic_controller front_right_controller front_left_controller back_right_controller
+        back_left_controller joint_state_controller"/>
+
+      <!-- convert joint states to TF transforms for rviz, etc -->
+      <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+        respawn="false" output="screen">
+        <remap from="/joint_states" to="/hybrid_robot/joint_states" />
+      </node>
 
 </launch>
