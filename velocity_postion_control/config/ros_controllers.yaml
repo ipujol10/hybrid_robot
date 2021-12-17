@@ -1,0 +1,100 @@
+prismatic_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - extension_base_joint
+  gains:
+    extension_base_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+front_right_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - front_right_wheel_joint
+  gains:
+    front_right_wheel_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+front_left_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - front_left_wheel_joint
+  gains:
+    front_left_wheel_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+back_right_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - back_right_wheel_joint
+  gains:
+    back_right_wheel_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+back_left_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - back_left_wheel_joint
+  gains:
+    back_left_wheel_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+prismatic_controller_rename:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - extension_base_joint
+  gains:
+    extension_base_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+front_right_controller_rename:
+  type: velocity_controllers/JointTrajectoryController
+  joints:
+    - front_right_wheel_joint
+  gains:
+    front_right_wheel_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+front_left_controller_rename:
+  type: velocity_controllers/JointTrajectoryController
+  joints:
+    - front_left_wheel_joint
+  gains:
+    front_left_wheel_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+back_right_controller_rename:
+  type: velocity_controllers/JointTrajectoryController
+  joints:
+    - back_right_wheel_joint
+  gains:
+    back_right_wheel_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+back_left_controller_rename:
+  type: velocity_controllers/JointTrajectoryController
+  joints:
+    - back_left_wheel_joint
+  gains:
+    back_left_wheel_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
