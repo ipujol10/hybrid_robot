@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="rvizconfig" default="$(find hybrid_jumping_robot)/rviz/rvizbaseconfig.rviz" />
+
+  <param name="robot_description" command="$(find xacro)/xacro '$(find hybrid_jumping_robot)/urdf/first_modelV0_2.urdf.xacro'"/>
+
+  <!-- send fake joint values -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="False"/>
+  </node>
+
+  <!-- Combine joint values -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+  </node>
+  <!-- Show in Rviz   -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+
+</launch>
