@@ -6,6 +6,7 @@ find_package(catkin REQUIRED COMPONENTS
         roscpp
         std_msgs
         gazebo_ros
+
 )
 
 # Depend on system install of Gazebo
@@ -13,7 +14,8 @@ find_package(gazebo REQUIRED)
 
 catkin_package(
     DEPENDS
-      gazebo_ros
+        gazebo_ros
+
 )
 
 include_directories(
