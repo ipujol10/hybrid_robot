@@ -2,3 +2,5 @@
 hybrid_robot/cmake-build-debug
 venv
 .idea
+./googletest
+./cmake-build-debug
