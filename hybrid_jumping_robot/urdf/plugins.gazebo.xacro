@@ -21,7 +21,7 @@
 
   <gazebo>
       <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
-          <robotNamespace>/hybrid_robotv0_2</robotNamespace>
+          <robotNamespace>/hybrid_robotV0_2</robotNamespace>
       </plugin>
   </gazebo>
 
@@ -29,7 +29,7 @@
   <gazebo>
     <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
       <updateRate>100.0</updateRate>
-      <robotNamespace>/hybrid_robotv0_2</robotNamespace>
+      <robotNamespace>/hybrid_robotV0_2</robotNamespace>
       <leftFrontJoint>front_left_wheel_joint</leftFrontJoint>
       <rightFrontJoint>front_right_wheel_joint</rightFrontJoint>
       <leftRearJoint>back_left_wheel_joint</leftRearJoint>
