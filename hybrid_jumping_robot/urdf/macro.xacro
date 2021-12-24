@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<robot name="hybrid_robotv0_2" xmlns:xacro="http://ros.org/wiki/xacro">
+
+
+
+  <xacro:macro name="wheel" params="position side parent wheel_r wheel_width base_length base_width">
+
+      <link name="${position}_${side}_wheel">
+          <visual>
+              <geometry>
+                  <cylinder radius="${wheel_r}" length="${wheel_width}"/>
+              </geometry>
+              <material name="black"/>
+          </visual>
+          <collision>
+              <geometry>
+                  <cylinder radius="${wheel_r}" length="${wheel_width}"/>
+              </geometry>
+          </collision>
+          <inertial>
+              <mass value="1"/>
+              <inertia ixx="0.005658333333333333" ixy="0" ixz="0" iyy="0.005658333333333333" iyz="0" izz="0.01125"/>
+          </inertial>
+      </link>
+      <joint name="${position}_${side}_wheel_joint" type="continuous">
+          <xacro:property name="origin_x" value="${base_length/2-0.05}"/>
+          <xacro:if value="${position == 'back'}">
+              <xacro:property name="origin_x" value="${-(base_length/2-0.05)}"/>
+          </xacro:if>
+          <xacro:property name="origin_y" value="${(base_width + wheel_width)/2}"/>
+          <xacro:if value="${side == 'right'}">
+              <xacro:property name="origin_y" value="${-(base_width + wheel_width)/2}"/>
+          </xacro:if>
+          <xacro:if value="${parent == 'extension'}">
+
+          </xacro:if>
+          <axis xyz="0 0 1" rpy="0 0 0"/>
+          <parent link="${parent}"/>
+          <child link="${position}_${side}_wheel"/>
+          <origin xyz="${origin_x} ${origin_y} 0" rpy="${pi/2} 0 0"/>
+          <limit effort="10000" velocity="1000"/>
+          <joint_properties damping="1.0" friction="1.0" />
+      </joint>
+
+  </xacro:macro>
+
+</robot>
