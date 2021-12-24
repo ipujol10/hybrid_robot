@@ -3,7 +3,7 @@
 
 
 
-  <xacro:macro name="wheel" params="position side parent wheel_r wheel_width base_length base_width">
+    <xacro:macro name="wheel" params="position side parent wheel_r wheel_width base_length base_width">
 
       <link name="${position}_${side}_wheel">
           <visual>
@@ -42,6 +42,32 @@
           <joint_properties damping="1.0" friction="1.0" />
       </joint>
 
-  </xacro:macro>
+    </xacro:macro>
+    <!--box_inertial makes it easier to implement mass and inertial for a box shape-->
+    <xacro:macro name="box_inertial" params="mass length width height">
+        <inertial>
+            <mass value="${mass}"/>
+            <inertia
+                    ixx="${0.083*mass*(${width}+${height})}"
+                    ixy="0.0"
+                    ixz="0.0"
+                    iyy="${0.083*mass*(${length}+${height})}"
+                    iyz="0.0"
+                    izz="${0.083*mass*(${width}+${length})}" />
+        </inertial>
+    </xacro:macro>
+    <!--cylinder_inertial makes it easier to implement mass and inertial for a cylinder shape-->
+    <xacro:macro name="cylinder_inertial" params="mass height radii">
+        <inertial>
+            <mass value="${mass}"/>
+            <inertia
+                    ixx="${0.083*mass*(3*${radii}*${radii}+${height}*${height})}"
+                    ixy="0.0"
+                    ixz="0.0"
+                    iyy="${0.083*mass*(3*${radii}*${radii}+${height}*${height})}"
+                    iyz="0.0"
+                    izz="${0.5*mass*(${radii}*${radii}))}" />
+        </inertial>
+    </xacro:macro>
 
 </robot>
