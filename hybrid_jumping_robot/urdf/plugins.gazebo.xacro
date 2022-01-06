@@ -6,6 +6,9 @@
   <gazebo reference="extension">
     <material>Gazebo/Blue</material>
   </gazebo>
+  <gazebo reference="motor_base">
+    <material>Gazebo/Green</material>
+  </gazebo>
   <gazebo reference="front_left_wheel">
     <material>drc/san_fauxcity_sign</material>
   </gazebo>
