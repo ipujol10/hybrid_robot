@@ -35,11 +35,8 @@
                 <box size="${base_length} ${base_width}  ${base_height}"/>
             </geometry>
         </collision>
-        <inertial>
-            <mass value="${base_mass}"/>
-            <inertia ixx="0.21666666666666667" ixy="0" ixz="0" iyy="0.8416666666666667" iyz="0"
-                     izz="1.0416666666666665"/>
-        </inertial>
+        <xacro:box_inertial mass="${base_mass}" length="${base_length}" width="${base_width}"
+                            height="${base_height}"/>
     </link>
 
     <link name="motor_base">
@@ -76,11 +73,8 @@
                 <box size="${extension_length} ${extension_width} ${extension_height}"/>
             </geometry>
         </collision>
-        <inertial>
-            <mass value="${extension_mass}"/>
-            <inertia ixx="0.17627083333333335" ixy="0" ixz="0" iyy="0.8408541666666667" iyz="0"
-                     izz="1.0020833333333334"/>
-        </inertial>
+        <xacro:box_inertial mass="${extension_mass}" length="${extension_length}" width="${extension_width}"
+                            height="${extension_height}"/>
     </link>
     <joint name="extension_base_joint" type="prismatic">
         <axis xyz="1 0 0"/>
