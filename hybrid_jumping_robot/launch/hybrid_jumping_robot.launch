@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find hybrid_jumping_robot)/urdf/first_modelV0_2.urdf.xacro' use_gazebo_sim:=true"/>
+    <!-- ==================================================== -->
+    <!-- Gazebo specific options                              -->
+    <!-- ==================================================== -->
+    <arg name="gazebo_gui" default="true"/>
+    <arg name="paused" default="true"/>
+
+    <!-- ==================================================== -->
+    <!-- Launch Gazebo with a world                           -->
+    <!-- ==================================================== -->
+    <!-- Startup simulated world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="verbose" value="true"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="gui" value="$(arg gazebo_gui)"/>
+    </include>
+
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0.5"/>
+
+
+    <include file="$(find hybrid_jumping_robot)/launch/control_jumping_robot.launch" />
+
+    <node name="hybrid_robotv0_2_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" respawn="false"
+          args="-urdf -param robot_description -model hybrid_robotv0_2 -x $(arg x) -y $(arg y) -z $(arg z) -z 1 -unpause" />
+
+</launch>
