@@ -45,7 +45,7 @@
                 <child link="${position}_${side}_wheel"/>
                 <origin xyz="${origin_x} ${origin_y} 0" rpy="${pi/2} 0 0"/>
                 <limit effort="10000" velocity="1000"/>
-                <joint_properties damping="1.0" friction="1.0"/>
+                <joint_properties damping="0.0" friction="10000.0"/>
             </joint>
         </xacro:if>
 
