@@ -14,11 +14,11 @@ class OperatedRobot:
 
     def move_robot(self, vel):
         self.robot.set_front_vel(vel)
-        self.robot.set_actuator_position(0.0)
+        self.robot.set_actuator_position(0.04)
 
     def break_robot(self, vel):
         self.robot.set_front_vel(vel)
-        self.robot.set_actuator_position(-0.9)
+        self.robot.set_actuator_position(0.04)
 
     def increase_velocity(self):
         self.velocity += 1
@@ -35,15 +35,17 @@ class OperatedRobot:
         except AttributeError:
             print('special key pressed: {0}'.format(
                 key))
-        if key == 'w':
-            self.move_robot(self.velocity)
-        if key == 'x':
+        if key.char == 'w':
+            print('move')
+            self.move_robot(-self.velocity)
+        if key.char == 'x':
+            print('break')
             self.break_robot(0.0)
-        if key == '+':
+        if key.char == '+':
             self.increase_velocity()
-        if key == '-':
+        if key.char == '-':
             self.decrease_velocity()
 
 
 if __name__ == '__main__':
-    r = OperatedRobot('hybrid_jumping_robot', 100.0)
+    r = OperatedRobot('hybrid_jumping_robot', 10.0)

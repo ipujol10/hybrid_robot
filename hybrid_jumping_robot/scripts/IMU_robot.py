@@ -34,7 +34,7 @@ class IMU:
         self.angular_velocity_covariance = data.angular_velocity_covariance
         self.linear_acceleration = data.linear_acceleration
         self.linear_acceleration_covariance = data.linear_acceleration_covariance
-        print('callbacks')
+        #print('callbacks')
 
     def get_quaternion(self):
         return self.quaternion
