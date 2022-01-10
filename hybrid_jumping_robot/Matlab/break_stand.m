@@ -14,3 +14,7 @@ motor_base_length = 0.04;
 motor_base_width = base_width;
 motor_base_height = base_height;
 motor_base_mass = 0.4;
+
+initial_extension = -0.1;
+
+out = sim("break_stand_sim");
