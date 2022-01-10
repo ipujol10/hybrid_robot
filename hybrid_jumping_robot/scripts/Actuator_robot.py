@@ -14,7 +14,7 @@ class Actuator:
         rospy.Rate(5)
         self.extension_publisher = rospy.Publisher(self.extension_connection, Float64, queue_size=10)
 
-    def set_left_front_wheel_velocity(self, pos):
+    def set_extension_position(self, pos):
         rate = rospy.Rate(10)  # 10hz
         self.extension_publisher.publish(pos)
         rate.sleep()

@@ -45,12 +45,12 @@
         <inertial>
             <mass value="${mass}"/>
             <inertia
-                    ixx="${0.083*mass*(width+height)}"
+                    ixx="${1/12*mass*(width*width+height*height)}"
                     ixy="0.0"
                     ixz="0.0"
-                    iyy="${0.083*mass*(length+height)}"
+                    iyy="${1/12*mass*(length*length+height*height)}"
                     iyz="0.0"
-                    izz="${0.083*mass*(width+length)}" />
+                    izz="${1/12*mass*(width*width+length*length)}" />
         </inertial>
     </xacro:macro>
     <!--cylinder_inertial makes it easier to implement mass and inertial for a cylinder shape-->
@@ -58,10 +58,10 @@
         <inertial>
             <mass value="${mass}"/>
             <inertia
-                    ixx="${0.083*mass*(3*radii*radii+height*height)}"
+                    ixx="${1/12*mass*(3*radii*radii+height*height)}"
                     ixy="0.0"
                     ixz="0.0"
-                    iyy="${0.083*mass*(3*radii*radii+height*height)}"
+                    iyy="${1/12*mass*(3*radii*radii+height*height)}"
                     iyz="0.0"
                     izz="${0.5*mass*(radii*radii)}" />
         </inertial>

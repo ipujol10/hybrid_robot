@@ -1,0 +1,8 @@
+# gazebo_ros_control_params.yaml
+hybrid_robotV0_2:
+  gazebo_ros_control:
+    pid_gains:
+      back_left_wheel_joint: { p: 0.0, i: 0.0, d: 0.0 }
+      front_left_wheel_joint: { p: 100.0, i: 0.01, d: 10.0 }
+      back_right_wheel_joint: { p: 0.0, i: 0.0, d: 0.0 }
+      front_right_wheel_joint: { p: 100.0, i: 0.01, d: 10.0 }
