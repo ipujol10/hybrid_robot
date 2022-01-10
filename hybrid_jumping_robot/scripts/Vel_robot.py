@@ -19,7 +19,7 @@ class Vel:
     right_back_wheel_velocity = 0.0
 
     def __init__(self, name):
-        rospy.init_node(name, anonymous=True)
+        #rospy.init_node(name, anonymous=True)
         rospy.Rate(5)
         self.left_front_wheel_publisher = rospy.Publisher(self.left_front_wheel_connection, Float64, queue_size=10)
         self.right_front_wheel_publisher = rospy.Publisher(self.right_front_wheel_connection, Float64, queue_size=10)
@@ -49,11 +49,11 @@ class Vel:
     def set_back_wheel_velocity(self, vel):
         rate = rospy.Rate(10)  # 10hz
         self.left_back_wheel_publisher.publish(vel)
-        self.right_back_wheel_publisher.publish(-vel)
+        self.right_back_wheel_publisher.publish(vel)
         rate.sleep()
 
     def set_front_wheel_velocity(self, vel):
         rate = rospy.Rate(10)  # 10hz
         self.left_front_wheel_publisher.publish(vel)
-        self.right_front_wheel_publisher.publish(-vel)
+        self.right_front_wheel_publisher.publish(vel)
         rate.sleep()

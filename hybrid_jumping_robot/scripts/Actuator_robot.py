@@ -10,7 +10,7 @@ class Actuator:
     extension_position = 0.0
 
     def __init__(self, name):
-        rospy.init_node(name, anonymous=True)
+        #rospy.init_node(name, anonymous=True)
         rospy.Rate(5)
         self.extension_publisher = rospy.Publisher(self.extension_connection, Float64, queue_size=10)
 
