@@ -17,3 +17,4 @@ hybrid_jumping_robot/cmake-build-debug/
 *.slxc
 hybrid_jumping_robot/Matlab/slprj
 *.autosave
+*.asv

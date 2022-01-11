@@ -1,4 +1,4 @@
-% Constants
+%% Constants
 wheel_r = 0.075;
 wheel_width = 0.03;
 wheel_mass = 0.025;
@@ -15,7 +15,14 @@ motor_base_width = base_width;
 motor_base_height = base_height;
 motor_base_mass = 0.4;
 
-initial_extension = -0.1;
-initial_angle = 90; % convert to rad
+%% Initial conditions
+extension0 = -0.1;
 
-out = sim("break_stand_sim");
+x0 = 0;
+z0 = 0;
+phi0 = 0;
+l0 = motor_base_length + base_length + max([0 (base_length-extension_length+abs(extension0))]);
+theta0 = 0;
+
+%% Simulation
+out = sim("brake");
