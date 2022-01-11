@@ -16,5 +16,6 @@ motor_base_height = base_height;
 motor_base_mass = 0.4;
 
 initial_extension = -0.1;
+initial_angle = 90; % convert to rad
 
 out = sim("break_stand_sim");
