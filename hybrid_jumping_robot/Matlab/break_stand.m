@@ -24,5 +24,9 @@ phi0 = 0;
 l0 = motor_base_length + base_length + max([0 (base_length-extension_length+abs(extension0))]);
 theta0 = 0;
 
+%% Mass
+mb = 2*wheel_mass + base_mass + extension_mass + motor_base_mass; % mass body
+mt = 2*wheel_mass + mb; % mass wheels front (touching ground)
+
 %% Simulation
 out = sim("brake");
