@@ -19,3 +19,6 @@ motor_base_mass = 0.4;
 total_mass = 4*wheel_mass + extension_mass + base_mass + motor_base_mass;
 maximum_length = base_length + extension_length - 0.05; % change margin
 minimum_length = base_length + 0.1; % inferior limit
+
+%% Global
+g = 9.81;
