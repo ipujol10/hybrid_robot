@@ -15,12 +15,10 @@ class OperatedRobot:
 
     def move_robot(self, vel):
         self.robot.set_front_vel(vel)
-        self.robot.set_back_vel(vel)
         self.robot.set_actuator_position(0.04)
 
     def break_robot(self, vel):
         self.robot.set_front_vel(vel)
-        self.robot.set_back_vel(vel)
         self.robot.set_actuator_position(0.04)
 
     def increase_velocity(self):
