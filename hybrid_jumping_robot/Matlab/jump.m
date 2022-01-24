@@ -7,4 +7,4 @@ final_height = 0.05; % 5 cm
 E = total_mass*g*final_height; % J
 
 % E = F*d
-F = E/final_height; % N
+F = E/max_movement; % N
