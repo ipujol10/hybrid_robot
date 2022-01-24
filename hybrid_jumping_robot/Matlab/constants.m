@@ -15,10 +15,16 @@ motor_base_width = base_width;
 motor_base_height = base_height;
 motor_base_mass = 0.4;
 
+%% Extension
+x0 = 0.1;
+initial_length = base_length + x0 - (base_length - extension_length)/2;
+xmin = 0;
+xmax = extension_length - 0.03 - (initial_length - extension_length);
+
 %% Additional calculations
 total_mass = 4*wheel_mass + extension_mass + base_mass + motor_base_mass;
-maximum_length = base_length + extension_length - 0.05; % change margin
-minimum_length = base_length + 0.1; % inferior limit
+maximum_length = initial_length + xmax; % change margin
+minimum_length = initial_length + xmin; % inferior limit
 max_movement = maximum_length - minimum_length;
 
 %% Global
