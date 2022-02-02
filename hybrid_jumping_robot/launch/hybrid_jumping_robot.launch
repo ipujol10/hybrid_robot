@@ -30,4 +30,6 @@
     <node name="hybrid_robotv0_2_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" respawn="false"
           args="-urdf -param robot_description -model hybrid_robotv0_2 -x $(arg x) -y $(arg y) -z $(arg z) -unpause"/>
 
+    <node pkg="hybrid_jumping_robot" name="Hybrid_jumping_Robot" type="Hybrid_jumping_Robot.py" output="screen"/>
+
 </launch>
