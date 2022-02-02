@@ -2,11 +2,7 @@
 import rospy
 from std_msgs.msg import String
 from sensor_msgs.msg import Imu
-import tf
-
-
-def quaternion_to_rpy(quaternion):
-    return tf.transformations.euler_from_quaternion(quaternion)
+from Conversions import quaternion_to_rpy
 
 
 class IMU:

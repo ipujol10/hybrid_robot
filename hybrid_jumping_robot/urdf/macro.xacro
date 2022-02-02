@@ -31,6 +31,7 @@
                 <child link="${position}_${side}_wheel"/>
                 <origin xyz="${origin_x} ${origin_y} 0" rpy="${pi/2} 0 0"/>
                 <joint_properties damping="0.0" friction="0.0"/>
+                <limit effort="0.0" velocity="100000.0"/>
             </joint>
         </xacro:if>
         <xacro:if value="${position == 'front'}">
