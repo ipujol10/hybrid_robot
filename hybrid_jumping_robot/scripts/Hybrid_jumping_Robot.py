@@ -28,7 +28,17 @@ class OperatedRobot:
             listener.join()
 
     def move_robot(self, vel):
-        self.robot.set_front_vel(vel)
+        set_velocity = vel
+        print(set_velocity)
+
+        print('\n')
+        now_velocity = 0
+        print(now_velocity)
+        while set_velocity <= now_velocity:
+            print('increaing speed')
+            now_velocity -= 5
+            self.robot.set_front_vel(now_velocity)
+
         self.robot.set_actuator_position(-0.0)
 
     def break_robot(self, vel):
