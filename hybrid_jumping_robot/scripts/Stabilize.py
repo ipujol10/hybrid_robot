@@ -10,7 +10,7 @@ import math
 class Stabilize:
     orientation = []
 
-    def __init__(self, name, pid=(1, 0, 0), target=math.pi/2):
+    def __init__(self, name, pid=(1, 0, 0), target=math.pi / 2):
         rospy.init_node(name, anonymous=True)  # , log_level=rospy.DEBUG)
         rospy.Rate(5)
         (p, i, d) = pid
@@ -31,10 +31,11 @@ class Stabilize:
         (_, pitch, _) = self.orientation  # (roll, pitch, yaw)
         self.pid.update(pitch)
         velocity = self.pid.output
+        rospy.loginfo(velocity)
         msg = Float64(velocity)
         self.send_vel.publish(msg)
 
 
 if __name__ == "__main__":
-    stable = Stabilize("pid")
+    stable = Stabilize("pid", (1, 0, 0))
     rospy.spin()

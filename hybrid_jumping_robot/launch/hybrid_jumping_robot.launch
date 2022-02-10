@@ -35,5 +35,6 @@
                 -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -unpause"/>
 
     <node pkg="hybrid_jumping_robot" name="Hybrid_jumping_Robot" type="Hybrid_jumping_Robot.py" output="screen"/>
+    <node pkg="hybrid_jumping_robot" name="Stabilize" type="Stabilize.py" output="screen"/>
 
 </launch>
