@@ -1,4 +1,5 @@
 hybrid_robotV0_2:
+
   # Publish all joint states -----------------------------------
   joint_state_controller:
     type: joint_state_controller/JointStateController
@@ -67,3 +68,13 @@ hybrid_robotV0_2:
     type: effort_controllers/JointEffortController
     joint: extension_base_joint
     pid: { p: 100.0, i: 0.01, d: 10.0 }
+
+
+    gazebo_ros_control:
+      pid_gains:
+        back_left_wheel_joint: { p: 0.0, i: 0.0, d: 0.0 }
+        front_left_wheel_joint: { p: 100.0, i: 0.01, d: 10.0 }
+        back_right_wheel_joint: { p: 0.0, i: 0.0, d: 0.0 }
+        front_right_wheel_joint: { p: 100.0, i: 0.01, d: 10.0 }
+
+

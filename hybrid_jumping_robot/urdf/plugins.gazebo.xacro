@@ -10,15 +10,23 @@
     <material>Gazebo/Green</material>
   </gazebo>
   <gazebo reference="front_left_wheel">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
     <material>drc/san_fauxcity_sign</material>
   </gazebo>
   <gazebo reference="front_right_wheel">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
     <material>drc/san_fauxcity_sign</material>
   </gazebo>
   <gazebo reference="back_left_wheel">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
     <material>drc/san_fauxcity_sign</material>
   </gazebo>
   <gazebo reference="back_right_wheel">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
     <material>drc/san_fauxcity_sign</material>
   </gazebo>
 
