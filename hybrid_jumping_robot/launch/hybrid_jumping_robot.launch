@@ -22,13 +22,17 @@
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
     <arg name="z" default="0.075"/>
+    <arg name="roll" default="0"/>
+    <arg name="pitch" default="0"/>
+    <arg name="yaw" default="0"/>
 <!--    <rosparam file="$(find hybrid_jumping_robot)/config/gazebo_ros_control_params.yaml" command="load"/>-->
 
     <include file="$(find hybrid_jumping_robot)/launch/control_jumping_robot.launch" />
 
 
     <node name="hybrid_robotv0_2_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" respawn="false"
-          args="-urdf -param robot_description -model hybrid_robotv0_2 -x $(arg x) -y $(arg y) -z $(arg z) -unpause"/>
+          args="-urdf -param robot_description -model hybrid_robotv0_2 -x $(arg x) -y $(arg y) -z $(arg z)
+                -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -unpause"/>
 
     <node pkg="hybrid_jumping_robot" name="Hybrid_jumping_Robot" type="Hybrid_jumping_Robot.py" output="screen"/>
 
