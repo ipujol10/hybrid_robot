@@ -54,7 +54,8 @@ class OperatedRobot:
             if key.char == 'w':
                 print('\nmove')
                 self.moving = True
-                print(f'\nVelocity { RpmToVel(RadToRpm(self.velocity),0.075)} cm/minute')
+                print(f'\nVelocity { RpmToVel(RadToRpm(self.velocity),0.075)} cm/minute'
+                      f'\n Rpm {RpmToVel(self.velocity,0.075)}')
                 self.move_robot(-self.velocity)
             if key.char == 'x':
                 self.moving = False
@@ -64,10 +65,12 @@ class OperatedRobot:
                 self.break_robot(0.0)
             if key.char == '+':
                 self.increase_velocity()
-                print(f'\nVelocity { RpmToVel(RadToRpm(self.velocity),0.075)} cm/minute')
+                print(f'\nVelocity { RpmToVel(RadToRpm(self.velocity),0.075)} cm/minute'
+                      f'\n Rpm {RpmToVel(self.velocity,0.075)}')
             if key.char == '-':
                 self.decrease_velocity()
-                print(f'\nVelocity { RpmToVel(RadToRpm(self.velocity),0.075)} cm/minute')
+                print(f'\nVelocity { RpmToVel(RadToRpm(self.velocity),0.075)} cm/minute'
+                      f'\n Rpm {RpmToVel(self.velocity,0.075)}')
             if key.char == '0':
                 print("\nexiting")
                 os._exit(os.EX_OK)
