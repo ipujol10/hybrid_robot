@@ -27,8 +27,7 @@ class Stabilize:
         rospy.Subscriber("/imu", Imu, self.imu_callback)
 
     def imu_callback(self, data: Imu):
-        ori = data.orientation
-        self.orientation = quaternion_to_rpy([ori.x, ori.y, ori.z, ori.w])
+        self.orientation = quaternion_to_rpy(data.orientation)
         (_, pitch, _) = self.orientation  # (roll, pitch, yaw)
         self.pid.update(pitch)
         velocity = self.pid.output
