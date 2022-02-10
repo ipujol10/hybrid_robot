@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from sensor_msgs.msg import Imu
-from std_msgs.msg import Float64, String
+from std_msgs.msg import Float64
 from Conversions import quaternion_to_rpy
 import PID
 import math
