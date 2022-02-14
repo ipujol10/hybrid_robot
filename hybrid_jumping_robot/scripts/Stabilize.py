@@ -37,5 +37,5 @@ class Stabilize:
 
 
 if __name__ == "__main__":
-    stable = Stabilize("pid", (1, 1, 1))
+    stable = Stabilize("pid", (21.5, 0.01, 18.75))
     rospy.spin()

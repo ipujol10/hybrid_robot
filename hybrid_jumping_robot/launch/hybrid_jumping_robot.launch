@@ -36,6 +36,6 @@
 
     <node pkg="hybrid_jumping_robot" name="Hybrid_jumping_Robot" type="Hybrid_jumping_Robot.py" output="screen"/>
     <node pkg="hybrid_jumping_robot" name="Stabilize" type="Stabilize.py" output="screen"/>
-<!--     <node pkg="hybrid_jumping_robot" name="record" type="record_bag.sh"/> -->
+    <node pkg="hybrid_jumping_robot" name="record" type="record_bag.sh"/>
 
 </launch>
