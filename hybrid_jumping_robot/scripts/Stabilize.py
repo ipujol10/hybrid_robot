@@ -21,6 +21,7 @@ class Stabilize:
         self.subscribe()
         # PUBLISHERS
         self.send_vel = rospy.Publisher("/internal/stabilize/controller/velocity", Float64, queue_size=10)
+        self.send_pitch = rospy.Publisher("/internal/stabilize/controller/pitch", Float64, queue_size=10)
         # PUBLISHERS
 
     def subscribe(self):
@@ -29,11 +30,12 @@ class Stabilize:
     def imu_callback(self, data: Imu):
         self.orientation = quaternion_to_rpy(data.orientation)
         (_, pitch, _) = self.orientation  # (roll, pitch, yaw)
+        rospy.loginfo(pitch)
+        self.send_pitch.publish(Float64(pitch))
         self.pid.update(pitch)
         velocity = self.pid.output
-        rospy.loginfo(velocity)
-        msg = Float64(velocity)
-        self.send_vel.publish(msg)
+        # rospy.loginfo(velocity)
+        self.send_vel.publish(Float64(velocity))
 
 
 if __name__ == "__main__":
