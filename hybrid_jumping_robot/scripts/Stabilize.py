@@ -7,6 +7,13 @@ import PID
 import math
 
 
+def get_correct_pitch(pitch, roll):
+    pi = math.pi
+    if roll > pi/2:
+        return pi - pitch
+    return pitch
+
+
 class Stabilize:
     orientation = []
 
@@ -29,8 +36,10 @@ class Stabilize:
 
     def imu_callback(self, data: Imu):
         self.orientation = quaternion_to_rpy(data.orientation)
-        (_, pitch, _) = self.orientation  # (roll, pitch, yaw)
-        rospy.loginfo(pitch)
+        (roll, pitch, _) = self.orientation  # (roll, pitch, yaw)
+        # rospy.loginfo(pitch)
+        pitch = get_correct_pitch(pitch, roll)
+        rospy.loginfo("Roll: {: 7f} - Pitch: {: 7f}".format(roll, pitch))
         self.send_pitch.publish(Float64(pitch))
         self.pid.update(pitch)
         velocity = self.pid.output
