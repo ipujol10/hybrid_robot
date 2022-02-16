@@ -1,1 +1,0 @@
-# hybrid_jumping_robot
