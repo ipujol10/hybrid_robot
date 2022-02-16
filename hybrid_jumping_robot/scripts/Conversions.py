@@ -23,3 +23,19 @@ def angular_to_linear_velocity(angular, radius, rpm=True):
 
 def rpm_to_angular(rpm):
     return rpm * pi / 30
+
+
+def RadToRpm(radians):
+    return (radians / (2 * pi)) * 60
+
+
+def RpmToRad(rpm):
+    return rpm / 60 * 2 * pi
+
+
+def RpmToMeterAMin(rpm, radii):
+    return 2 * pi * radii * rpm
+
+
+def RpmToVel(rpm, radii):
+    return 2 * pi * radii * rpm / 60

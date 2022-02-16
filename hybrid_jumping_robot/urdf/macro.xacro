@@ -16,7 +16,13 @@
                     <cylinder radius="${wheel_r}" length="${wheel_width}"/>
                 </geometry>
             </collision>
-            <xacro:cylinder_inertial mass="${mass}" height="${wheel_width}" radii="${wheel_r}"/>
+            <xacro:if value="${position == 'back'}">
+                <xacro:cylinder_inertial mass="${0.025}" height="${wheel_width}" radii="${wheel_r}"/>
+            </xacro:if>
+            <xacro:if value="${position == 'front'}">
+                <xacro:cylinder_inertial mass="${mass}" height="${wheel_width}" radii="${wheel_r}"/>
+            </xacro:if>
+
         </link>
 
         <xacro:if value="${position == 'back'}">
@@ -45,7 +51,7 @@
                 <parent link="${parent}"/>
                 <child link="${position}_${side}_wheel"/>
                 <origin xyz="${origin_x} ${origin_y} 0" rpy="${pi/2} 0 0"/>
-                <limit effort="10000" velocity="1000"/>
+                <limit effort="1000000" velocity="1000"/>
                 <joint_properties damping="0.0" friction="10000.0"/>
             </joint>
         </xacro:if>
