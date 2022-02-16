@@ -39,7 +39,7 @@ class Stabilize:
         (roll, pitch, _) = self.orientation  # (roll, pitch, yaw)
         # rospy.loginfo(pitch)
         pitch = get_correct_pitch(pitch, roll)
-        rospy.loginfo("Roll: {: 7f} - Pitch: {: 7f}".format(roll, pitch))
+        # rospy.loginfo("Roll: {: 7f} - Pitch: {: 7f}".format(roll, pitch))
         self.send_pitch.publish(Float64(pitch))
         self.pid.update(pitch)
         velocity = self.pid.output
