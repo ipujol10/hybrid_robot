@@ -3,25 +3,17 @@ from pynput import keyboard
 import Robot
 from math import pi
 import os
+import Conversions as con
 
 
-def RadToRpm(radians):
-    return (radians / (2 * pi)) * 60
-
-
-def RpmToRad(rpm):
-    return rpm / 60 * 2 * pi
-
-
-def RpmToVel(rpm, radii):
-    return 2 * pi * radii * rpm
 
 
 class OperatedRobot:
     moving = False
 
-    def __init__(self, name, velocity):
+    def __init__(self, name, velocity,wheelradii):
         self.robot = Robot.Robot(name)
+        self.wheelradii = wheelradii
         self.velocity = velocity
         with keyboard.Listener(
                 on_press=self.on_press) as listener:
@@ -64,23 +56,23 @@ class OperatedRobot:
             if key.char == 'w':
                 print('\nmove')
                 self.moving = True
-                print(f'\nVelocity { RpmToVel(RadToRpm(self.velocity),0.0493)} cm/minute'
-                      f'\n Rpm {RpmToVel(self.velocity,0.0493)}')
+                print(f'\nVelocity { con.RpmToVel(con.RadToRpm(self.velocity),self.wheelradii)} cm/sec'
+                      f'\n Rpm {con.RpmToVel(self.velocity,self.wheelradii)}')
                 self.move_robot(-self.velocity)
             if key.char == 'x':
                 self.moving = False
                 print('\nbreak')
                 self.break_robot(self.velocity / 50)
-                print(f'\nVelocity { RpmToVel(RadToRpm(0.0),0.0493)} cm/minute')
+                print(f'\nVelocity { con.RpmToVel(con.RadToRpm(0.0),self.wheelradii)} cm/sec')
                 self.break_robot(0.0)
             if key.char == '+':
                 self.increase_velocity()
-                print(f'\nVelocity { RpmToVel(RadToRpm(self.velocity),0.0493)} cm/minute'
-                      f'\n Rpm {RpmToVel(self.velocity,0.0493)}')
+                print(f'\nVelocity { con.RpmToVel(con.RadToRpm(self.velocity),self.wheelradii)} cm/sec'
+                      f'\n Rpm {con.RpmToVel(self.velocity,self.wheelradii)}')
             if key.char == '-':
                 self.decrease_velocity()
-                print(f'\nVelocity { RpmToVel(RadToRpm(self.velocity),0.075)} cm/minute'
-                      f'\n Rpm {RpmToVel(self.velocity,0.075)}')
+                print(f'\nVelocity { con.RpmToVel(con.RadToRpm(self.velocity),self.wheelradii)} cm/sec'
+                      f'\n Rpm {con.RpmToVel(self.velocity,self.wheelradii)}')
             if key.char == '0':
                 print("\nexiting")
                 os._exit(os.EX_OK)
@@ -89,4 +81,4 @@ class OperatedRobot:
 
 
 if __name__ == '__main__':
-    r = OperatedRobot('hybrid_jumping_robot', 0.0)
+    r = OperatedRobot('hybrid_jumping_robot', 0.0, 0.075)
