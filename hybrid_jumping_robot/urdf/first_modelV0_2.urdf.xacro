@@ -48,7 +48,7 @@
         </visual>
         <collision>
             <geometry>
-                <box size="${base_length} ${base_width}  ${base_height}"/>
+                <box size="${motor_base_length} ${motor_base_width}  ${motor_base_height}"/>
             </geometry>
         </collision>
         <xacro:box_inertial mass="${motor_base_mass}" length="${motor_base_length}" width="${motor_base_width}"
