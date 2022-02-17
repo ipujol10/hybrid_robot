@@ -35,10 +35,10 @@ class Stabilize:
         self.pid.update(pitch)
         self.velocity = -self.pid.output
         velocity = self.velocity
-        if velocity > 20:
-            velocity = 20
-        if velocity < -20:
-            velocity = -20
+        if velocity > 36:
+            velocity = 36
+        if velocity < -36:
+            velocity = -36
         return velocity
         # rospy.loginfo(velocity)
         # self.send_vel.publish(Float64(self.velocity))
