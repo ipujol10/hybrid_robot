@@ -43,7 +43,7 @@ class OperatedRobot:
     def imu_callback(self, data: Imu):
         self.orientation = quaternion_to_rpy(data.orientation)
         (self.roll, self.pitch, _) = self.orientation  # (roll, pitch, yaw)
-        print(self.pitch)
+        #print(self.pitch)
 
     def move_robot(self, vel):
         set_velocity = vel
@@ -134,9 +134,11 @@ class OperatedRobot:
                         print('\nInverted pendulum State')
                         print(f'pitch is {self.pitch}')
                         stable = Stabilize.Stabilize("pid", (21.5, 0.01, 18.75))
-                        stable.update_pid(self.orientation)
+                        #stable.update_pid(self.orientation)
                         while self.pitch > 0.7:
                             # print(f'pitch is {self.pitch}')
+                            time.sleep(0.1)
+                            print(f'pitch is {self.pitch}')
                             stable.update_pid(self.orientation)
                             print(f'pid output {stable.velocity}')
                             if stable.velocity > 0.0 or stable.velocity < 0.0:

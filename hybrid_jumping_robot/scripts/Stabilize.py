@@ -12,30 +12,31 @@ class Stabilize:
     velocity = ''
 
     def __init__(self, name, pid=(1, 0, 0), target=math.pi / 2):
-        #rospy.init_node(name, anonymous=True)  # , log_level=rospy.DEBUG)
-        #rospy.Rate(5)
+        # rospy.init_node(name, anonymous=True)  # , log_level=rospy.DEBUG)
+        # rospy.Rate(5)
         (p, i, d) = pid
         self.pid = PID.PID(p, i, d)
         self.pid.SetPoint = target
         self.pid.setSampleTime(1)
 
-       # self.subscribe()
-        # PUBLISHERS
-        #self.send_vel = rospy.Publisher("/internal/stabilize/controller/velocity", Float64, queue_size=10)
-        #self.send_pitch = rospy.Publisher("/internal/stabilize/controller/pitch", Float64, queue_size=10)
-        # PUBLISHERS
+    # self.subscribe()
+    # PUBLISHERS
+    # self.send_vel = rospy.Publisher("/internal/stabilize/controller/velocity", Float64, queue_size=10)
+    # self.send_pitch = rospy.Publisher("/internal/stabilize/controller/pitch", Float64, queue_size=10)
+    # PUBLISHERS
 
     def update_pid(self, orientation):
         self.orientation = orientation
         (roll, pitch, _) = self.orientation  # (roll, pitch, yaw)
         # rospy.loginfo(pitch)
-        pitch = get_correct_pitch(pitch, roll)
+        # pitch = get_correct_pitch(pitch, roll)
         # rospy.loginfo("Roll: {: 7f} - Pitch: {: 7f}".format(roll, pitch))
-        #self.send_pitch.publish(Float64(pitch))
+        # self.send_pitch.publish(Float64(pitch))
         self.pid.update(pitch)
         self.velocity = self.pid.output
         # rospy.loginfo(velocity)
-        #self.send_vel.publish(Float64(self.velocity))
+        # self.send_vel.publish(Float64(self.velocity))
+
 
 '''
     def subscribe(self):
@@ -53,9 +54,6 @@ class Stabilize:
         # rospy.loginfo(velocity)
         self.send_vel.publish(Float64(self.velocity))
 '''
-
-
-
 
 if __name__ == "__main__":
     stable = Stabilize("pid", (21.5, 0.01, 18.75))
