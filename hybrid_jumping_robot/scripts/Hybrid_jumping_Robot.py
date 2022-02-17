@@ -113,7 +113,7 @@ class OperatedRobot:
             while type(self.pitch) == float:
                 try:
                     # Driving State
-                    if self.pitch < 0.02 and 25 < time.perf_counter() - self.start_time:
+                    if self.pitch < 0.02 and 5 < time.perf_counter() - self.start_time:
                         print(f'pitch is {self.pitch}')
                         self.velocity = 36.0
                         print('\nDriving State')
@@ -123,7 +123,7 @@ class OperatedRobot:
                         self.moving = True
 
                     # Breaking State
-                    if self.pitch < 0.7 and self.velocity > 35.0 and 26 < time.perf_counter() - self.start_time:
+                    if self.pitch < 0.7 and self.velocity > 35.0 and 6 < time.perf_counter() - self.start_time:
                         self.moving = False
                         print('\nBreaking State')
                         print(f'\nVelocity {con.RpmToVel(con.RadToRpm(0.0), self.wheelradii)} cm/sec')
@@ -134,7 +134,7 @@ class OperatedRobot:
                     while self.pitch > 0.7:
                         print('\nInverted pendulum State')
                         print(f'pitch is {self.pitch}')
-                        stable = Stabilize.Stabilize("pid", (3.0, 0.01, 0.5), sample_time=0.01)  # (21.5, 0.01, 18.75))
+                        stable = Stabilize.Stabilize("pid", (2.5, 0.01, 0.6), sample_time=0.01)  # (21.5, 0.01, 18.75))
                         # stable.update_pid(self.orientation)
                         while self.pitch > 0.7:
                             # print(f'pitch is {self.pitch}')
