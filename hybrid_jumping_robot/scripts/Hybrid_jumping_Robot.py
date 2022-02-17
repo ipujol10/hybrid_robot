@@ -25,6 +25,7 @@ class OperatedRobot:
         self.wheelradii = wheelradii
         self.velocity = velocity
         self.orientation = []
+        self.print_timer = time.perf_counter()
         self.start_time = time.perf_counter()
         self.subscribe()
         time.sleep(5)
@@ -106,28 +107,43 @@ class OperatedRobot:
             print(f"\nYou pressed control you moron")
 
     def running_states(self):
+        cnt = 0
         while 1:
             while type(self.pitch) == float:
                 try:
                     # Driving State
-                    if self.pitch < 1.12:
+                    if self.pitch < 0.02 and 30 < time.perf_counter() - self.start_time:
+                        print(f'pitch is {self.pitch}')
                         print('\nDriving State')
                         print(f'\nVelocity {con.RpmToVel(con.RadToRpm(self.velocity), self.wheelradii)} cm/sec'
                               f'\n Rpm {con.RpmToVel(self.velocity, self.wheelradii)}')
                         self.move_robot(-self.velocity)
                         self.moving = True
+
                     # Breaking State
-                    if self.pitch < 1.12 and self.velocity > 35.0:
+                    if self.pitch < 0.7 and self.velocity > 35.0 and 31 < time.perf_counter() - self.start_time:
                         self.moving = False
                         print('\nBreaking State')
                         print(f'\nVelocity {con.RpmToVel(con.RadToRpm(0.0), self.wheelradii)} cm/sec')
                         self.break_robot(0.0)
+                        cnt += 1
+                        self.start_time = time.perf_counter()
                     # Inverted pendulum State
-                    if self.pitch > 1.12:
+                    while self.pitch > 0.7:
                         print('\nInverted pendulum State')
+                        print(f'pitch is {self.pitch}')
                         stable = Stabilize.Stabilize("pid", (21.5, 0.01, 18.75))
-                        while self.pitch > 1.12:
-                            self.move_robot(-stable.velocity)
+                        stable.update_pid(self.orientation)
+                        while self.pitch > 0.7:
+                            # print(f'pitch is {self.pitch}')
+                            stable.update_pid(self.orientation)
+                            print(f'pid output {stable.velocity}')
+                            if stable.velocity > 0.0 or stable.velocity < 0.0:
+                                self.move_robot(-stable.velocity)
+
+                    if cnt > 1:
+                        print("\nexiting")
+                        os._exit(os.EX_OK)
                 except:
                     print('initializing')
 
