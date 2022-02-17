@@ -115,6 +115,7 @@ class OperatedRobot:
                     # Driving State
                     if self.pitch < 0.02 and 30 < time.perf_counter() - self.start_time:
                         print(f'pitch is {self.pitch}')
+                        self.velocity = 36.0
                         print('\nDriving State')
                         print(f'\nVelocity {con.RpmToVel(con.RadToRpm(self.velocity), self.wheelradii)} cm/sec'
                               f'\n Rpm {con.RpmToVel(self.velocity, self.wheelradii)}')
@@ -137,12 +138,12 @@ class OperatedRobot:
                         #stable.update_pid(self.orientation)
                         while self.pitch > 0.7:
                             # print(f'pitch is {self.pitch}')
-                            time.sleep(0.1)
-                            print(f'pitch is {self.pitch}')
-                            stable.update_pid(self.orientation)
-                            print(f'pid output {stable.velocity}')
-                            if stable.velocity > 0.0 or stable.velocity < 0.0:
-                                self.move_robot(-stable.velocity)
+                            time.sleep(0.01)
+                            print(f'orientation is {self.orientation} ')
+                            self.velocity = stable.update_pid(self.orientation)
+                            print(f'pid output {stable.velocity} forced output {self.velocity}')
+                            if self.velocity > 0.0 or self.velocity < 0.0:
+                                self.move_robot(-self.velocity)
 
                     if cnt > 1:
                         print("\nexiting")

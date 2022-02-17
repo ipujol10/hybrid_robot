@@ -17,7 +17,7 @@ class Stabilize:
         (p, i, d) = pid
         self.pid = PID.PID(p, i, d)
         self.pid.SetPoint = target
-        self.pid.setSampleTime(1)
+        self.pid.setSampleTime(0.05)
 
     # self.subscribe()
     # PUBLISHERS
@@ -33,7 +33,13 @@ class Stabilize:
         # rospy.loginfo("Roll: {: 7f} - Pitch: {: 7f}".format(roll, pitch))
         # self.send_pitch.publish(Float64(pitch))
         self.pid.update(pitch)
-        self.velocity = self.pid.output
+        self.velocity = -self.pid.output
+        velocity = self.velocity
+        if velocity > 20:
+            velocity = 20
+        if velocity < -20:
+            velocity = -20
+        return velocity
         # rospy.loginfo(velocity)
         # self.send_vel.publish(Float64(self.velocity))
 
