@@ -2,20 +2,14 @@
 import rospy
 from sensor_msgs.msg import Imu
 from std_msgs.msg import Float64
-from Conversions import quaternion_to_rpy
+from Conversions import quaternion_to_rpy, get_correct_pitch
 import PID
 import math
 
 
-def get_correct_pitch(pitch, roll):
-    pi = math.pi
-    if roll > pi/2:
-        return pi - pitch
-    return pitch
-
-
 class Stabilize:
     orientation = []
+    velocity = ''
 
     def __init__(self, name, pid=(1, 0, 0), target=math.pi / 2):
         rospy.init_node(name, anonymous=True)  # , log_level=rospy.DEBUG)
@@ -42,9 +36,9 @@ class Stabilize:
         # rospy.loginfo("Roll: {: 7f} - Pitch: {: 7f}".format(roll, pitch))
         self.send_pitch.publish(Float64(pitch))
         self.pid.update(pitch)
-        velocity = self.pid.output
+        self.velocity = self.pid.output
         # rospy.loginfo(velocity)
-        self.send_vel.publish(Float64(velocity))
+        self.send_vel.publish(Float64(self.velocity))
 
 
 if __name__ == "__main__":
