@@ -18,6 +18,7 @@ class OperatedRobot:
     moving = False
     roll = ''
     pitch = ''
+    now_velocity = 0
 
     def __init__(self, name, velocity, wheelradii):
         self.robot = Robot.Robot(name)
@@ -27,7 +28,13 @@ class OperatedRobot:
         self.start_time = time.perf_counter()
         self.subscribe()
         time.sleep(5)
+        # self.use_keyboard()
         self.running_states()
+
+    def use_keyboard(self):
+        with keyboard.Listener(
+                on_press=self.on_press) as listener:
+            listener.join()
 
     def subscribe(self):
         rospy.Subscriber("/imu", Imu, self.imu_callback)
@@ -41,12 +48,14 @@ class OperatedRobot:
         print(set_velocity)
 
         print('\n')
-        now_velocity = 0
-        print(now_velocity)
-        while set_velocity <= now_velocity:
+        if not self.moving:
+            self.now_velocity = 0
+
+        print(self.now_velocity)
+        while set_velocity <= self.now_velocity:
             print('increaing speed')
-            now_velocity -= 5
-            self.robot.set_front_vel(now_velocity)
+            self.now_velocity -= 5
+            self.robot.set_front_vel(self.now_velocity)
 
         self.robot.set_actuator_position(-0.0)
 
@@ -72,11 +81,11 @@ class OperatedRobot:
         try:
             if key.char == 'w':
                 print('\nmove')
-                self.moving = True
                 print(f'\nVelocity {con.RpmToVel(con.RadToRpm(self.velocity), self.wheelradii)} cm/sec'
                       f'\n Rpm {con.RpmToVel(self.velocity, self.wheelradii)}'
                       f'\n input vel {self.velocity}')
                 self.move_robot(-self.velocity)
+                self.moving = True
             if key.char == 'x':
                 self.moving = False
                 print('\nbreak')
@@ -98,28 +107,30 @@ class OperatedRobot:
 
     def running_states(self):
         while 1:
-            try:
-                # Driving State
-                if self.pitch < 1.12:
-                    print('\nmove')
-                    self.moving = True
-                    print(f'\nVelocity {con.RpmToVel(con.RadToRpm(self.velocity), self.wheelradii)} cm/sec'
-                          f'\n Rpm {con.RpmToVel(self.velocity, self.wheelradii)}')
-                    self.move_robot(-self.velocity)
-                # Breaking State
-                if self.pitch < 1.12 and self.velocity > 166.0:
-                    self.moving = False
-                    print('\nbreak')
-                    print(f'\nVelocity {con.RpmToVel(con.RadToRpm(0.0), self.wheelradii)} cm/sec')
-                    self.break_robot(0.0)
-                # Inverted pendulum State
-                if self.pitch > 1.12:
-                    stable = Stabilize.Stabilize("pid", (21.5, 0.01, 18.75))
-                    while self.pitch > 1.12:
-                        self.move_robot(-stable.velocity)
-            except:
-                print('initializing')
+            while type(self.pitch) == float:
+                try:
+                    # Driving State
+                    if self.pitch < 1.12:
+                        print('\nDriving State')
+                        self.moving = True
+                        print(f'\nVelocity {con.RpmToVel(con.RadToRpm(self.velocity), self.wheelradii)} cm/sec'
+                              f'\n Rpm {con.RpmToVel(self.velocity, self.wheelradii)}')
+                        self.move_robot(-self.velocity)
+                    # Breaking State
+                    if self.pitch < 1.12 and self.velocity > 166.0:
+                        self.moving = False
+                        print('\nBreaking State')
+                        print(f'\nVelocity {con.RpmToVel(con.RadToRpm(0.0), self.wheelradii)} cm/sec')
+                        self.break_robot(0.0)
+                    # Inverted pendulum State
+                    if self.pitch > 1.12:
+                        print('\nInverted pendulum State')
+                        stable = Stabilize.Stabilize("pid", (21.5, 0.01, 18.75))
+                        while self.pitch > 1.12:
+                            self.move_robot(-stable.velocity)
+                except:
+                    print('initializing')
 
 
 if __name__ == '__main__':
-    r = OperatedRobot('hybrid_jumping_robot', 0.0, 0.075)
+    r = OperatedRobot('hybrid_jumping_robot', 36.0, 0.075)
