@@ -112,12 +112,12 @@ class OperatedRobot:
                     # Driving State
                     if self.pitch < 1.12:
                         print('\nDriving State')
-                        self.moving = True
                         print(f'\nVelocity {con.RpmToVel(con.RadToRpm(self.velocity), self.wheelradii)} cm/sec'
                               f'\n Rpm {con.RpmToVel(self.velocity, self.wheelradii)}')
                         self.move_robot(-self.velocity)
+                        self.moving = True
                     # Breaking State
-                    if self.pitch < 1.12 and self.velocity > 166.0:
+                    if self.pitch < 1.12 and self.velocity > 35.0:
                         self.moving = False
                         print('\nBreaking State')
                         print(f'\nVelocity {con.RpmToVel(con.RadToRpm(0.0), self.wheelradii)} cm/sec')
