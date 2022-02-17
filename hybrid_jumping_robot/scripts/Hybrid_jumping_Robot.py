@@ -134,8 +134,8 @@ class OperatedRobot:
                     while self.pitch > 0.7:
                         print('\nInverted pendulum State')
                         print(f'pitch is {self.pitch}')
-                        stable = Stabilize.Stabilize("pid",(3.0,0.01,0.5)) # (21.5, 0.01, 18.75))
-                        #stable.update_pid(self.orientation)
+                        stable = Stabilize.Stabilize("pid", (3.0, 0.01, 0.5), sample_time=0.01)  # (21.5, 0.01, 18.75))
+                        # stable.update_pid(self.orientation)
                         while self.pitch > 0.7:
                             # print(f'pitch is {self.pitch}')
                             time.sleep(0.01)

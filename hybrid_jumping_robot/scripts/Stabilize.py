@@ -11,13 +11,13 @@ class Stabilize:
     orientation = []
     velocity = ''
 
-    def __init__(self, name, pid=(1, 0, 0), target=math.pi / 2):
+    def __init__(self, name, pid=(1, 0, 0), target=math.pi / 2, sample_time=0.05):
         # rospy.init_node(name, anonymous=True)  # , log_level=rospy.DEBUG)
         # rospy.Rate(5)
         (p, i, d) = pid
         self.pid = PID.PID(p, i, d)
         self.pid.SetPoint = target
-        self.pid.setSampleTime(0.05)
+        self.pid.setSampleTime(sample_time)
 
     # self.subscribe()
     # PUBLISHERS
