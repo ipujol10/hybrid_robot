@@ -47,15 +47,15 @@ class OperatedRobot:
 
     def move_robot(self, vel):
         set_velocity = vel
-        print(set_velocity)
-
-        print('\n')
+        # print(set_velocity)
+        #
+        # print('\n')
         if not self.moving:
             self.now_velocity = 0
 
-        print(self.now_velocity)
+        # print(self.now_velocity)
         while set_velocity <= self.now_velocity:
-            print('increaing speed')
+            # print('increaing speed')
             self.now_velocity -= 5
             self.robot.set_front_vel(self.now_velocity)
 
@@ -109,21 +109,22 @@ class OperatedRobot:
 
     def running_states(self):
         cnt = 0
+        t = 10
         while 1:
             while type(self.pitch) == float:
                 try:
                     # Driving State
-                    if self.pitch < 0.02 and 25 < time.perf_counter() - self.start_time:
-                        print(f'pitch is {self.pitch}')
+                    if self.pitch < 0.02 and t < time.perf_counter() - self.start_time:
+                        # print(f'pitch is {self.pitch}')
                         self.velocity = 36.0
-                        print('\nDriving State')
-                        print(f'\nVelocity {con.RpmToVel(con.RadToRpm(self.velocity), self.wheelradii)} cm/sec'
-                              f'\n Rpm {con.RpmToVel(self.velocity, self.wheelradii)}')
+                        # print('\nDriving State')
+                        # print(f'\nVelocity {con.RpmToVel(con.RadToRpm(self.velocity), self.wheelradii)} cm/sec'
+                        #       f'\n Rpm {con.RpmToVel(self.velocity, self.wheelradii)}')
                         self.move_robot(-self.velocity)
                         self.moving = True
 
                     # Breaking State
-                    if self.pitch < 0.7 and self.velocity > 35.0 and 26 < time.perf_counter() - self.start_time:
+                    if self.pitch < 0.7 and self.velocity > 35.0 and t + 1 < time.perf_counter() - self.start_time:
                         self.moving = False
                         print('\nBreaking State')
                         print(f'\nVelocity {con.RpmToVel(con.RadToRpm(0.0), self.wheelradii)} cm/sec')
@@ -149,7 +150,8 @@ class OperatedRobot:
                         print("\nexiting")
                         os._exit(os.EX_OK)
                 except:
-                    print('initializing')
+                    # print('initializing')
+                    continue
 
 
 if __name__ == '__main__':
