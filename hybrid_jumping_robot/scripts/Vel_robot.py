@@ -9,8 +9,8 @@ class Vel:
     right_front_wheel_publisher = ''
     left_back_wheel_publisher = ''
     right_back_wheel_publisher = ''
-    left_front_wheel_connection = '/hybrid_robotV0_2/front_left_wheel_joint_velocity_controller/command'
-    right_front_wheel_connection = '/hybrid_robotV0_2/front_right_wheel_joint_velocity_controller/command'
+    left_front_wheel_connection = '/hybrid_robotV0_2/front_left_wheel_joint_effort_controller/command'
+    right_front_wheel_connection = '/hybrid_robotV0_2/front_right_wheel_joint_effort_controller/command'
     left_back_wheel_connection = '/hybrid_robotV0_2/back_left_wheel_joint_velocity_controller/command'
     right_back_wheel_connection = '/hybrid_robotV0_2/back_right_wheel_joint_velocity_controller/command'
     left_front_wheel_velocity = 0.0
