@@ -38,12 +38,12 @@ class OperatedRobot:
             listener.join()
 
     def subscribe(self):
-        rospy.Subscriber("/imu", Imu, self.imu_callback,queue_size=1)
+        rospy.Subscriber("/imu", Imu, self.imu_callback, queue_size=1)
 
     def imu_callback(self, data: Imu):
         self.orientation = quaternion_to_rpy(data.orientation)
         (self.roll, self.pitch, _) = self.orientation  # (roll, pitch, yaw)
-        #print(self.pitch)
+        # print(self.pitch)
 
     def move_robot(self, vel):
         set_velocity = vel

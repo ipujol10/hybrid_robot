@@ -1,0 +1,31 @@
+cmake_minimum_required(VERSION 3.0.2)
+project(Robot)
+
+find_package(catkin REQUIRED COMPONENTS
+    rospy
+    roscpp
+    std_msgs
+    sensor_msgs
+    gazebo_ros
+    controller_manager
+    joint_state_controller
+    robot_state_publisher
+    message_generation
+    )
+
+find_package(gazebo REQUIRED)
+
+#catkin_package(
+#    DEPENDS
+#      gazebo_ros
+#      controller_manager
+#      joint_state_controller
+#      robot_state_publisher
+#      CATKIN_DEPENDS rospy std_msgs sensor_msgs
+#)
+
+set(HEADER_FILES IMU_robot.hpp Data.hpp)
+set(SOURCE_FILES IMU_robot.cpp)
+
+add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})
+set_target_properties(${PROJECT_NAME} PROPERTIES LIKER_LANGUAGE CXX)
