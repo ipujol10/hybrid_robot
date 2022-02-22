@@ -18,6 +18,8 @@ public:
   Robot(const std::string &name, ros::NodeHandle *nh);
 
   void set_front_vel(Float64 vel);
+
+  void set_actuator_position(Float64 pos);
 };
 
 

@@ -6,6 +6,8 @@ Actuator::Actuator(ros::NodeHandle *nh): rate(10) {
 }
 
 void Actuator::set_extension_position(Float64 pos) {
-  extension_publisher.publish(pos);
+  std_msgs::Float64 msg;
+  msg.data = pos;
+  extension_publisher.publish(msg);
   rate.sleep();
 }

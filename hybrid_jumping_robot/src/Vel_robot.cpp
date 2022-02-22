@@ -7,18 +7,24 @@ Vel::Vel(ros::NodeHandle *nh) : rate(100) {
 }
 
 void Vel::set_left_front_wheel_velocity(Float64 vel) {
-  left_front_wheel_publisher.publish(vel);
+  std_msgs::Float64 msg;
+  msg.data = vel;
+  left_front_wheel_publisher.publish(msg);
   rate.sleep();
 }
 
 void Vel::set_right_front_wheel_velocity(Float64 vel) {
-  right_front_wheel_publisher.publish(vel);
+  std_msgs::Float64 msg;
+  msg.data = vel;
+  right_front_wheel_publisher.publish(msg);
   rate.sleep();
 }
 
 void Vel::set_front_wheels_velocity(Float64 vel) {
-  left_front_wheel_publisher.publish(vel);
-  right_front_wheel_publisher.publish(vel);
+  std_msgs::Float64 msg;
+  msg.data = vel;
+  left_front_wheel_publisher.publish(msg);
+  right_front_wheel_publisher.publish(msg);
   rate.sleep();
 }
 

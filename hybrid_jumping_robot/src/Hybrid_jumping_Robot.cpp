@@ -23,11 +23,11 @@ void Hybrid_jumping_Robot::move_robot(Float64 vel) {
     robot.set_front_vel(now_velocity);
   }
 
-  // TODO: set actuator
+  robot.set_actuator_position(0);
 }
 
 void Hybrid_jumping_Robot::brake_robot(Float64 vel) {
-  // TODO: set actuator
+  robot.set_actuator_position(0);
   robot.set_front_vel(vel);
 }
 
