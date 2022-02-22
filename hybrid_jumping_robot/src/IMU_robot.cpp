@@ -1,7 +1,3 @@
-//
-// Created by ipujol on 2/22/22.
-//
-
 #include "IMU_robot.hpp"
 
 IMU::IMU(ros::NodeHandle *nh): nh(nh) {}

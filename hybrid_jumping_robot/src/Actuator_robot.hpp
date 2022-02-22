@@ -1,6 +1,6 @@
+#include "Data.hpp"
 #include <string>
 #include <ros/ros.h>
-#include "Data.hpp"
 
 #ifndef HYBRID_JUMPING_ROBOT_ACTUATOR_ROBOT_HPP
 #define HYBRID_JUMPING_ROBOT_ACTUATOR_ROBOT_HPP
