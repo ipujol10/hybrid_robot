@@ -1,9 +1,11 @@
 #include "Vel_robot.hpp"
 
-Vel::Vel(ros::NodeHandle *nh) : rate(100) {
-  left_front_wheel_publisher = nh->advertise<std_msgs::Float64>(left_front_wheel_connection, 10);
-  right_front_wheel_publisher = nh->advertise<std_msgs::Float64>(right_front_wheel_connection, 10);
-  ros::Subscriber sub = nh->subscribe("/internal/stabilize/controller/velocity", 1, &Vel::velocity_callback, this);
+Vel::Vel() : rate(100) {
+  ROS_INFO("Velocity constructor");
+  ros::NodeHandle nh;
+  left_front_wheel_publisher = nh.advertise<std_msgs::Float64>(left_front_wheel_connection, 10);
+  right_front_wheel_publisher = nh.advertise<std_msgs::Float64>(right_front_wheel_connection, 10);
+  ros::Subscriber sub = nh.subscribe("/internal/stabilize/controller/velocity", 1, &Vel::velocity_callback, this);
 }
 
 void Vel::set_left_front_wheel_velocity(Float64 vel) {

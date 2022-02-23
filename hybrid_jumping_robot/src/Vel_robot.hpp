@@ -20,7 +20,7 @@ private:
   ros::Rate rate;
 
 public:
-  Vel(ros::NodeHandle *nh);
+  Vel();
 
   void set_left_front_wheel_velocity(Float64 vel);
 

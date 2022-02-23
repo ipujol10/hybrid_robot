@@ -1,11 +1,13 @@
 #include "Hybrid_jumping_Robot.hpp"
 
-Hybrid_jumping_Robot::Hybrid_jumping_Robot(ros::NodeHandle *nh, const std::string &name,
-                                           Float64 velocity, Float64 wheelradii): robot(name, nh),
+Hybrid_jumping_Robot::Hybrid_jumping_Robot(const std::string &name,
+                                           Float64 velocity, Float64 wheelradii): robot(name),
                                            moving(false), now_velocity(0), velocity(velocity),
                                            wheelradii(wheelradii), print_timer(std::time(0)),
                                            start_time(std::time(0)) {
-  ros::Subscriber sub = nh->subscribe("/imu", 1, &Hybrid_jumping_Robot::imu_callback, this);
+  ROS_INFO("Hybrid constructor");
+  ros::NodeHandle nh;
+  ros::Subscriber sub = nh.subscribe("/imu", 1, &Hybrid_jumping_Robot::imu_callback, this);
   go();
 }
 

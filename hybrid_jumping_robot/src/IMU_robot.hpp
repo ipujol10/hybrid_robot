@@ -18,10 +18,10 @@ private:
   geometry_msgs::Vector3 linear_acceleration;
 //  std::array<Float64, 9> linear_acceleration_covariance;
   int rate = 10;
-  ros::NodeHandle *nh;
+  ros::NodeHandle nh;
 
 public:
-  IMU(ros::NodeHandle *nh);
+  IMU();
 
   void listener();
 
