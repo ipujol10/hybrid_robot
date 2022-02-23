@@ -131,16 +131,21 @@ class OperatedRobot:
                         cnt += 1
                         self.start_time = time.perf_counter()
                     # Inverted pendulum State
-                    while self.pitch > 0.7:
+                    while self.pitch > 0.5:
                         print('\nInverted pendulum State')
                         print(f'pitch is {self.pitch}')
-                        stable = Stabilize.Stabilize("pid", (2.5, 0.01, 0.6), sample_time=0.01)  # (21.5, 0.01, 18.75))
+                        timeNow = rospy.get_rostime() / 1000000
+                        stable = Stabilize.Stabilize("pid", (3.0, 0.00001, 0.6), timeNow = timeNow)  # (21.5, 0.01, 18.75))
                         # stable.update_pid(self.orientation)
-                        while self.pitch > 0.7:
+
+                        while self.pitch > 0.5:
                             # print(f'pitch is {self.pitch}')
                             time.sleep(0.01)
                             print(f'orientation is {self.orientation} ')
-                            self.velocity = stable.update_pid(self.orientation)
+                            timeNow = rospy.get_rostime()
+                            self.velocity = stable.update_pid(self.orientation, timeNow)
+                            if self.velocity is None:
+                                self.velocity = 0.0
                             print(f'pid output {stable.velocity} forced output {self.velocity}')
                             if self.velocity > 0.0 or self.velocity < 0.0:
                                 self.move_robot(-self.velocity)

@@ -41,7 +41,7 @@ class PID:
         self.Kd = D
 
         self.sample_time = 0.00
-        self.current_time = current_time if current_time is not None else time.time()
+        self.current_time = current_time
         self.last_time = self.current_time
 
         self.clear()
@@ -78,11 +78,13 @@ class PID:
         self.current_time = current_time if current_time is not None else time.time()
         delta_time = self.current_time - self.last_time
         delta_error = error - self.last_error
-
+        print(f'delta time is {delta_time} and the delta error is {delta_error} sample time is {self.sample_time}')
         if (delta_time >= self.sample_time):
+            print("Calc")
             self.PTerm = self.Kp * error
+            print("p calculated")
             self.ITerm += error * delta_time
-
+            print("i calculated")
             if (self.ITerm < -self.windup_guard):
                 self.ITerm = -self.windup_guard
             elif (self.ITerm > self.windup_guard):
