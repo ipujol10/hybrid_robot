@@ -1,8 +1,6 @@
 #include "IMU_robot.hpp"
 
-IMU::IMU() {
-  ROS_INFO("IMU constructor");
-}
+IMU::IMU() {}
 
 void IMU::listener() {
   ros::Subscriber sub = nh.subscribe("/imu", 1, &IMU::callback, this);

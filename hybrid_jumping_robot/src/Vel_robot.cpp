@@ -1,7 +1,6 @@
 #include "Vel_robot.hpp"
 
 Vel::Vel() : rate(100) {
-  ROS_INFO("Velocity constructor");
   ros::NodeHandle nh;
   left_front_wheel_publisher = nh.advertise<std_msgs::Float64>(left_front_wheel_connection, 10);
   right_front_wheel_publisher = nh.advertise<std_msgs::Float64>(right_front_wheel_connection, 10);

@@ -2,7 +2,6 @@
 #include <std_msgs/Float64.h>
 
 Actuator::Actuator(): rate(10) {
-  ROS_INFO("Actuator constructor");
   ros::NodeHandle nh;
   extension_publisher = nh.advertise<std_msgs::Float64>(extension_connection, 10);
 }

@@ -1,8 +1,6 @@
 #include "Robot.hpp"
 
-Robot::Robot(const std::string &name): name(name) {
-  ROS_INFO("Robot constructor");
-} //, imu(), actuator(), velocity() {}
+Robot::Robot(const std::string &name): name(name) {}
 
 void Robot::set_front_vel(Float64 vel) {
   velocity.set_front_wheels_velocity(vel);
