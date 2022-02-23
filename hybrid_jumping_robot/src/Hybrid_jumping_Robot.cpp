@@ -8,7 +8,8 @@ Hybrid_jumping_Robot::Hybrid_jumping_Robot(const std::string &name,
                                            start_time(std::time(0)) {
   ros::NodeHandle nh;
   ros::Subscriber sub = nh.subscribe("/imu", 1, &Hybrid_jumping_Robot::imu_callback, this);
-  go();
+//  go();
+  ros::spin();
 }
 
 void Hybrid_jumping_Robot::imu_callback(const sensor_msgs::Imu &data) {
