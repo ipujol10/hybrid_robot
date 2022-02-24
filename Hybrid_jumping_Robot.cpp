@@ -1,5 +1,5 @@
 #include "Hybrid_jumping_Robot.hpp"
-#include "Conversions.hpp"
+#include "hybrid_jumping_robot/src/Conversions.hpp"
 
 Hybrid_jumping_Robot::Hybrid_jumping_Robot(const std::string &name,
                                            Float64 velocity, Float64 wheelradii): robot(name),

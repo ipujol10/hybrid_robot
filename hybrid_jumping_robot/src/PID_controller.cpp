@@ -4,26 +4,45 @@
 
 #include "PID_controller.hpp"
 
-PID::PID( const std::string &name,
-                                    Float64 KP=0.2,Float64 KI=0.0,Float64 KD=0.0,
-                                    ros::Time current_time= ros::Time{0.0},Float64 sample_time = 0.05){
+PID::PID( const std::string &name, Float64 KP=0.2,Float64 KI=0.0,Float64 KD=0.0,Float64 sample_time = 0.05){
     ros::NodeHandle nh;
-    ros::Subscriber sub = nh.subscribe("/imu", 1, &PID::imu_callback, this);
+    ros::Subscriber clear_sub = nh.subscribe("/pidClear",1,&PID::clear_callback,this);
+    ros::Subscriber imu_sub = nh.subscribe("/imu", 1, &PID::imu_callback, this);
+    PID_left_pub = nh.advertise<std_msgs::Float64>("/hybrid_robotV0_2/front_left_wheel_joint_effort_controller/command", 1000);
+    PID_right_pub = nh.advertise<std_msgs::Float64>("/hybrid_robotV0_2/front_right_wheel_joint_effort_controller/command", 1000);
     P = KP;
     I = KI;
     D = KD;
 
     SampleTime = sample_time;
-    CurrentTime = current_time;
+    CurrentTime = ros::Time();
     LastTime = CurrentTime;
 
     clear();
 
 
 }
+void PID::run(){
 
+    while(ros::ok()){
+        if (clear_PID){
+            clear();
+            clear_PID = false;
+        }
+        update(Pitch,ros::Time());
+        ros::spinOnce();
+    }
+
+}
 void PID::imu_callback(const sensor_msgs::Imu &data) {
-    // TODO: get orientation from quaternion
+    auto rpy = conv::quaternion_to_rpy(data.orientation);
+    Roll = rpy.roll;
+    Pitch = rpy.pitch;
+
+}
+void PID::clear_callback(const std_msgs::Bool &data){
+    clear_PID = data.data;
+
 }
 
 void PID::clear() {
@@ -79,6 +98,7 @@ void PID::update(Float64 feedback_value, ros::Time current_time = ros::Time{0.0}
     LastError = error;
 
     Output = PTerm + (I * ITerm) + (D * DTerm);
+    ros::Publisher()
 }
 
 
@@ -114,4 +134,12 @@ void PID::setSampleTime(Float64 sample_t) {
 *  Based on a pre-determined sample time, the PID decides if it should compute or return immediately.
 */
     SampleTime = sample_t;
+}
+
+
+int main(){
+
+    PID pid = PID("pid",0.2,0.001,0.01,0.5);
+
+    return 0;
 }
