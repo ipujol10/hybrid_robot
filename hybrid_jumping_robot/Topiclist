@@ -4,8 +4,29 @@ extension_connection = "/hybrid_robotV0_2/extension_base_joint_position_controll
 
 imu = "/imu"
 
-effort controller right side  = "/hybrid_robotV0_2/front_right_wheel_joint_effort_controller/command"
-effort controller left side  = "/hybrid_robotV0_2/front_left_wheel_joint_effort_controller/command"
+This comes from the robot node and contains the angle "/HJC/Robot/angle"
 
-resting the pid controller = "/pidClear"
+This comes from the Inverted node and contains the velocity of the wheels to stabilize "/HJC/InvertedPendulumNode/vel"
 
+
+Topics from ros topic list:
+/clock
+/gazebo/link_states
+/gazebo/model_states
+/gazebo/parameter_descriptions
+/gazebo/parameter_updates
+/gazebo/performance_metrics
+/gazebo/set_link_state
+/gazebo/set_model_state
+/hybrid_robotV0_2/extension_base_joint_position_controller/command
+/hybrid_robotV0_2/extension_base_joint_position_controller/pid/parameter_descriptions
+/hybrid_robotV0_2/extension_base_joint_position_controller/pid/parameter_updates
+/hybrid_robotV0_2/extension_base_joint_position_controller/state
+/hybrid_robotV0_2/front_left_wheel_joint_effort_controller/command
+/hybrid_robotV0_2/front_right_wheel_joint_effort_controller/command
+/hybrid_robotV0_2/joint_states
+/imu
+/rosout
+/rosout_agg
+/tf
+/tf_static
