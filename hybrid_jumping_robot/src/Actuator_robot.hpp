@@ -14,7 +14,7 @@ private:
   ros::Rate rate;
 
 public:
-  Actuator(ros::NodeHandle *nh);
+  Actuator();
 
   void set_extension_position(Float64 pos);
 };

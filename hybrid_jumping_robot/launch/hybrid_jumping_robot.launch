@@ -6,7 +6,7 @@
     <!-- Gazebo specific options                              -->
     <!-- ==================================================== -->
     <arg name="gazebo_gui" default="true"/>
-    <arg name="paused" default="false"/>
+    <arg name="paused" default="true"/>
 
     <!-- ==================================================== -->
     <!-- Launch Gazebo with a world                           -->
@@ -31,7 +31,8 @@
           -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
     <include file="$(find hybrid_jumping_robot)/launch/control_jumping_robot.launch" />
 
-    <node pkg="hybrid_jumping_robot" name="Hybrid_jumping_Robot" type="Hybrid_jumping_Robot.py" output="screen"/>
+<!--     <node pkg="hybrid_jumping_robot" name="Hybrid_jumping_Robot" type="Hybrid_jumping_Robot.py" output="screen"/> -->
+    <node pkg="hybrid_jumping_robot" name="Hybrid_jumping_Robot" type="hybrid_jumping_robot" output="screen"/>
 <!--    <node pkg="hybrid_jumping_robot" name="Stabilize" type="Stabilize.py" output="screen"/>-->
 <!--    <node pkg="hybrid_jumping_robot" name="record" type="record_bag.sh"/>-->
 

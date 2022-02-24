@@ -1,9 +1,9 @@
 #include "IMU_robot.hpp"
 
-IMU::IMU(ros::NodeHandle *nh): nh(nh) {}
+IMU::IMU() {}
 
 void IMU::listener() {
-  ros::Subscriber sub = nh->subscribe("/imu", 1, &IMU::callback, this);
+  ros::Subscriber sub = nh.subscribe("/imu", 1, &IMU::callback, this);
 }
 
 void IMU::callback(const sensor_msgs::Imu &data) {

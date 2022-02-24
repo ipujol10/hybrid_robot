@@ -1,16 +1,21 @@
 #include "Hybrid_jumping_Robot.hpp"
+#include "Conversions.hpp"
 
-Hybrid_jumping_Robot::Hybrid_jumping_Robot(ros::NodeHandle *nh, const std::string &name,
-                                           Float64 velocity, Float64 wheelradii): robot(name, nh),
+Hybrid_jumping_Robot::Hybrid_jumping_Robot(const std::string &name,
+                                           Float64 velocity, Float64 wheelradii): robot(name),
                                            moving(false), now_velocity(0), velocity(velocity),
                                            wheelradii(wheelradii), print_timer(std::time(0)),
                                            start_time(std::time(0)) {
-  ros::Subscriber sub = nh->subscribe("/imu", 1, &Hybrid_jumping_Robot::imu_callback, this);
-  go();
+  ros::NodeHandle nh;
+  ros::Subscriber sub = nh.subscribe("/imu", 1, &Hybrid_jumping_Robot::imu_callback, this);
+//  go();
+  ros::spin();
 }
 
 void Hybrid_jumping_Robot::imu_callback(const sensor_msgs::Imu &data) {
-  // TODO: get orientation from quaternion
+  auto rpy = conv::quaternion_to_rpy(data.orientation);
+  roll = rpy.roll;
+  pitch = rpy.pitch;
 }
 
 void Hybrid_jumping_Robot::move_robot(Float64 vel) {

@@ -19,7 +19,7 @@ private:
   time_t start_time;
 
 public:
-  Hybrid_jumping_Robot(ros::NodeHandle *nh, const std::string &name, Float64 velocity, Float64 wheelradii);
+  Hybrid_jumping_Robot(const std::string &name, Float64 velocity, Float64 wheelradii);
 
   void imu_callback(const sensor_msgs::Imu &data);
 

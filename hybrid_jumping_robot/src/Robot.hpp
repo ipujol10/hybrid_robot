@@ -12,10 +12,9 @@ private:
   IMU imu;
   Actuator actuator;
   Vel velocity;
-  ros::NodeHandle *nh;
 
 public:
-  Robot(const std::string &name, ros::NodeHandle *nh);
+  Robot(const std::string &name);
 
   void set_front_vel(Float64 vel);
 
