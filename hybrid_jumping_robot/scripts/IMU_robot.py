@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import rospy
-from std_msgs.msg import String
 from sensor_msgs.msg import Imu
 from Conversions import quaternion_to_rpy
 
@@ -17,11 +16,10 @@ class IMU:
 
     def __init__(self, name):
         rospy.init_node(name, anonymous=True)
-        rospy.Rate(5)
+        rospy.Rate(1)
 
     def listener(self):
         rospy.Subscriber("/imu", Imu, self.callback)
-
 
     def callback(self, data):
         self.quaternion = data.orientation
@@ -30,6 +28,8 @@ class IMU:
         self.angular_velocity_covariance = data.angular_velocity_covariance
         self.linear_acceleration = data.linear_acceleration
         self.linear_acceleration_covariance = data.linear_acceleration_covariance
+        rate = rospy.Rate(10)  # 10hz
+        rate.sleep()
         #print('callbacks')
 
     def get_quaternion(self):
@@ -39,8 +39,11 @@ class IMU:
         return self.quaternion_covariance
 
     def get_rpy(self):
-        q = [self.quaternion.x, self.quaternion.y, self.quaternion.z, self.quaternion.w]
-        return quaternion_to_rpy(q)
+        try:
+            q = [self.quaternion.x, self.quaternion.y, self.quaternion.z, self.quaternion.w]
+            return quaternion_to_rpy(q)
+        except:
+            pass
 
     def get_rpy_covariance(self):
         return self.quaternion_covariance[0:3]

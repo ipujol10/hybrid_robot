@@ -4,6 +4,12 @@ from math import pi
 from geometry_msgs.msg import Quaternion
 
 
+def get_correct_pitch(pitch, roll):
+    if roll > pi / 2:
+        return pi - pitch
+    return pitch
+
+
 def quaternion_to_rpy(quaternion):
     if type(quaternion) == list or type(quaternion) == tuple:
         return tf.transformations.euler_from_quaternion(quaternion)
@@ -38,4 +44,4 @@ def RpmToMeterAMin(rpm, radii):
 
 
 def RpmToVel(rpm, radii):
-    return 2 * pi * radii * rpm / 60
+    return 2 * pi * radii * rpm
