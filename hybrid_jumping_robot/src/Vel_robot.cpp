@@ -33,6 +33,7 @@ void Vel::set_front_wheels_velocity(Float64 vel) {
 }
 
 void Vel::velocity_callback(const std_msgs::Float64 &data) {
+  ROS_ERROR("CACA");
   update_target(data.data);
 }
 

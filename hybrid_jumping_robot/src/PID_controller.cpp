@@ -117,7 +117,7 @@ void PID::setSampleTime(Float64 sample_t) {
 }
 
 
-int main(){
+int mainPID(){
 
     PID pid = PID("pid",0.2,0.001,0.01,0.5);
     pid.setWindup(20.0);
