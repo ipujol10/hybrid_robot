@@ -18,14 +18,16 @@
 class PID{
 
 public:
-    PID( const std::string &name, Float64 KP,Float64 KI,Float64 KD,Float64 sample_time);
+    PID( const std::string &name, Float64 target,Float64 KP,Float64 KI,Float64 KD,Float64 sample_time,ros::Time current_time);
     void setSampleTime(Float64 sample_t);
     void setKp(Float64 proportional_gain);
     void setKi(Float64 integral_gain);
     void setKd(Float64 derivative_gain);
     void setWindup(Float64 windup);
-    void run();
-    void setTargetAngle(Float64 target);
+    void setTarget(Float64 target);
+    void clear();
+    Float64 update(Float64 feedback_value, ros::Time current_time);
+
 
 private:
     ros::Time CurrentTime;
@@ -44,13 +46,7 @@ private:
     Float64 windup_guard;
     Float64 Pitch;
     Float64 Roll;
-    bool clear_PID;
-    ros::Publisher PID_left_pub;
-    ros::Publisher PID_right_pub;
-    void imu_callback(const sensor_msgs::Imu &data);
-    void clear_callback(const std_msgs::Bool &data);
-    void clear();
-    void update(Float64 feedback_value, ros::Time current_time);
+
 };
 
 
