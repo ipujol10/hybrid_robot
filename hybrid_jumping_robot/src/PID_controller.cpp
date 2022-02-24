@@ -98,7 +98,10 @@ void PID::update(Float64 feedback_value, ros::Time current_time = ros::Time{0.0}
     LastError = error;
 
     Output = PTerm + (I * ITerm) + (D * DTerm);
-    ros::Publisher()
+    std_msgs::Float64 data;
+    data.data = Output;
+    PID_left_pub.publish(data);
+    PID_right_pub.publish(data);
 }
 
 
@@ -128,7 +131,10 @@ void PID::setWindup(Float64 windup) {
     windup_guard = windup;
 }
 
+void PID::setTargetAngle(Float64 target = M_PI/2){
 
+
+}
 void PID::setSampleTime(Float64 sample_t) {
 /* PID that should be updated at a regular interval.
 *  Based on a pre-determined sample time, the PID decides if it should compute or return immediately.
@@ -140,6 +146,8 @@ void PID::setSampleTime(Float64 sample_t) {
 int main(){
 
     PID pid = PID("pid",0.2,0.001,0.01,0.5);
-
+    pid.setWindup(20.0);
+    pid.setTargetAngle(M_PI/2);
+    pid.run();
     return 0;
 }

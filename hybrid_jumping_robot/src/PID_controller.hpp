@@ -10,6 +10,7 @@
 #include <std_msgs/Float64.h>
 #include <string>
 #include "Conversions.hpp"
+#include <math.h>
 #ifndef HYBRID_JUMPING_ROBOT_PID_CONTROLLER_HPP
 #define HYBRID_JUMPING_ROBOT_PID_CONTROLLER_HPP
 
@@ -24,6 +25,7 @@ public:
     void setKd(Float64 derivative_gain);
     void setWindup(Float64 windup);
     void run();
+    void setTargetAngle(Float64 target);
 
 private:
     ros::Time CurrentTime;
