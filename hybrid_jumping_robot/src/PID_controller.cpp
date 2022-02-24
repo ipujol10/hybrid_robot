@@ -4,46 +4,20 @@
 
 #include "PID_controller.hpp"
 
-PID::PID( const std::string &name, Float64 KP=0.2,Float64 KI=0.0,Float64 KD=0.0,Float64 sample_time = 0.05){
-    ros::NodeHandle nh;
-    ros::Subscriber clear_sub = nh.subscribe("/pidClear",1,&PID::clear_callback,this);
-    ros::Subscriber imu_sub = nh.subscribe("/imu", 1, &PID::imu_callback, this);
-    PID_left_pub = nh.advertise<std_msgs::Float64>("/hybrid_robotV0_2/front_left_wheel_joint_effort_controller/command", 1000);
-    PID_right_pub = nh.advertise<std_msgs::Float64>("/hybrid_robotV0_2/front_right_wheel_joint_effort_controller/command", 1000);
+PID::PID( const std::string &name,Float64 target = M_PI/2, Float64 KP=0.2,Float64 KI=0.0,Float64 KD=0.0,Float64 sample_time = 0.05 ,ros::Time current_time = ros::Time{0.0}){
     P = KP;
     I = KI;
     D = KD;
 
     SampleTime = sample_time;
-    CurrentTime = ros::Time();
+    CurrentTime = current_time;
     LastTime = CurrentTime;
-
+    SetPoint = target;
     clear();
 
 
 }
-void PID::run(){
 
-    while(ros::ok()){
-        if (clear_PID){
-            clear();
-            clear_PID = false;
-        }
-        update(Pitch,ros::Time());
-        ros::spinOnce();
-    }
-
-}
-void PID::imu_callback(const sensor_msgs::Imu &data) {
-    auto rpy = conv::quaternion_to_rpy(data.orientation);
-    Roll = rpy.roll;
-    Pitch = rpy.pitch;
-
-}
-void PID::clear_callback(const std_msgs::Bool &data){
-    clear_PID = data.data;
-
-}
 
 void PID::clear() {
     //Clears PID computations and coefficients
@@ -62,7 +36,7 @@ void PID::clear() {
 }
 
 
-void PID::update(Float64 feedback_value, ros::Time current_time = ros::Time{0.0}) {
+Float64 PID::update(Float64 feedback_value, ros::Time current_time = ros::Time{0.0}) {
     //Calculates PID value for given reference feedback
 
     /*..math::
@@ -70,7 +44,7 @@ void PID::update(Float64 feedback_value, ros::Time current_time = ros::Time{0.0}
     */
     Float64 error = SetPoint - feedback_value;
 
-    CurrentTime = ros::Time{current_time};
+    CurrentTime = current_time;
 
     ros::Duration delta_time = CurrentTime - LastTime;
     Float64 delta_error = error - LastError;
@@ -98,10 +72,7 @@ void PID::update(Float64 feedback_value, ros::Time current_time = ros::Time{0.0}
     LastError = error;
 
     Output = PTerm + (I * ITerm) + (D * DTerm);
-    std_msgs::Float64 data;
-    data.data = Output;
-    PID_left_pub.publish(data);
-    PID_right_pub.publish(data);
+    return Output;
 }
 
 
@@ -118,6 +89,8 @@ void PID::setKd(Float64 derivative_gain){
    D = derivative_gain;
 }
 
+
+
 void PID::setWindup(Float64 windup) {
 /*Integral windup, also known as integrator windup or reset windup,
 *refers to the situation in a PID feedback controller where
@@ -131,8 +104,9 @@ void PID::setWindup(Float64 windup) {
     windup_guard = windup;
 }
 
-void PID::setTargetAngle(Float64 target = M_PI/2){
+void PID::setTarget(Float64 target = M_PI/2){
 
+    SetPoint = target;
 
 }
 void PID::setSampleTime(Float64 sample_t) {
@@ -147,7 +121,8 @@ int main(){
 
     PID pid = PID("pid",0.2,0.001,0.01,0.5);
     pid.setWindup(20.0);
-    pid.setTargetAngle(M_PI/2);
-    pid.run();
+    pid.setTarget(M_PI/2);
+
+    Float64 vel = pid.update(M_PI,ros::Time());
     return 0;
 }
