@@ -1,0 +1,11 @@
+topics
+
+extension_connection = "/hybrid_robotV0_2/extension_base_joint_position_controller/command"
+
+imu = "/imu"
+
+effort controller right side  = "/hybrid_robotV0_2/front_right_wheel_joint_effort_controller/command"
+effort controller left side  = "/hybrid_robotV0_2/front_left_wheel_joint_effort_controller/command"
+
+resting the pid controller = "/pidClear"
+
