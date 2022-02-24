@@ -25,6 +25,9 @@ private:
   PID pid;
   Float64 now_velocity;
 
+  ros::Subscriber vel_sub;
+  ros::Subscriber state_sub;
+
 public:
   Vel();
 

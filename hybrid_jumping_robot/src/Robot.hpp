@@ -1,4 +1,3 @@
-#include "IMU_robot.hpp"
 #include "Actuator_robot.hpp"
 #include "Vel_robot.hpp"
 
@@ -9,7 +8,6 @@
 class Robot {
 private:
   std::string name;
-  IMU imu;
   Actuator actuator;
   Vel velocity;
 

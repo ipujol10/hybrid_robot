@@ -6,8 +6,8 @@ Vel::Vel() : rate(100), pid("wheels", M_PI_2, 1, 0.1, 1, 0.01, ros::Time::now())
   ros::NodeHandle nh;
   left_front_wheel_publisher = nh.advertise<std_msgs::Float64>(left_front_wheel_connection, 10);
   right_front_wheel_publisher = nh.advertise<std_msgs::Float64>(right_front_wheel_connection, 10);
-  ros::Subscriber vel_sub = nh.subscribe(commanded_velocity_connection, 1, &Vel::velocity_callback, this);
-  ros::Subscriber state_sub = nh.subscribe(joint_state_connection, 1, &Vel::now_vel_callback, this);
+  vel_sub = nh.subscribe(commanded_velocity_connection, 1, &Vel::velocity_callback, this);
+  state_sub = nh.subscribe(joint_state_connection, 1, &Vel::now_vel_callback, this);
 }
 
 void Vel::set_left_front_wheel_velocity(Float64 vel) {

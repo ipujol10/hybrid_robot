@@ -3,7 +3,7 @@
 IMU::IMU() {}
 
 void IMU::listener() {
-  ros::Subscriber sub = nh.subscribe("/imu", 1, &IMU::callback, this);
+  sub = nh.subscribe("/imu", 1, &IMU::callback, this);
 }
 
 void IMU::callback(const sensor_msgs::Imu &data) {
