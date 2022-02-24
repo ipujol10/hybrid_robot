@@ -8,7 +8,7 @@
 class Robot {
 private:
   std::string name;
-  Actuator actuator;
+//  Actuator actuator;
   Vel velocity;
 
 public:

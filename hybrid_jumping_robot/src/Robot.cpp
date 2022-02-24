@@ -7,5 +7,5 @@ void Robot::set_front_vel(Float64 vel) {
 }
 
 void Robot::set_actuator_position(Float64 pos) {
-  actuator.set_extension_position(pos);
+//  actuator.set_extension_position(pos);
 }
