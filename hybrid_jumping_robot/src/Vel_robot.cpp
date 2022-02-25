@@ -44,6 +44,7 @@ void Vel::now_vel_callback(const sensor_msgs::JointState &data) {
 //  auto out = pid.update(now_velocity, ros::Time::now());
 //  set_front_wheels_velocity(pid.update(now_velocity, ros::Time::now()));
 //  set_front_wheels_velocity(out);
+  ROS_ERROR("aoihdsai");
   rate.sleep();
 }
 
