@@ -37,15 +37,17 @@ void Vel::set_front_wheels_velocity(Float64 vel) {
 
 void Vel::velocity_callback(const std_msgs::Float64 &data) {
   update_target(data.data);
+  ros::spinOnce();
 }
 
 void Vel::now_vel_callback(const sensor_msgs::JointState &data) {
   now_velocity = (data.velocity[3] + data.velocity[4]) / 2;
 //  auto out = pid.update(now_velocity, ros::Time::now());
-//  set_front_wheels_velocity(pid.update(now_velocity, ros::Time::now()));
+  set_front_wheels_velocity(pid.update(now_velocity, ros::Time::now()));
 //  set_front_wheels_velocity(out);
-  ROS_ERROR("aoihdsai");
+//  ROS_ERROR("aoihdsai");
   rate.sleep();
+  ros::spinOnce();
 }
 
 void Vel::update_target(Float64 target) {

@@ -4,6 +4,7 @@ IMU::IMU() {}
 
 void IMU::listener() {
   sub = nh.subscribe("/imu", 1, &IMU::callback, this);
+  ros::spinOnce();
 }
 
 void IMU::callback(const sensor_msgs::Imu &data) {

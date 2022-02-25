@@ -34,4 +34,6 @@ include_directories(
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(${PROJECT_NAME} Tests.cpp)
-link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES})
+include_directories(PID)
+add_subdirectory(PID)
+link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} PID_Test)

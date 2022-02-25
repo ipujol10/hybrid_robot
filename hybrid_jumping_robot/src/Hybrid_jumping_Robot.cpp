@@ -10,6 +10,7 @@ Hybrid_jumping_Robot::Hybrid_jumping_Robot(const std::string &name, Float64 velo
 }
 
 void Hybrid_jumping_Robot::imu_callback(const sensor_msgs::Imu &data) {
+//  ROS_INFO("The time is %d", ros::Time::now());
   auto rpy = conv::quaternion_to_rpy(data.orientation);
   roll = rpy.roll;
   pitch = rpy.pitch;
