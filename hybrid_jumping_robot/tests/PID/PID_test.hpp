@@ -3,13 +3,15 @@
 #ifndef TESTS_PID_TEST_HPP
 #define TESTS_PID_TEST_HPP
 
-class PID_Test {
+class Simple_control {
 private:
   PID pid;
 public:
-  PID_Test();
+  Simple_control();
 
-  bool test();
+  void update(Float64 u);
+
+
 };
 
 #endif //TESTS_PID_TEST_HPP

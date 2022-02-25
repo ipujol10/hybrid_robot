@@ -15,8 +15,8 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(gazebo REQUIRED)
 
-set(SOURCE_FILES PID_test.cpp)
-set(HEADER_FILES PID_test.hpp)
+set(SOURCE_FILES PID_test.cpp Mat.cpp)
+set(HEADER_FILES PID_test.hpp Mat.hpp)
 
 add_library(${PROJECT_NAME} STATIC ${HEADER_FILES} ${SOURCE_FILES})
 set_target_properties(${PROJECT_NAME} PROPERTIES LIKER_LANGUAGE CXX)
