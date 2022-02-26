@@ -34,4 +34,9 @@ include_directories(
 set(SOURCE_FILES Simple_control.cpp Mat.cpp)
 set(HEADER_FILES Simple_control.hpp Mat.hpp)
 
+find_library(ROBOT_LIBRARY Robot HINTS /home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/src)
+
 add_executable(${PROJECT_NAME} Tests.cpp ${HEADER_FILES} ${SOURCE_FILES})
+include_directories(../../src)
+target_link_libraries(${PROJECT_NAME} ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} ${ROBOT_LIBRARY})
+set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)

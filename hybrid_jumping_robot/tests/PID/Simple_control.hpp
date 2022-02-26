@@ -9,10 +9,12 @@ private:
   Mat B;
   Mat x0;
   Mat x;
+
+public:
   Float64 timeStep;
 
 public:
-  Simple_control(Float64 angle, Float64 x);
+  Simple_control(Float64 angle = 0, Float64 x = 0);
 
   void update(Float64 u);
 
