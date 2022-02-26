@@ -16,13 +16,15 @@ public:
 
   explicit Mat(std::vector<std::vector<Float64>> mat);
 
-  Mat operator*(const Mat &b);
+  Mat operator*(const Mat &b) const;
 
-  Mat operator+(const Mat &b);
+  Mat operator+(const Mat &b) const;
 
   Mat operator*(const Float64 &scalar);
 
   std::vector<Float64> operator[](int i);
+
+  Float64 operator()(int i, int j) const;
 };
 
 

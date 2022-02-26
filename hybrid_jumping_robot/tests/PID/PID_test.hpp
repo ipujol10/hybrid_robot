@@ -7,9 +7,9 @@ class Simple_control {
 private:
   PID pid;
 public:
-  Simple_control();
-
-  void update(Float64 u);
+//  Simple_control();
+//
+//  void update(Float64 u);
 
 
 };
