@@ -53,13 +53,21 @@ Mat Mat::operator+(const Mat &b) const {
 
 Mat Mat::operator*(const Float64 &scalar) {
   std::vector<std::vector<Float64>> result;
-  for (const auto &row : mat) {
+  for (const auto &row: mat) {
     std::vector<Float64> vector;
     vector.reserve(cols);
-    for (const auto &value : row) {
-      vector.emplace_back(scalar*value);
+    for (const auto &value: row) {
+      vector.emplace_back(scalar * value);
     }
     result.emplace_back(vector);
   }
   return Mat{result};
+}
+
+Mat Mat::operator=(const Mat& a) {
+  return Mat(a.mat);
+}
+
+Mat Mat::operator+=(const Mat &b) const {
+  return *this+b;
 }
