@@ -31,7 +31,7 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
 )
 
-set(SOURCE_FILES PID_test.cpp Mat.cpp)
-set(HEADER_FILES PID_test.hpp Mat.hpp)
+set(SOURCE_FILES Simple_control.cpp Mat.cpp)
+set(HEADER_FILES Simple_control.hpp Mat.hpp)
 
 add_executable(${PROJECT_NAME} Tests.cpp ${HEADER_FILES} ${SOURCE_FILES})
