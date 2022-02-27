@@ -15,28 +15,28 @@ find_package(catkin REQUIRED COMPONENTS
     message_generation
     )
 
-find_package(gazebo REQUIRED)
+#find_package(gazebo REQUIRED)
 
-catkin_package(
-    DEPENDS
-    gazebo_ros
-    controller_manager
-    joint_state_controller
-    robot_state_publisher
-    CATKIN_DEPENDS rospy std_msgs sensor_msgs
-)
+#catkin_package(
+#    DEPENDS
+#    gazebo_ros
+#    controller_manager
+#    joint_state_controller
+#    robot_state_publisher
+#    CATKIN_DEPENDS rospy std_msgs sensor_msgs
+#)
+#
+#include_directories(
+#    # include
+#    ${catkin_INCLUDE_DIRS}
+#)
 
-include_directories(
-    # include
-    ${catkin_INCLUDE_DIRS}
-)
-
-set(SOURCE_FILES Simple_control.cpp Mat.cpp)
-set(HEADER_FILES Simple_control.hpp Mat.hpp)
+set(SOURCE_FILES Simple_control.cpp Mat.cpp PID_tests.cpp)
+set(HEADER_FILES Simple_control.hpp Mat.hpp PID_tests.hpp)
 
 find_library(ROBOT_LIBRARY Robot HINTS /home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/src)
 
-add_executable(${PROJECT_NAME} Tests.cpp ${HEADER_FILES} ${SOURCE_FILES})
+add_library(${PROJECT_NAME} STATIC ${HEADER_FILES} ${SOURCE_FILES})
 include_directories(../../src)
 target_link_libraries(${PROJECT_NAME} ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} ${ROBOT_LIBRARY})
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)

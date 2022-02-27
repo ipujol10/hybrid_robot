@@ -33,7 +33,11 @@ include_directories(
 
 set(CMAKE_CXX_STANDARD 17)
 
+find_library(PID_TEST_LIBRARY PID_Test HINTS /home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/tests/PID)
+
 add_executable(${PROJECT_NAME} Tests.cpp)
 include_directories(PID)
 add_subdirectory(PID)
-link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} PID_Test)
+target_link_libraries(${PROJECT_NAME} ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} PID_Test)
+#link_libraries(${PROJECT_NAME} ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} ${PID_TEST_LIBRARY})
+#link_libraries(${PROJECT_NAME} ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES})
