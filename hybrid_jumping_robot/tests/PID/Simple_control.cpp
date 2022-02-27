@@ -9,7 +9,7 @@ Simple_control::Simple_control(Float64 angle, Float64 x) : A({{0, 1},
 
 void Simple_control::update(Float64 u) {
   auto x1 = A * x + B * u;
-  x += x1 * timeStep;
+  x = x + x1 * timeStep;
 }
 
 Float64 Simple_control::output() {

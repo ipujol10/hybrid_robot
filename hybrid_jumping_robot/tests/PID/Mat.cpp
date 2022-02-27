@@ -51,7 +51,7 @@ Mat Mat::operator+(const Mat &b) const {
   return Mat{result};
 }
 
-Mat Mat::operator*(const Float64 &scalar) {
+Mat Mat::operator*(const Float64 &scalar) const {
   std::vector<std::vector<Float64>> result;
   for (const auto &row: mat) {
     std::vector<Float64> vector;
@@ -64,9 +64,7 @@ Mat Mat::operator*(const Float64 &scalar) {
   return Mat{result};
 }
 
-Mat Mat::operator=(const Mat& a) {
-  return Mat(a.mat);
-}
+Mat& Mat::operator=(const Mat& a) = default;
 
 Mat Mat::operator+=(const Mat &b) const {
   return *this+b;

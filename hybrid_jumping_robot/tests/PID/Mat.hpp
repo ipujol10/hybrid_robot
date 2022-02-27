@@ -20,13 +20,13 @@ public:
 
   Mat operator+(const Mat &b) const;
 
-  Mat operator*(const Float64 &scalar);
+  Mat operator*(const Float64 &scalar) const;
 
   std::vector<Float64> operator[](int i);
 
   Float64 operator()(int i, int j) const;
 
-  Mat operator=(const Mat& a);
+  Mat& operator=(const Mat& a);
 
   Mat operator+=(const Mat& b) const;
 };

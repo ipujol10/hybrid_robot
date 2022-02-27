@@ -1,7 +1,6 @@
+#include "PID_tests.hpp"
 #include <ros/ros.h>
 #include <iostream>
-
-#include "PID_tests.hpp"
 
 PID_tests::PID_tests() : c(0.1), pid("pid", 0, 100, 1, 10, 0.01, ros::Time(0)) {}
 
