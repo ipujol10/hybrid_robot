@@ -5,11 +5,13 @@ Hybrid_jumping_Robot::Hybrid_jumping_Robot(const std::string &name, Float64 velo
                                            moving(false), now_velocity(0), velocity(velocity),
                                            wheelradii(wheelradii), print_timer(std::time(0)),
                                            start_time(std::time(0)) {
+  ROS_ERROR("STARTING ROBOT");
   ros::NodeHandle nh;
   sub = nh.subscribe("/imu", 1, &Hybrid_jumping_Robot::imu_callback, this);
 }
 
 void Hybrid_jumping_Robot::imu_callback(const sensor_msgs::Imu &data) {
+//  ROS_INFO("The time is %d", ros::Time::now());
   auto rpy = conv::quaternion_to_rpy(data.orientation);
   roll = rpy.roll;
   pitch = rpy.pitch;

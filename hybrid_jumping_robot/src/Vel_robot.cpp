@@ -1,11 +1,13 @@
 #include "Vel_robot.hpp"
 #include <cmath>
+#include <iostream>
 
-Vel::Vel() : rate(100), pid("wheels", M_PI_2, 1, 0.1, 1, 0.01, ros::Time::now()),
+Vel::Vel() : rate(100), pid("wheels", 0, 0.1, 1e-9, 1e-7, 0.01, ros::Time::now()),
              now_velocity(0) {
   ros::NodeHandle nh;
   left_front_wheel_publisher = nh.advertise<std_msgs::Float64>(left_front_wheel_connection, 10);
   right_front_wheel_publisher = nh.advertise<std_msgs::Float64>(right_front_wheel_connection, 10);
+  current_velocity_publisher = nh.advertise<std_msgs::Float64>(current_velocity_connection, 1);
   vel_sub = nh.subscribe(commanded_velocity_connection, 1, &Vel::velocity_callback, this);
   state_sub = nh.subscribe(joint_state_connection, 1, &Vel::now_vel_callback, this);
 }
@@ -37,17 +39,27 @@ void Vel::set_front_wheels_velocity(Float64 vel) {
 
 void Vel::velocity_callback(const std_msgs::Float64 &data) {
   update_target(data.data);
+  ros::spinOnce();
 }
 
 void Vel::now_vel_callback(const sensor_msgs::JointState &data) {
   now_velocity = (data.velocity[3] + data.velocity[4]) / 2;
-//  auto out = pid.update(now_velocity, ros::Time::now());
-//  set_front_wheels_velocity(pid.update(now_velocity, ros::Time::now()));
-//  set_front_wheels_velocity(out);
+  auto out = cap_PID_output(pid.update(now_velocity, ros::Time::now()));
+  set_front_wheels_velocity(out);
+  std_msgs::Float64 msg;
+  msg.data = now_velocity;
+  current_velocity_publisher.publish(msg);
   rate.sleep();
+  ros::spinOnce();
 }
 
 void Vel::update_target(Float64 target) {
   pid.setTarget(target);
   set_front_wheels_velocity(pid.update(now_velocity, ros::Time::now()));
+}
+
+Float64 Vel::cap_PID_output(Float64 out, Float64 max, Float64 min) {
+  if (out > max) return max;
+  if (out < min) return min;
+  return out;
 }

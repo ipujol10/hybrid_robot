@@ -21,7 +21,7 @@ PID::PID( const std::string &name,Float64 target = M_PI/2, Float64 KP=0.2,Float6
 
 void PID::clear() {
     //Clears PID computations and coefficients
-    SetPoint = 0.0;
+//    SetPoint = 0.0;
 
     PTerm = 0.0;
     ITerm = 0.0;
