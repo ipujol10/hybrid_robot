@@ -5,6 +5,7 @@ Hybrid_jumping_Robot::Hybrid_jumping_Robot(const std::string &name, Float64 velo
                                            moving(false), now_velocity(0), velocity(velocity),
                                            wheelradii(wheelradii), print_timer(std::time(0)),
                                            start_time(std::time(0)) {
+  ROS_ERROR("STARTING ROBOT");
   ros::NodeHandle nh;
   sub = nh.subscribe("/imu", 1, &Hybrid_jumping_Robot::imu_callback, this);
 }

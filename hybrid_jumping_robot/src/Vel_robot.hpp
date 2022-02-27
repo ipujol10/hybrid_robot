@@ -28,6 +28,9 @@ private:
   ros::Subscriber vel_sub;
   ros::Subscriber state_sub;
 
+private:
+  Float64 cap_PID_output(Float64 out, Float64 max = 10, Float64 min = -10);
+
 public:
   Vel();
 
