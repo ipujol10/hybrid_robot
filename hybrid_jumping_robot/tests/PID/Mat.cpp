@@ -2,8 +2,8 @@
 #include <stdexcept>
 
 Mat::Mat(std::vector<std::vector<Float64>> mat) : mat(mat) {
-  rows = static_cast<int>(mat.size());
-  cols = static_cast<int>(mat.begin()->size());
+  rows = mat.size();
+  cols = mat.begin()->size();
   for (const auto &row: mat) {
     if (row.size() != cols) throw std::invalid_argument("Rows doesn't have the same length");
   }
@@ -40,6 +40,7 @@ Float64 Mat::operator()(int i, int j) const {
 Mat Mat::operator+(const Mat &b) const {
   if (cols != b.cols || rows != b.rows) throw std::invalid_argument("The sizes of the matrix must match");
   std::vector<std::vector<Float64>> result;
+  result.resize(rows);
   for (int i = 0; i < rows; i++) {
     std::vector<Float64> vector;
     vector.reserve(cols);
@@ -53,6 +54,7 @@ Mat Mat::operator+(const Mat &b) const {
 
 Mat Mat::operator*(const Float64 &scalar) const {
   std::vector<std::vector<Float64>> result;
+  result.reserve(rows);
   for (const auto &row: mat) {
     std::vector<Float64> vector;
     vector.reserve(cols);
@@ -68,4 +70,13 @@ Mat& Mat::operator=(const Mat& a) = default;
 
 Mat Mat::operator+=(const Mat &b) const {
   return *this+b;
+}
+
+Mat& Mat::operator+=(const Mat &b) {
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      this->mat.at(i).at(j) += b.mat.at(i).at(j);
+    }
+  }
+  return *this;
 }

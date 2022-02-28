@@ -8,8 +8,8 @@
 class Mat {
 private:
   std::vector<std::vector<Float64>> mat;
-  int cols;
-  int rows;
+  size_t cols;
+  size_t rows;
 
 public:
   Mat(const Mat &mat);
@@ -29,6 +29,8 @@ public:
   Mat& operator=(const Mat& a);
 
   Mat operator+=(const Mat& b) const;
+
+  Mat& operator+=(const Mat& b);
 };
 
 
