@@ -63,10 +63,23 @@ class SpringCalculation:
             print(f'Extension weight: {extension_weight}kg')
         return acceleration
 
+    def get_spring_constant(self, force, show: bool = False):
+        """
+        The k constant need to produce the force with the movement
+        :param force: The amount of force needed in N
+        :param show: If the result of the work wants to be printed in the screen
+        :return: The needed K in N/m
+        """
+        k = force / self.max_d
+        if show:
+            print(f'The constant k needed is {k}N/m')
+        return k
+
 
 if __name__ == "__main__":
     spring = SpringCalculation()
     w = spring.work(show=True)
     f = spring.needed_force(w, True)
-    a = spring.needed_acceleration(f, True)
+    spring.needed_acceleration(f, True)
+    spring.get_spring_constant(f, True)
     # print("Spring done")
