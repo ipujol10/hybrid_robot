@@ -24,9 +24,8 @@ find_package(gazebo REQUIRED)
 #      CATKIN_DEPENDS rospy std_msgs sensor_msgs
 #)
 
-
-set(HEADER_FILES IMU_robot.hpp Conversions.hpp Types.hpp Robot.hpp Actuator_robot.hpp Vel_robot.hpp Hybrid_jumping_Robot.hpp PID_controller.hpp Data.hpp State_machine.hpp)
-set(SOURCE_FILES IMU_robot.cpp Robot.cpp Conversions.cpp Actuator_robot.cpp Vel_robot.cpp Hybrid_jumping_Robot.cpp PID_controller.cpp State_machine.cpp)
+set(HEADER_FILES IMU_robot.hpp Conversions.hpp Types.hpp Robot.hpp Actuator_robot.hpp Vel_robot.hpp Hybrid_jumping_Robot.hpp PID_controller.hpp Data.hpp Inverted_pendulum_drive.hpp State_machine.hpp)
+set(SOURCE_FILES IMU_robot.cpp Robot.cpp Conversions.cpp Actuator_robot.cpp Vel_robot.cpp Hybrid_jumping_Robot.cpp PID_controller.cpp Inverted_pendulum_drive.cpp State_machine.cpp)
 
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})
