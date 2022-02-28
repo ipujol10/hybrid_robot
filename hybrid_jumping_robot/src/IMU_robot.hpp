@@ -3,7 +3,9 @@
 #include <geometry_msgs/Quaternion.h>
 #include <geometry_msgs/Vector3.h>
 #include <sensor_msgs/Imu.h>
+#include <std_msgs/Float64.h>
 #include <string>
+#include "Conversions.hpp"
 
 #ifndef HYBRID_JUMPING_ROBOT_IMU_ROBOT_HPP
 #define HYBRID_JUMPING_ROBOT_IMU_ROBOT_HPP
@@ -20,6 +22,7 @@ private:
   int rate = 10;
   ros::NodeHandle nh;
   ros::Subscriber sub;
+  ros::Publisher pub_angle;
 
 public:
   IMU();
