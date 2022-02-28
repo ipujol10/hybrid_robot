@@ -2,8 +2,9 @@
 hybrid_robot/cmake-build-debug
 venv
 .idea
-./googletest
-./cmake-build-debug
+googletest
+*cmake-build-debug
+*build
 hybrid_jumping_robot/cmake-build-debug/gtest/googletest/
 
 hybrid_jumping_robot/cmake-build-debug/gtest/googlemock/
