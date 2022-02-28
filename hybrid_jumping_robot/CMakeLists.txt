@@ -30,9 +30,8 @@ include_directories(
         ${catkin_INCLUDE_DIRS}
 )
 
+set(CMAKE_CXX_STANDARD 17)
+
 add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(src)
 target_link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES})
-#target_link_libraries(${PROJECT_NAME} ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES})
-
-set(CMAKE_CXX_STANDARD 17)

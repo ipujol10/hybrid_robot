@@ -17,6 +17,7 @@ private:
   geometry_msgs::Vector3 orientation;
   time_t print_timer;
   time_t start_time;
+  ros::Subscriber sub;
 
 public:
   Hybrid_jumping_Robot(const std::string &name, Float64 velocity, Float64 wheelradii);

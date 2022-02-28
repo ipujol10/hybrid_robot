@@ -19,6 +19,7 @@ private:
 //  std::array<Float64, 9> linear_acceleration_covariance;
   int rate = 10;
   ros::NodeHandle nh;
+  ros::Subscriber sub;
 
 public:
   IMU();
