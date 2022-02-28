@@ -40,7 +40,7 @@ Float64 Mat::operator()(int i, int j) const {
 Mat Mat::operator+(const Mat &b) const {
   if (cols != b.cols || rows != b.rows) throw std::invalid_argument("The sizes of the matrix must match");
   std::vector<std::vector<Float64>> result;
-  result.resize(rows);
+  result.reserve(rows);
   for (int i = 0; i < rows; i++) {
     std::vector<Float64> vector;
     vector.reserve(cols);
