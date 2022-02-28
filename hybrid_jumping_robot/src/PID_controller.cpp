@@ -21,7 +21,7 @@ PID::PID( const std::string &name,Float64 target = M_PI/2, Float64 KP=0.2,Float6
 
 void PID::clear() {
     //Clears PID computations and coefficients
-    SetPoint = 0.0;
+//    SetPoint = 0.0;
 
     PTerm = 0.0;
     ITerm = 0.0;
@@ -117,7 +117,7 @@ void PID::setSampleTime(Float64 sample_t) {
 }
 
 
-int main(){
+int mainPID(){
 
     PID pid = PID("pid",0.2,0.001,0.01,0.5);
     pid.setWindup(20.0);
