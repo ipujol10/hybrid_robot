@@ -26,11 +26,11 @@ State_machine::State_machine(){
             state_sel = 1;
         }
         // velocity has to be reached to get from state 1 to state 2
-        if(Velocity >= 16.5){
-            state = 2;
+        if(state_sel == 1 && Velocity >= 16.5){
+            state_sel = 2;
         }
         // pitch has to above 0.7 and below 2.3 to go from state 2 to state 3
-        if(0.7 < Pitch < 2.3){
+        if(state_sel == 2 && 0.7 < Pitch < 2.3){
             state_sel = 3;
         }
         // when pitch of the robot has been between pi/2 +/-0.1 (1.57)
@@ -39,7 +39,7 @@ State_machine::State_machine(){
         }else{
             balancing_time = ros::Time();
         }
-        if (duration.toNSec() > balancing_time.toNSec() - ros::Time().toNSec()){
+        if (state_sel == 3 && duration.toNSec() > balancing_time.toNSec() - ros::Time().toNSec()){
             state_sel = 4;
         }
         // when jump velocity is acquired JUMP
@@ -59,42 +59,28 @@ void State_machine::callback_vel(const std_msgs::Float64 &data){
 
 void State_machine::States(int state){
     std_msgs::Int8 msg;
+    msg.data = state;
     switch (state) {
         case 0:
             ROS_INFO("Initial State");
-            msg.data = 0;
-            state_pub.publish(msg);
-            ros::spinOnce();
             break;
         case 1:
             ROS_INFO("4 Wheel Drive Mode");
-            msg.data = 1;
-            state_pub.publish(msg);
-            ros::spinOnce();
             break;
         case 2:
             ROS_INFO("4 Wheel Break Mode");
-            msg.data = 2;
-            state_pub.publish(msg);
-            ros::spinOnce();
             break;
         case 3:
             ROS_INFO("2 Wheel Stabilizing");
-            msg.data = 2;
-            state_pub.publish(msg);
-            ros::spinOnce();
             break;
         case 4:
             ROS_INFO("2 Wheel Drive");
-            msg.data = 2;
-            state_pub.publish(msg);
-            ros::spinOnce();
             break;
         case 5:
             ROS_INFO("Jump");
-            msg.data = 2;
-            state_pub.publish(msg);
-            ros::spinOnce();
             break;
+
     }
+    state_pub.publish(msg);
+    ros::spinOnce();
 }
