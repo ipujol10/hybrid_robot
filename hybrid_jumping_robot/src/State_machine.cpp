@@ -33,7 +33,7 @@ State_machine::State_machine(){
         if(state_sel == 2 && 0.7 < Pitch < 2.3){
             state_sel = 3;
         }
-        // when pitch of the robot has been between pi/2 +/-0.1 (1.57)
+        // when pitch of the robot has been between pi/2 +/-0.1 (1.57) and the robot has balanced for at least 10
         if(1.55 < Pitch < 1.59 ){
 
         }else{
