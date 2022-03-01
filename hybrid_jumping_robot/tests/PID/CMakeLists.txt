@@ -15,22 +15,6 @@ find_package(catkin REQUIRED COMPONENTS
     message_generation
     )
 
-#find_package(gazebo REQUIRED)
-
-#catkin_package(
-#    DEPENDS
-#    gazebo_ros
-#    controller_manager
-#    joint_state_controller
-#    robot_state_publisher
-#    CATKIN_DEPENDS rospy std_msgs sensor_msgs
-#)
-#
-#include_directories(
-#    # include
-#    ${catkin_INCLUDE_DIRS}
-#)
-
 set(SOURCE_FILES Simple_control.cpp Mat.cpp PID_tests.cpp)
 set(HEADER_FILES Simple_control.hpp Mat.hpp PID_tests.hpp)
 
