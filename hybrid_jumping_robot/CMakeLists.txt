@@ -46,3 +46,7 @@ find_library(PID_TEST_LIBRARY PID_Test HINTS /home/ipujol/AAU/S10/catkin_ws/src/
 add_subdirectory(tests)
 add_executable(Tests tests/Tests.cpp)
 target_link_libraries(Tests ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} ${PID_TEST_LIBRARY} Robot)
+
+add_subdirectory(nodes)
+add_executable(IMU_node nodes/IMU_node.cpp)
+target_link_libraries(IMU_node ${roscpp_LIBRARIES} Robot)
