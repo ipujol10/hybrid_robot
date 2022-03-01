@@ -1,4 +1,8 @@
-//
-// Created by woombat on 3/1/22.
-//
+#include "IMU_robot.hpp"
+#include <ros/ros.h>
 
+int main(int argc, char **argv) {
+    ros::init(argc, argv, "IMU_node");
+    ros::NodeHandle nh;
+    IMU imu;
+}
