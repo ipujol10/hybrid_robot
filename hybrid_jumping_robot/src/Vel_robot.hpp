@@ -33,9 +33,6 @@ private:
 private:
   static Float64 cap_PID_output(Float64 out, Float64 max = 10, Float64 min = -10);
 
-public:
-  Vel();
-
   void set_left_front_wheel_velocity(Float64 vel);
 
   void set_right_front_wheel_velocity(Float64 vel);
@@ -45,6 +42,11 @@ public:
   void velocity_callback(const std_msgs::Float64 &data);
 
   void now_vel_callback(const sensor_msgs::JointState &data);
+
+public:
+  Vel();
+
+  void loop();
 
   void update_target(Float64 target);
 };
