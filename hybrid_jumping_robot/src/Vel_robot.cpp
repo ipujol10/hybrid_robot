@@ -63,3 +63,12 @@ Float64 Vel::cap_PID_output(Float64 out, Float64 max, Float64 min) {
   if (out < min) return min;
   return out;
 }
+
+void Vel::loop() {
+  ros::spinOnce();
+  rate.sleep();
+  while(ros::ok()) {
+    ros::spinOnce();
+    rate.sleep();
+  }
+}
