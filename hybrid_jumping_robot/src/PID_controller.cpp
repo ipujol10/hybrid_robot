@@ -30,7 +30,7 @@ void PID::clear() {
 
     // Windup Guard
     Float64 int_error = 0.0;
-    windup_guard = 20.0;
+//    windup_guard = 20.0;
 
     Output = 0.0;
 }

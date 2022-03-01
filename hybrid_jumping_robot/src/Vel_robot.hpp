@@ -29,6 +29,7 @@ private:
   PID pid;
 
   Float64 now_velocity;
+  bool can_clear;
 
 private:
   static Float64 cap_PID_output(Float64 out, Float64 max = 10, Float64 min = -10);

@@ -6,7 +6,7 @@
     <!-- Gazebo specific options                              -->
     <!-- ==================================================== -->
     <arg name="gazebo_gui" default="true"/>
-    <arg name="paused" default="true"/>
+    <arg name="paused" default="false"/>
 
     <!-- ==================================================== -->
     <!-- Launch Gazebo with a world                           -->
@@ -38,6 +38,6 @@
 <!--    <node pkg="hybrid_jumping_robot" name="record" type="record_bag.sh"/>-->
     <node pkg="hybrid_jumping_robot" name="Vel_node" type="Vel_node" output="screen"/>
     <node pkg="hybrid_jumping_robot" name="IMU_node" type="IMU_node" output="screen"/>
-    <node pkg="hybrid_jumping_robot" name="IPD_node" type="IPD_node" output="screen"/>
+<!--     <node pkg="hybrid_jumping_robot" name="IPD_node" type="IPD_node" output="screen"/> -->
 
 </launch>
