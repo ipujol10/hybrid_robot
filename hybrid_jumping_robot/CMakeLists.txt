@@ -56,3 +56,24 @@ target_link_libraries(Vel_node ${roscpp_LIBRARIES} Robot)
 
 add_executable(IPD_node src/Inverted_pendulum_drive.cpp)
 target_link_libraries(IPD_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(2_wheel_drive_node nodes/2_wheel_drive_node.cpp)
+target_link_libraries(2_wheel_drive_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(2_wheel_stabilizing_node nodes/2_wheel_stabilizing_node.cpp)
+target_link_libraries(2_wheel_stabilizing_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(4_wheel_break_node nodes/4_wheel_break_node.cpp)
+target_link_libraries(4_wheel_break_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(4_wheel_drive_node nodes/4_wheel_drive_node.cpp)
+target_link_libraries(4_wheel_drive_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(Actuator_node nodes/Actuator_node.cpp)
+target_link_libraries(Actuator_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(Jump_node nodes/Jump_node.cpp)
+target_link_libraries(Jump_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(State_machine_node nodes/State_machine_node.cpp)
+target_link_libraries(State_machine_node ${roscpp_LIBRARIES} Robot)
