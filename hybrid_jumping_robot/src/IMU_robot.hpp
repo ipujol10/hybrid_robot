@@ -27,8 +27,6 @@ private:
 public:
   IMU();
 
-  void listener();
-
   void callback(const sensor_msgs::Imu &data);
 
 //  geometry_msgs::Quaternion get_quaternion();
