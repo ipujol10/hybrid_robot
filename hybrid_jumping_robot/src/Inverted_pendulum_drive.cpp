@@ -1,7 +1,3 @@
-//
-// Created by woombat on 2/24/22.
-//
-
 #include "Inverted_pendulum_drive.hpp"
 
 IPD::IPD(int argc, char **argv, std::string name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd ,Float64 sampletime){
