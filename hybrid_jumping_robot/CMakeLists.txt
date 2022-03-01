@@ -53,3 +53,6 @@ target_link_libraries(IMU_node ${roscpp_LIBRARIES} Robot)
 
 add_executable(Vel_node nodes/Vel_node.cpp)
 target_link_libraries(Vel_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(IPD_node src/Inverted_pendulum_drive.cpp)
+target_link_libraries(IPD_node ${roscpp_LIBRARIES} Robot)
