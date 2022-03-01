@@ -50,3 +50,6 @@ target_link_libraries(Tests ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} ${PID_TEST_L
 add_subdirectory(nodes)
 add_executable(IMU_node nodes/IMU_node.cpp)
 target_link_libraries(IMU_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(Vel_node nodes/Vel_node.cpp)
+target_link_libraries(Vel_node ${roscpp_LIBRARIES} Robot)

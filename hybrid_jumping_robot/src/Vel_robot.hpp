@@ -43,12 +43,12 @@ private:
 
   void now_vel_callback(const sensor_msgs::JointState &data);
 
-  void update_target(Float64 target);
-
 public:
   Vel();
 
   void loop();
+
+  void update_target(Float64 target);
 };
 
 
