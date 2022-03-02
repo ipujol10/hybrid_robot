@@ -116,6 +116,10 @@ void PID::setSampleTime(Float64 sample_t) {
     SampleTime = sample_t;
 }
 
+Float64 PID::get_target() {
+  return SetPoint;
+}
+
 
 int mainPID(){
 

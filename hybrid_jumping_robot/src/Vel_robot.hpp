@@ -50,6 +50,8 @@ public:
   void loop();
 
   void update_target(Float64 target);
+
+  Float64 get_pid_target();
 };
 
 
