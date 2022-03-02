@@ -40,29 +40,30 @@ void Vel::set_front_wheels_velocity(Float64 vel) {
 }
 
 void Vel::velocity_callback(const std_msgs::Float64 &data) {
-  update_target(data.data);
+//  update_target(data.data);
+  set_front_wheels_velocity(data.data);
   ros::spinOnce();
 }
 
 void Vel::now_vel_callback(const sensor_msgs::JointState &data) {
   now_velocity = (data.velocity[3] + data.velocity[4]) / 2;
   ROS_INFO_THROTTLE(0.5, "Velocity = % 0.4f", now_velocity);
-  if (abs(now_velocity) < 0.005) {
-    if (can_clear) {
-      ROS_ERROR("PID cleared");
-      pid.clear();
-      can_clear = false;
-    }
-  } else {
-    can_clear = true;
-  }
-  Float64 out;
-  if (get_pid_target() != 0) {
-    out = cap_PID_output(pid.update(now_velocity, ros::Time::now()), 1e0, -1e0);
-  } else {
-    out = cap_PID_output(pid.update(now_velocity, ros::Time::now()), 3, -3);
-  }
-  set_front_wheels_velocity(out);
+//  if (abs(now_velocity) < 0.005) {
+//    if (can_clear) {
+//      ROS_ERROR("PID cleared");
+//      pid.clear();
+//      can_clear = false;
+//    }
+//  } else {
+//    can_clear = true;
+//  }
+//  Float64 out;
+//  if (get_pid_target() != 0) {
+//    out = cap_PID_output(pid.update(now_velocity, ros::Time::now()), 1e0, -1e0);
+//  } else {
+//    out = cap_PID_output(pid.update(now_velocity, ros::Time::now()), 3, -3);
+//  }
+//  set_front_wheels_velocity(out);
   std_msgs::Float64 msg;
   msg.data = now_velocity;
   current_velocity_publisher.publish(msg);
