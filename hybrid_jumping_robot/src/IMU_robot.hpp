@@ -23,13 +23,14 @@ private:
   ros::NodeHandle nh;
   ros::Subscriber sub;
   ros::Publisher pub_angle;
+  ros::Rate loop_rate;
 
 public:
   IMU();
 
   void callback(const sensor_msgs::Imu &data);
 
-//  geometry_msgs::Quaternion get_quaternion();
+  void loop();
 
 
 };
