@@ -25,12 +25,10 @@ void IPD::loop() {
   while (ros::ok()) {
     std_msgs::Float64 data;
     auto velocity = pid.update(Pitch, ros::Time::now(), true, 30, -30);
-//    ROS_INFO_THROTTLE(0.5, "New velocity %f", velocity);
     data.data = velocity;
     inverted_vel_pub.publish(data);
     ros::spinOnce();
     rate.sleep();
-//        ros::Rate loop_rate(100);
   }
 }
 
