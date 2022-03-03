@@ -30,7 +30,7 @@ void PID::clear() {
 
     // Windup Guard
     Float64 int_error = 0.0;
-    windup_guard = 20.0;
+//    windup_guard = 20.0;
 
     Output = 0.0;
 }
@@ -114,6 +114,10 @@ void PID::setSampleTime(Float64 sample_t) {
 *  Based on a pre-determined sample time, the PID decides if it should compute or return immediately.
 */
     SampleTime = sample_t;
+}
+
+Float64 PID::get_target() {
+  return SetPoint;
 }
 
 

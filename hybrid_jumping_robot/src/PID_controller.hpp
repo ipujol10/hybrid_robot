@@ -27,6 +27,7 @@ public:
     void setTarget(Float64 target);
     void clear();
     Float64 update(Float64 feedback_value, ros::Time current_time);
+    Float64 get_target();
 
 
 private:

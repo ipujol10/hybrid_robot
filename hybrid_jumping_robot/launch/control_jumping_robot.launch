@@ -6,8 +6,8 @@
 
     <!-- load the controllers -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-          output="screen" ns="/hybrid_robotV0_2" args=" front_left_wheel_joint_effort_controller
-                                                        front_right_wheel_joint_effort_controller
+          output="screen" ns="/hybrid_robotV0_2" args=" front_left_wheel_joint_velocity_controller
+                                                        front_right_wheel_joint_velocity_controller
                                                         extension_base_joint_position_controller
                                                         joint_state_controller
                                                         "/>

@@ -5,4 +5,5 @@ int main(int argc, char **argv) {
   ros::init(argc, argv, "IMU_node");
   ros::NodeHandle nh;
   IMU imu;
+  imu.loop();
 }
