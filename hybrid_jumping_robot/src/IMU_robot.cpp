@@ -18,7 +18,7 @@ void IMU::loop() {
   while(ros::ok()){
     RPY rpy = conv::quaternion_to_rpy(quaternion);
     Float64 angle = conv::get_correct_pitch(rpy.pitch,rpy.roll);
-    ROS_INFO_THROTTLE(0.5, "Pitch=%0.4f", angle);
+//    ROS_INFO_THROTTLE(0.5, "Pitch=%0.4f", angle);
     std_msgs::Float64 msg;
     msg.data = angle;
     pub_angle.publish(msg);
