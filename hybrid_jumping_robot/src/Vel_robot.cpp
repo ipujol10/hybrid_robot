@@ -31,6 +31,7 @@ void Vel::set_right_front_wheel_velocity(Float64 vel) {
 }
 
 void Vel::set_front_wheels_velocity(Float64 vel) {
+  ROS_INFO_THROTTLE(0.5, "Sending velocity: % 0.6f", vel);
   std_msgs::Float64 msg;
   msg.data = vel;
   left_front_wheel_publisher.publish(msg);
@@ -42,7 +43,7 @@ void Vel::set_front_wheels_velocity(Float64 vel) {
 void Vel::velocity_callback(const std_msgs::Float64 &data) {
 //  update_target(data.data);
   set_front_wheels_velocity(data.data);
-  ros::spinOnce();
+//  ros::spinOnce();
 }
 
 void Vel::now_vel_callback(const sensor_msgs::JointState &data) {
@@ -67,8 +68,8 @@ void Vel::now_vel_callback(const sensor_msgs::JointState &data) {
   std_msgs::Float64 msg;
   msg.data = now_velocity;
   current_velocity_publisher.publish(msg);
-  rate.sleep();
-  ros::spinOnce();
+//  rate.sleep();
+//  ros::spinOnce();
 }
 
 void Vel::update_target(Float64 target) {
@@ -83,8 +84,8 @@ Float64 Vel::cap_PID_output(Float64 out, Float64 max, Float64 min) {
 }
 
 void Vel::loop() {
-  ros::spinOnce();
-  rate.sleep();
+//  ros::spinOnce();
+//  rate.sleep();
   while (ros::ok()) {
     ros::spinOnce();
     rate.sleep();

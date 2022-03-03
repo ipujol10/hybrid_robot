@@ -13,8 +13,6 @@ void IMU::callback(const sensor_msgs::Imu &data) {
 }
 
 void IMU::loop() {
-  ros::spinOnce();
-  loop_rate.sleep();
   while(ros::ok()){
     RPY rpy = conv::quaternion_to_rpy(quaternion);
     Float64 angle = conv::get_correct_pitch(rpy.pitch,rpy.roll);

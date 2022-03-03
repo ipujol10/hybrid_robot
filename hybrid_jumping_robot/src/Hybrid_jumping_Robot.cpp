@@ -15,7 +15,7 @@ void Hybrid_jumping_Robot::imu_callback(const sensor_msgs::Imu &data) {
   auto rpy = conv::quaternion_to_rpy(data.orientation);
   roll = rpy.roll;
   pitch = rpy.pitch;
-  ros::spinOnce();
+//  ros::spinOnce();
 }
 
 void Hybrid_jumping_Robot::move_robot(Float64 vel) {
