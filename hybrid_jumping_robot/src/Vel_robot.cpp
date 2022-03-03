@@ -48,7 +48,7 @@ void Vel::velocity_callback(const std_msgs::Float64 &data) {
 
 void Vel::now_vel_callback(const sensor_msgs::JointState &data) {
   now_velocity = (data.velocity[3] + data.velocity[4]) / 2;
-//  ROS_INFO_THROTTLE(0.5, "Current velocity = % 0.4f", now_velocity);
+//  ROS_INFO_THROTTLE(0.2, "Current velocity = % 0.6f", now_velocity);
 //  if (abs(now_velocity) < 0.005) {
 //    if (can_clear) {
 //      ROS_ERROR("PID cleared");

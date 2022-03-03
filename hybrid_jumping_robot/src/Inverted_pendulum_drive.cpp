@@ -24,7 +24,7 @@ void IPD::callbackPitch(const std_msgs::Float64 &data){
 void IPD::loop() {
   while (ros::ok()) {
     std_msgs::Float64 data;
-    auto velocity = pid.update(Pitch, ros::Time::now());
+    auto velocity = pid.update(Pitch, ros::Time::now(), true, 30, -30);
 //    ROS_INFO_THROTTLE(0.5, "New velocity %f", velocity);
     data.data = velocity;
     inverted_vel_pub.publish(data);
