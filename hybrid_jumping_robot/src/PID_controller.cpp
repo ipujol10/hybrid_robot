@@ -36,7 +36,7 @@ void PID::clear() {
 }
 
 
-Float64 PID::update(Float64 feedback_value, ros::Time current_time = ros::Time{0.0}) {
+Float64 PID::update(Float64 feedback_value, ros::Time current_time, bool limit, Float64 upper, Float64 lower) {
     //Calculates PID value for given reference feedback
 
     /*..math::
@@ -72,6 +72,11 @@ Float64 PID::update(Float64 feedback_value, ros::Time current_time = ros::Time{0
     LastError = error;
 
     Output = PTerm + (I * ITerm) + (D * DTerm);
+
+    if (limit) {
+      Output = range_limiter(Output, upper, lower);
+    }
+
     return Output;
 }
 
@@ -116,7 +121,7 @@ void PID::setSampleTime(Float64 sample_t) {
     SampleTime = sample_t;
 }
 
-Float64 PID::get_target() {
+Float64 PID::get_target() const {
   return SetPoint;
 }
 
@@ -129,4 +134,10 @@ int mainPID(){
 
     Float64 vel = pid.update(M_PI,ros::Time());
     return 0;
+}
+
+Float64 PID::range_limiter(Float64 input, Float64 upper, Float64 lower) {
+  if (input < lower) return lower;
+  if (input > upper) return upper;
+  return input;
 }

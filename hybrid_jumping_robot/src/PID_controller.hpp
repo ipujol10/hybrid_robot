@@ -26,8 +26,8 @@ public:
     void setWindup(Float64 windup);
     void setTarget(Float64 target);
     void clear();
-    Float64 update(Float64 feedback_value, ros::Time current_time);
-    Float64 get_target();
+    Float64 update(Float64 feedback_value, ros::Time current_time, bool limit = false, Float64 upper = 0, Float64 lower = 0);
+    [[nodiscard]] Float64 get_target() const;
 
 
 private:
@@ -48,6 +48,8 @@ private:
     Float64 Pitch;
     Float64 Roll;
 
+private:
+  static Float64 range_limiter(Float64 input, Float64 upper, Float64 lower);
 };
 
 

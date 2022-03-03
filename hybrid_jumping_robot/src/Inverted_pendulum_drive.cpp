@@ -39,7 +39,7 @@ void IPD::loop() {
 int main(int argc, char **argv){
     ros::init(argc, argv,"Inverted_pendulum_drive");
     ros::NodeHandle nh;
-    IPD ipd("pid", M_PI_2, 0.2, 0.001, 0.01, 1e-2);
+    IPD ipd("pid", M_PI_2, 50, 0.001, 0.01, 1e-2);
     ipd.loop();
     return 0;
 }
