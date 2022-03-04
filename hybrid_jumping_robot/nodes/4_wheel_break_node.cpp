@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
     ros::spinOnce();
     loop_rate.sleep();
     while(ros::ok()){
-        if(state == 1){
+        if(state == 2){
             std_msgs::Float64 data;
             data.data = 0.0;
             vel_pub.publish(data);
