@@ -16,8 +16,6 @@ private:
   ros::Publisher current_velocity_publisher;
   ros::Subscriber vel_sub;
   ros::Subscriber state_sub;
-//  std::string left_front_wheel_connection = "/hybrid_robotV0_2/front_left_wheel_joint_effort_controller/command";
-//  std::string right_front_wheel_connection = "/hybrid_robotV0_2/front_right_wheel_joint_effort_controller/command";
   std::string left_front_wheel_connection = "/hybrid_robotV0_2/front_left_wheel_joint_velocity_controller/command";
   std::string right_front_wheel_connection = "/hybrid_robotV0_2/front_right_wheel_joint_velocity_controller/command";
   std::string joint_state_connection = "/hybrid_robotV0_2/joint_states";

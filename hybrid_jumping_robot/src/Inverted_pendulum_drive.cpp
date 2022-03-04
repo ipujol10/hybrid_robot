@@ -20,13 +20,11 @@ void IPD::callbackPitch(const std_msgs::Float64 &data){
 void IPD::loop() {
   while (ros::ok()) {
     std_msgs::Float64 data;
-    auto velocity = pid.update(Pitch, ros::Time::now());
-//    ROS_INFO_THROTTLE(0.5, "New velocity %f", velocity);
+    auto velocity = pid.update(Pitch, ros::Time::now(), true, 30, -30);
     data.data = velocity;
     inverted_vel_pub.publish(data);
     ros::spinOnce();
     rate.sleep();
-//        ros::Rate loop_rate(100);
   }
 }
 
@@ -35,7 +33,7 @@ void IPD::loop() {
 int main(int argc, char **argv){
     ros::init(argc, argv,"Inverted_pendulum_drive");
     ros::NodeHandle nh;
-    IPD ipd("pid", M_PI_2, 0.2, 0.001, 0.01, 1e-2);
+    IPD ipd("pid", M_PI_2, 100, 5e0, 1e-4, 9.9e-3);
     ipd.loop();
     return 0;
 }

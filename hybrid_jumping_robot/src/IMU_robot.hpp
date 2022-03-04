@@ -14,12 +14,8 @@
 class IMU {
 private:
   geometry_msgs::Quaternion quaternion;
-//  std::array<Float64, 9> quaternion_covariance;
   geometry_msgs::Vector3 angular_velocity;
-//  std::array<Float64, 9> angular_velocity_covariance;
   geometry_msgs::Vector3 linear_acceleration;
-//  std::array<Float64, 9> linear_acceleration_covariance;
-  int rate = 10;
   ros::NodeHandle nh;
   ros::Subscriber sub;
   ros::Publisher pub_angle;
