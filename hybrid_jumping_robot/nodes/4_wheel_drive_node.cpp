@@ -3,14 +3,14 @@
 #include "std_msgs/Float64.h"
 int state;
 
-void callback(std_msgs::Int8 &data){
+void callback(const std_msgs::Int8 &data){
     state = data.data;
 }
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "4_wheel_drive_node");
     ros::NodeHandle nh;
-    ros::Subscriber state_sub = nh.subscribe("/HJC/State_machine/State", 1, &callback);
+    ros::Subscriber state_sub = nh.subscribe("/HJC/State_machine/State", 1, callback);
     ros::Publisher vel_pub = nh.advertise<std_msgs::Float64>("/HJC/Vel_robot/Set_velocity",10);
     ros::Rate loop_rate(280);
     ros::spinOnce();
