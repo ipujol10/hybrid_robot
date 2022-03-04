@@ -63,11 +63,11 @@ target_link_libraries(2_wheel_drive_node ${roscpp_LIBRARIES} Robot)
 add_executable(2_wheel_stabilizing_node nodes/2_wheel_stabilizing_node.cpp)
 target_link_libraries(2_wheel_stabilizing_node ${roscpp_LIBRARIES} Robot)
 
-add_executable(4_wheel_break_node nodes/4_wheel_break_node.cpp)
-target_link_libraries(4_wheel_break_node ${roscpp_LIBRARIES} Robot)
+add_executable(Wheel_4_break_node nodes/4_wheel_break_node.cpp)
+target_link_libraries(Wheel_4_break_node ${roscpp_LIBRARIES} Robot)
 
-add_executable(4_wheel_drive_node nodes/4_wheel_drive_node.cpp)
-target_link_libraries(4_wheel_drive_node ${roscpp_LIBRARIES} Robot)
+add_executable(Wheel_4_drive_node nodes/4_wheel_drive_node.cpp)
+target_link_libraries(Wheel_4_drive_node ${roscpp_LIBRARIES} Robot)
 
 add_executable(Actuator_node nodes/Actuator_node.cpp)
 target_link_libraries(Actuator_node ${roscpp_LIBRARIES} Robot)
