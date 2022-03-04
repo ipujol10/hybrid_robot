@@ -42,10 +42,10 @@ add_subdirectory(src)
 include_directories(src)
 target_link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES})
 
-find_library(PID_TEST_LIBRARY PID_Test HINTS /home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/tests/PID)
-add_subdirectory(tests)
-add_executable(Tests tests/Tests.cpp)
-target_link_libraries(Tests ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} ${PID_TEST_LIBRARY} Robot)
+#find_library(PID_TEST_LIBRARY PID_Test HINTS /home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/tests/PID)
+#add_subdirectory(tests)
+#add_executable(Tests tests/Tests.cpp)
+#target_link_libraries(Tests ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} ${PID_TEST_LIBRARY} Robot)
 
 add_subdirectory(nodes)
 add_executable(IMU_node nodes/IMU_node.cpp)
@@ -56,3 +56,24 @@ target_link_libraries(Vel_node ${roscpp_LIBRARIES} Robot)
 
 add_executable(IPD_node src/Inverted_pendulum_drive.cpp)
 target_link_libraries(IPD_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(2_wheel_drive_node nodes/2_wheel_drive_node.cpp)
+target_link_libraries(2_wheel_drive_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(2_wheel_stabilizing_node nodes/2_wheel_stabilizing_node.cpp)
+target_link_libraries(2_wheel_stabilizing_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(4_wheel_break_node nodes/4_wheel_break_node.cpp)
+target_link_libraries(4_wheel_break_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(4_wheel_drive_node nodes/4_wheel_drive_node.cpp)
+target_link_libraries(4_wheel_drive_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(Actuator_node nodes/Actuator_node.cpp)
+target_link_libraries(Actuator_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(Jump_node nodes/Jump_node.cpp)
+target_link_libraries(Jump_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(State_machine_node nodes/State_machine_node.cpp)
+target_link_libraries(State_machine_node ${roscpp_LIBRARIES} Robot)

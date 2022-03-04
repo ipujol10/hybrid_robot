@@ -1,7 +1,3 @@
-//
-// Created by woombat on 2/24/22.
-//
-
 #include "Inverted_pendulum_drive.hpp"
 #include <cmath>
 
