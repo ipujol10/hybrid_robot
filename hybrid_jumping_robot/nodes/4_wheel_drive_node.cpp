@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
     while(ros::ok()){
         if(state == 1){
             std_msgs::Float64 data;
-            data.data = 16.0;
+            data.data = -16.51;
             vel_pub.publish(data);
         }
         ros::spinOnce();
