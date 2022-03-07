@@ -35,7 +35,7 @@ State_machine::State_machine(): input("0"), state_change(true){
             state_change = true;
         }
         // pitch has to above 0.7 and below 2.3 to go from state 2 to state 3
-        if(state_sel == 2 && 0.7 < Pitch < 2.3){
+        if(state_sel == 2 && 0.7 < Pitch && Pitch < 2.3){
             state_sel = 3;
             state_change = true;
         }
