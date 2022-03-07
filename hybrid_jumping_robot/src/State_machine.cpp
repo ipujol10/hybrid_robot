@@ -32,7 +32,7 @@ State_machine::State_machine() : input("0"), state_change(true) {
       state_change = true;
     }
     // velocity has to be reached to get from state 1 to state 2
-    if (state_sel == 1 && Velocity <= -16.5) {
+    if (state_sel == 1 && Velocity <= -37) {
       state_sel = 2;
       state_change = true;
     }
