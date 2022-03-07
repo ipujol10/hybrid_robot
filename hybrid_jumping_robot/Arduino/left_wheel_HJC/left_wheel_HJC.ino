@@ -17,7 +17,7 @@ void setup() {
 
 void loop() {
 
-  if (0 < Serial1.available()) { // loop through all but the last
+  if (3 < Serial1.available()) { // loop through all but the last
     cmd = Serial1.readBytes(msg, 4);
     cmd = atoi(msg);
     Serial.print("commaded speed is ");
@@ -32,6 +32,7 @@ void loop() {
   else {
     stepper.setRPM(cmd);
   }
+  Serial1.print(stepper.getRPM())
   delay(1000);
 }
 
