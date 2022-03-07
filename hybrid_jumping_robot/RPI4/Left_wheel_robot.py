@@ -22,6 +22,7 @@ class Left_wheel_robot:
                                  )
 
     def loop(self):
+
         while not rospy.is_shutdown():
             if self.ser.in_waiting > 0:
                 try:
@@ -49,3 +50,4 @@ if __name__ == '__main__':
         left_wheel_robot.loop()
     except rospy.ROSInterruptException:
         print("fail")
+    print('finish')
