@@ -21,11 +21,8 @@ class Left_wheel_robot:
                                  bytesize=serial.EIGHTBITS
                                  )
 
-
     def loop(self):
         while not rospy.is_shutdown():
-            if self.ser.writable():
-                self.ser.write(self.set_velocity)
             if self.ser.in_waiting > 0:
                 try:
                     data = self.ser.read()
@@ -39,6 +36,8 @@ class Left_wheel_robot:
 
     def set_velocity_cb(self, data):
         self.set_velocity = data.data
+        if self.ser.writable():
+            self.ser.write(self.set_velocity)
 
     def close(self):
         self.ser.close()
