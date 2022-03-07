@@ -1,13 +1,12 @@
 #!/usr/bin/env python
-import time
 
 import rospy
 from std_msgs.msg import Float64
 import MPU9250
 import math
 
-class IMU:
 
+class IMU:
     acc = 0.0
     gyro = 0.0
     mag = 0.0
@@ -41,17 +40,15 @@ class IMU:
         accelX = acc['x']
         accelY = acc['y']
         accelZ = acc['z']
-        pitch = 180 * math.atan2(accelX, math.sqrt(accelY*accelY + accelZ*accelZ))/math.pi
-        roll = 180 * math.atan2(accelY, math.sqrt(accelX*accelX + accelZ*accelZ))/math.pi
+        pitch = 180 * math.atan2(accelX, math.sqrt(accelY * accelY + accelZ * accelZ)) / math.pi
+        roll = 180 * math.atan2(accelY, math.sqrt(accelX * accelX + accelZ * accelZ)) / math.pi
         return {"pitch": pitch, "roll": roll}
 
-
-    def calculateAngularVelocity(self,pitch,now):
+    def calculateAngularVelocity(self, pitch, now):
         pitch - self.oldPitch / now.secs - self.oldTime
         self.oldTime = now.secs
         self.oldPitch = pitch
         return {"pitchvel": pitch}
-
 
 
 if __name__ == '__main__':
@@ -59,6 +56,4 @@ if __name__ == '__main__':
     try:
         imu.loop()
     except rospy.ROSInterruptException:
-       print("fail")
-
-
+        print("fail")
