@@ -3,7 +3,6 @@
 IMU::IMU(): loop_rate(280) {
     sub = nh.subscribe("/imu", 1, &IMU::callback, this);
     pub_angle = nh.advertise<std_msgs::Float64>("/HJC/IMU/Pitch", 10);
-    ROS_ERROR("IMU OK");
 }
 
 void IMU::callback(const sensor_msgs::Imu &data) {

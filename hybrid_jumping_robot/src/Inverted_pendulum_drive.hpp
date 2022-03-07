@@ -20,10 +20,13 @@ private:
   std::string inverted_vel_connection = "/HJC/Vel_robot/Set_velocity";
   std::string inverted_pitch_connection = "/HJC/IMU/Pitch";
   ros::Rate rate;
+  bool active;
 
 public:
     IPD(const std::string& name ,Float64 target, Float64 Kp, Float64 Ki, Float64 Kd ,Float64 sampletime);
     void loop();
+    bool get_active();
+    void set_active(bool setting);
 
 private:
     void callbackPitch(const std_msgs::Float64 &data);

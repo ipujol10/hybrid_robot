@@ -11,7 +11,6 @@ Vel::Vel() : rate(100), pid("wheels", 0, 0.1, 1e-9, 1e-7, 0.01, ros::Time::now()
   current_velocity_publisher = nh.advertise<std_msgs::Float64>(current_velocity_connection, 1);
   vel_sub = nh.subscribe(commanded_velocity_connection, 1, &Vel::velocity_callback, this);
   state_sub = nh.subscribe(joint_state_connection, 1, &Vel::now_vel_callback, this);
-  ROS_ERROR("Velocity OK");
 }
 
 void Vel::set_left_front_wheel_velocity(Float64 vel) {

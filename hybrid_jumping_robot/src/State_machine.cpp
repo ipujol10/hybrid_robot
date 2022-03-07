@@ -32,7 +32,7 @@ State_machine::State_machine() : input("0"), state_change(true) {
       state_change = true;
     }
     // velocity has to be reached to get from state 1 to state 2
-    if (state_sel == 1 && Velocity <= -37) {
+    if (state_sel == 1 && Velocity <= -38) {
       state_sel = 2;
       state_change = true;
     }
@@ -42,20 +42,20 @@ State_machine::State_machine() : input("0"), state_change(true) {
       state_change = true;
     }
     // when pitch of the robot has been between pi/2 +/-0.1 (1.57) and the robot has balanced for at least 10
-    if (1.55 < Pitch < 1.59) {
-
-    } else {
-      balancing_time = ros::Time();
-    }
-    if (state_sel == 3 && duration.toNSec() > balancing_time.toNSec() - ros::Time().toNSec()) {
-      state_sel = 4;
-      state_change = true;
-    }
-    // when jump velocity is acquired JUMP
-    if (state_sel == 4 && Velocity >= 6.5) {
-      state_sel = 5;
-      state_change = true;
-    }
+//    if (1.55 < Pitch && Pitch< 1.59) {
+//
+//    } else {
+//      balancing_time = ros::Time();
+//    }
+//    if (state_sel == 3 && duration.toNSec() > (balancing_time.toNSec() - ros::Time().toNSec())) {
+//      state_sel = 4;
+//      state_change = true;
+//    }
+//    // when jump velocity is acquired JUMP
+//    if (state_sel == 4 && Velocity >= 6.5) {
+//      state_sel = 5;
+//      state_change = true;
+//    }
     State_machine::States(state_sel);
   }
 }

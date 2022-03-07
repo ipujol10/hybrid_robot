@@ -2,7 +2,7 @@
 #include <cmath>
 
 IPD::IPD(const std::string& name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd ,Float64 sampletime):
-        pid(name, target, Kp, Ki, Kd, sampletime, ros::Time::now()), rate(100) {
+        pid(name, target, Kp, Ki, Kd, sampletime, ros::Time::now()), rate(100), active(false) {
     ros::NodeHandle nh;
 //    inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1000);
     inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
@@ -18,7 +18,7 @@ void IPD::callbackPitch(const std_msgs::Float64 &data){
 
 
 void IPD::loop() {
-  while (ros::ok()) {
+  while (active) {
     std_msgs::Float64 data;
     auto velocity = pid.update(Pitch, ros::Time::now(), true, 30, -30);
     data.data = velocity;
@@ -26,6 +26,14 @@ void IPD::loop() {
     ros::spinOnce();
     rate.sleep();
   }
+}
+
+bool IPD::get_active() {
+  return active;
+}
+
+void IPD::set_active(bool setting) {
+  active = setting;
 }
 
 
