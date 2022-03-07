@@ -21,6 +21,7 @@ class Left_wheel_robot:
                                  bytesize=serial.EIGHTBITS
                                  )
 
+
     def loop(self):
         while not rospy.is_shutdown():
             if self.ser.writable():
