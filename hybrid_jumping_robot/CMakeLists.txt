@@ -48,14 +48,15 @@ target_link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARI
 #target_link_libraries(Tests ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} ${PID_TEST_LIBRARY} Robot)
 
 add_subdirectory(nodes)
+include_directories(nodes)
 add_executable(IMU_node nodes/IMU_node.cpp)
 target_link_libraries(IMU_node ${roscpp_LIBRARIES} Robot)
 
 add_executable(Vel_node nodes/Vel_node.cpp)
 target_link_libraries(Vel_node ${roscpp_LIBRARIES} Robot)
 
-#add_executable(IPD_node src/Inverted_pendulum_drive.cpp)
-#target_link_libraries(IPD_node ${roscpp_LIBRARIES} Robot)
+add_executable(IPD_node nodes/IPD_node.cpp)
+target_link_libraries(IPD_node ${roscpp_LIBRARIES} Robot)
 
 add_executable(Wheel_2_drive_node nodes/2_wheel_drive_node.cpp)
 target_link_libraries(Wheel_2_drive_node ${roscpp_LIBRARIES} Robot)
