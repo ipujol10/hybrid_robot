@@ -25,6 +25,7 @@ private:
     ros::Subscriber imu_sub;
     ros::Subscriber vel_sub;
     ros::Subscriber state_machine_input;
+    ros::Publisher state_machine_output;
     ros::Publisher state_pub;
     
     ros::Time balancing_time;
