@@ -5,7 +5,7 @@
 #define MAXVELOCITY 1500      //Max velocity = 1500 steps/s
 
 uStepperS stepper;
-int cmd = 0;
+String cmd = "0";
 char msg[4];
 void setup() {
   // put your setup code here, to run once:
@@ -17,23 +17,24 @@ void setup() {
 
 void loop() {
 
-  if (3 < Serial1.available()) { // loop through all but the last
-    cmd = Serial1.readBytes(msg, 4);
-    cmd = atoi(msg);
+  if (1 < Serial1.available()) { // loop through all but the last
+    cmd = Serial1.readStringUntil('\n');//(msg, 4);
+    //cmd = atoi(msg);
     Serial.print("commaded speed is ");
     Serial.println(cmd);
-
+    Serial1.println("data received");
+    Serial1.println(cmd);
   }
 
-  if ((cmd == 0)) //Stop
+  if ((cmd == "0")) //Stop
   {
     stepper.stop();
   }
   else {
-    stepper.setRPM(cmd);
+    stepper.setRPM(cmd.toInt());
   }
 
-  Serial1.print("stepper.getRPM()");
+  Serial1.println("stepper.getRPM()");
   delay(1000);
 }
 

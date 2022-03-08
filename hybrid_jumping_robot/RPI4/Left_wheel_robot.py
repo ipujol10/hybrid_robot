@@ -16,8 +16,9 @@ class Left_wheel_robot:
         self.sub_set_velocity = rospy.Subscriber('/HJC/Vel_robot/Set_velocity', Float64, self.set_velocity_cb)
         self.pub_current_velocity = rospy.Publisher('/HJC/Vel_robot/Current_velocity', Float64, queue_size=1)
         # /dev/ttyAMA4 is on gpio pin 8 TX 9 RX pin on rpi is 24 & 21
+        # /dev/ttyAMA0 is on gpio pin 14 TX 15 RX pi
         # https://datasheets.raspberrypi.com/rpi4/raspberry-pi-4-datasheet.pdf
-        self.ser = serial.Serial('/dev/ttyAMA4', baudrate=9600,
+        self.ser = serial.Serial('/dev/ttyAMA0', baudrate=9600,
                                  parity=serial.PARITY_NONE,
                                  stopbits=serial.STOPBITS_ONE,
                                  bytesize=serial.EIGHTBITS
@@ -28,6 +29,7 @@ class Left_wheel_robot:
 
         while not rospy.is_shutdown():
             if self.ser.in_waiting > 0:
+                print("got data")
                 try:
                     data = self.ser.read()
                     print(data)
@@ -35,14 +37,16 @@ class Left_wheel_robot:
                     print("Exiting Program")
                 except:
                     print("Error Occurs, Exiting Program")
-        self.rate.sleep()
+            self.rate.sleep()
 
         self.ser.close()
 
     def set_velocity_cb(self, data):
         self.set_velocity = data.data
+
         if self.ser.writable():
-            self.ser.write(self.set_velocity)
+            print("sending data")
+            self.ser.write(bytes(int(self.set_velocity)))
 
     def close(self):
         self.ser.close()
