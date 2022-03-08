@@ -13,6 +13,6 @@ int main(int argc, char **argv) {
   ros::NodeHandle nh;
   ros::Subscriber state_sub = nh.subscribe("/HJC/State_machine/State", 1, callback);
   ros::Rate loop_rate(280);
-  IPD ipd("stabilizing", M_PI_2, 25, 0e0, 0e-4, 9.9e-3, 3);
+  IPD ipd("stabilizing", M_PI_2, 27, 0, 5.5e-1, 9.9e-3, 3);
   ipd.loop();
 }
