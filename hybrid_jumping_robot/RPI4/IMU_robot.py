@@ -16,16 +16,16 @@ class IMU:
 
     def __init__(self, name):
         rospy.init_node(name, anonymous=True)
-        self.rate = rospy.Rate(280)
+        self.rate = rospy.Rate(500)
         self.pubPitch = rospy.Publisher('/HJC/IMU/Pitch', Float64, queue_size=1)
         self.pubAngVel = rospy.Publisher('/HJC/IMU/AngularVelocity', Float64, queue_size=1)
         self.mpu = MPU9250.MPU9250()
-        self.mpu.configMPU9250(MPU9250.GFS_250, MPU9250.AFS_16G)
+        self.mpu.configMPU9250(MPU9250.GFS_2000, MPU9250.AFS_2G)
         self.mpu.configAK8963(MPU9250.AK8963_BIT_14, 1)
 
     def loop(self):
         while not rospy.is_shutdown():
-            self.rate.sleep()
+
             if self.mpu.checkDataReady():
                 self.acc = self.mpu.readAccel()
                 self.gyro = self.mpu.readGyro()
@@ -35,6 +35,7 @@ class IMU:
                 self.pubPitch.publish(Float64(roll_pitch['pitch']))
                 rospy.loginfo_throttle(1, roll_pitch['pitch'])
                 self.pubAngVel.publish(Float64(self.calculateAngularVelocity(roll_pitch['pitch'], rospy.get_rostime())))
+                self.rate.sleep()
 
     def calculateOriantation(self, acc):
         accelX = acc['x']

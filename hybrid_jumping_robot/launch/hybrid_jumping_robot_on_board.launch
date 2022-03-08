@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+     <node pkg="mpu" name="Hybrid_jumping_Robot_imu" type="IMU_robot.py" output="screen"/>
+    <node pkg="mpu" name="Hybrid_jumping_Robot_vel" type="Left_wheel_robot.py" output="screen"/>
+
+</launch>

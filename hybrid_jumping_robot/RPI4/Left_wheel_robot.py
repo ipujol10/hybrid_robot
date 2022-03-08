@@ -35,6 +35,7 @@ class Left_wheel_robot:
                     print("Exiting Program")
                 except:
                     print("Error Occurs, Exiting Program")
+        self.rate.sleep()
 
         self.ser.close()
 
