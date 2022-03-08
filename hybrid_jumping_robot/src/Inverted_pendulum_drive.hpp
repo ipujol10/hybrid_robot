@@ -26,7 +26,7 @@ private:
   bool active;
 
 public:
-    IPD(const std::string& name ,Float64 target, Float64 Kp, Float64 Ki, Float64 Kd ,Float64 sampletime, int state = -1);
+    IPD(const std::string& name , Float64 target, Float64 Kp, Float64 Ki, Float64 Kd , Float64 sample_time, int state = -1);
     void loop();
 
 private:

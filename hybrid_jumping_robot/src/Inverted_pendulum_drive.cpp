@@ -1,8 +1,8 @@
 #include "Inverted_pendulum_drive.hpp"
 #include <cmath>
 
-IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sampletime, int state) :
-    pid(name, target, Kp, Ki, Kd, sampletime, ros::Time::now()), rate(100), state(state) {
+IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time, int state) :
+    pid(name, target, Kp, Ki, Kd, sample_time, ros::Time::now()), rate(100), state(state) {
   ros::NodeHandle nh;
 //    inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1000);
   inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
