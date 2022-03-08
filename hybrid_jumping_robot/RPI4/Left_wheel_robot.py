@@ -15,11 +15,14 @@ class Left_wheel_robot:
         self.rate = rospy.Rate(280)
         self.sub_set_velocity = rospy.Subscriber('/HJC/Vel_robot/Set_velocity', Float64, self.set_velocity_cb)
         self.pub_current_velocity = rospy.Publisher('/HJC/Vel_robot/Current_velocity', Float64, queue_size=1)
-        self.ser = serial.Serial('/dev/ttyAMA*****', baudrate=9600,
+        # /dev/ttyAMA4 is on gpio pin 8 TX 9 RX pin on rpi is 24 & 21
+        # https://datasheets.raspberrypi.com/rpi4/raspberry-pi-4-datasheet.pdf
+        self.ser = serial.Serial('/dev/ttyAMA4', baudrate=9600,
                                  parity=serial.PARITY_NONE,
                                  stopbits=serial.STOPBITS_ONE,
                                  bytesize=serial.EIGHTBITS
                                  )
+        self.ser.flush()
 
     def loop(self):
 

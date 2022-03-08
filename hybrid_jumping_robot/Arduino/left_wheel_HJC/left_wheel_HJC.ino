@@ -32,7 +32,8 @@ void loop() {
   else {
     stepper.setRPM(cmd);
   }
-  Serial1.print(stepper.getRPM())
+
+  Serial1.print("stepper.getRPM()");
   delay(1000);
 }
 

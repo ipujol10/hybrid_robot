@@ -1,5 +1,6 @@
 #include <uStepperS.h>
 #include <Wire.h>
+#include <Arduino.h>
 
 #define DEBUG true
 #define MAXACCELERATION 1500  //Max acceleration = 1500 Steps/s^2
