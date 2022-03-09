@@ -1,6 +1,6 @@
 #include <ros/ros.h>
-#include "std_msgs/Int8.h"
-#include "std_msgs/Float64.h"
+#include <std_msgs/Int8.h>
+#include <std_msgs/Float64.h>
 int state;
 
 void callback(const std_msgs::Int8 &data){
@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
     while(ros::ok()){
         if(state == 1){
             std_msgs::Float64 data;
-            data.data = 16.0;
+            data.data = -35;
             vel_pub.publish(data);
         }
         ros::spinOnce();
