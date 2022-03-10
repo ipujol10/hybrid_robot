@@ -18,7 +18,7 @@ class Left_wheel_robot:
         # /dev/ttyAMA4 is on gpio pin 8 TX 9 RX pin on rpi is 24 & 21
         # /dev/ttyAMA0 is on gpio pin 14 TX 15 RX pi
         # https://datasheets.raspberrypi.com/rpi4/raspberry-pi-4-datasheet.pdf
-        self.ser = serial.Serial('/dev/ttyAMA0', baudrate=9600,
+        self.ser = serial.Serial('/dev/ttyAMA0', baudrate=115200,
                                  parity=serial.PARITY_NONE,
                                  stopbits=serial.STOPBITS_ONE,
                                  bytesize=serial.EIGHTBITS
@@ -46,7 +46,9 @@ class Left_wheel_robot:
 
         if self.ser.writable():
             print("sending data")
-            self.ser.write(bytes(int(self.set_velocity)))
+            print("{} ............{}".format(self.set_velocity, bytes(int(self.set_velocity))))
+            self.ser.write(str(self.set_velocity)+'\n')
+
 
     def close(self):
         self.ser.close()
