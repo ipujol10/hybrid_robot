@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import time
 
 import rospy
 from std_msgs.msg import Float64
@@ -29,10 +30,10 @@ class Left_wheel_robot:
 
         while not rospy.is_shutdown():
             if self.ser.in_waiting > 0:
-                print("got data")
                 try:
-                    data = self.ser.read()
-                    print(data)
+                    data = self.ser.readline()
+
+                    self.pub_current_velocity.publish(Float64(float(data)))
                 except KeyboardInterrupt:
                     print("Exiting Program")
                 except:
@@ -45,8 +46,6 @@ class Left_wheel_robot:
         self.set_velocity = data.data
 
         if self.ser.writable():
-            print("sending data")
-            print("{} ............{}".format(self.set_velocity, bytes(int(self.set_velocity))))
             self.ser.write(str(self.set_velocity)+'\n')
 
 
