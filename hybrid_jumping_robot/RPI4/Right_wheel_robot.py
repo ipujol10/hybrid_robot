@@ -7,7 +7,7 @@ import math
 import serial
 
 
-class Left_wheel_robot:
+class Right_wheel_robot:
     set_velocity = 0.0
     current_velocity = 0.0
 
@@ -16,10 +16,10 @@ class Left_wheel_robot:
         self.rate = rospy.Rate(280)
         self.sub_set_velocity = rospy.Subscriber('/HJC/Vel_robot/Set_velocity', Float64, self.set_velocity_cb)
         self.pub_current_velocity = rospy.Publisher('/HJC/Vel_robot/Current_velocity', Float64, queue_size=1)
-        # /dev/ttyAMA4 is on gpio pin 8 TX 9 RX pin on rpi is 24 & 21
+        # /dev/ttyAMA3 is on gpio pin 8 TX 9 RX pin on rpi is 24 & 21
         # /dev/ttyAMA0 is on gpio pin 14 TX 15 RX pi
         # https://datasheets.raspberrypi.com/rpi4/raspberry-pi-4-datasheet.pdf
-        self.ser = serial.Serial('/dev/ttyAMA1', baudrate=115200,
+        self.ser = serial.Serial('/dev/ttyAMA3', baudrate=115200,
                                  parity=serial.PARITY_NONE,
                                  stopbits=serial.STOPBITS_ONE,
                                  bytesize=serial.EIGHTBITS
@@ -54,9 +54,9 @@ class Left_wheel_robot:
 
 
 if __name__ == '__main__':
-    left_wheel_robot = Left_wheel_robot('John')
+    right_wheel_robot = Right_wheel_robot('John')
     try:
-        left_wheel_robot.loop()
+        right_wheel_robot.loop()
     except rospy.ROSInterruptException:
         print("fail")
     print('finish')
