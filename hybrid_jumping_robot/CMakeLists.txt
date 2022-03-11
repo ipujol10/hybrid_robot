@@ -21,6 +21,8 @@ find_package(catkin REQUIRED COMPONENTS
 # Depend on system install of Gazebo
 find_package(gazebo REQUIRED)
 
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+
 catkin_package(
     DEPENDS
         gazebo_ros
@@ -40,7 +42,7 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(src)
 include_directories(src)
-target_link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} Eigen3::Eigen)
 
 #find_library(PID_TEST_LIBRARY PID_Test HINTS /home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/tests/PID)
 #add_subdirectory(tests)
