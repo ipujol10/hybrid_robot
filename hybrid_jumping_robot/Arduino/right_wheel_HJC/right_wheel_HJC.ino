@@ -11,7 +11,11 @@ void setup() {
     // put your setup code here, to run once:
     stepper.setup();
     stepper.runContinous(CW);
+    //Serial is starting communciation on UART0
+    //Serial is used for debugging purpose
     Serial.begin(115200);
+    //Serial1 is starting communciation on UART1
+    //Serial1 is used for communicating with the raspberry
     Serial1.begin(115200);
 }
 
