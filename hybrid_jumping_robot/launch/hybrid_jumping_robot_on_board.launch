@@ -3,6 +3,6 @@
 <launch>
 
      <node pkg="mpu" name="Hybrid_jumping_Robot_imu" type="IMU_robot.py" output="screen"/>
-     <node pkg="mpu" name="Hybrid_jumping_Robot_vel" type="Left_wheel_robot.py" output="screen"/>
-
+     <node pkg="mpu" name="Hybrid_jumping_Robot_vel_left" type="Left_wheel_robot.py" output="screen"/>
+     <node pkg="mpu" name="Hybrid_jumping_Robot_vel_right" type="Right_wheel_robot.py" output="screen"/>
 </launch>
