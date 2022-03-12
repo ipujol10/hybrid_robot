@@ -2,8 +2,12 @@
 
 void setup() {
   
-  Serial.begin(9600);
-  Serial3.begin(9600);
+  //Serial is starting communciation on UART0
+    //Serial is used for debugging purpose
+    Serial.begin(115200);
+    //Serial3 is starting communciation on UART1
+    //Serial3 is used for communicating with the ustepper
+    Serial3.begin(115200);
 }
 
 byte x = 0;
