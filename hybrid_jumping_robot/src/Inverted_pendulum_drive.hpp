@@ -1,21 +1,23 @@
 //
 // Created by woombat on 2/24/22.
 //
+#ifndef HYBRID_JUMPING_ROBOT_INVERTED_PENDULUM__HPP
+#define HYBRID_JUMPING_ROBOT_INVERTED_PENDULUM__HPP
+
 #include "PID_controller.hpp"
+#include "Types.hpp"
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Float64.h>
 #include <std_msgs/Int8.h>
 #include <string>
-
-#include "Types.hpp"
-#ifndef HYBRID_JUMPING_ROBOT_INVERTED_PENDULUM__HPP
-#define HYBRID_JUMPING_ROBOT_INVERTED_PENDULUM__HPP
+//#include <acado_toolkit.hpp>
 
 
 class IPD {
 private:
   PID pid;
+//  ACADO::LinearStateFeedback lqr;
   ros::Publisher inverted_vel_pub;
   ros::Subscriber inverted_pitch_sub;
   ros::Subscriber state_sub;
