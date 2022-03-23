@@ -39,8 +39,8 @@ void setup() {
                 true,
                 0,
                 80,
-                50);
-  stepper.runContinous(CW);
+                80);
+  stepper.runContinous(CCW);
   stepper.setMaxDeceleration(10000.0);//float
   /**
      @brief
@@ -69,34 +69,22 @@ void setup() {
 
 void loop() {
 
-//  if (1 < Serial1.available())
-//  {
-//    cmd = Serial.readStringUntil('\n');
-//    Serial.print("commaded speed is ");
-//    Serial.println(cmd);
-//    Serial.flush();
-//  }
-  if (0 < Serial.available())
-    { //value = Serial.readStringUntil('\n');
-          //Read angle argument from serial
-    int v = Serial.parseInt();
-   
-    servo.write(v);             //Write angle to servo object
-    servo.write(v);
-    Serial.println(v);
-
-    
-    }
-
+  if (1 < Serial1.available())
+  {
+    cmd = Serial1.readStringUntil('\n');
+    Serial.print("commaded speed is ");
+    Serial.println(cmd);
+    Serial.flush();
+  }
 
   if ((cmd == "0")) //Stop
   {
     stepper.stop();
-    //servo.write(BREAK_ANGLE);
+    servo.write(BREAK_ANGLE);
   }
   else {
     stepper.setRPM(cmd.toInt());
-    //servo.write(BREAK_RELAESE_ANGLE);
+    servo.write(BREAK_RELAESE_ANGLE);
   }
   Serial1.println(stepper.encoder.getRPM());
   delay(5);
