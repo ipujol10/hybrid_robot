@@ -43,12 +43,26 @@ public:
   /// \return the inertia
   [[nodiscard]] Float64 calculate_Iw() const;
 
+  /// Obtain the torque needed to make it stable
+  /// \param theta the angle of the body
+  /// \return torque-tau
   [[nodiscard]] Float64 tau(Float64 theta) const;
 
+  /// Obtain the friction force to make it stable
+  /// \param param the input value
+  /// \param theta true: the parameter is theta. Else: the parameter is tau
+  /// \return friction force
   [[nodiscard]] Float64 friction_force(Float64 param, bool theta = true) const;
 
+  /// the first value on the linearized model
+  /// \param theta angle of the body
+  /// \param phi2 angular acceleration of the wheels
+  /// \return the value
   [[nodiscard]] Float64 a(Float64 theta, Float64 phi2) const;
 
+  /// the control value on the linearized model
+  /// \param theta angle of the body
+  /// \return the value
   [[nodiscard]] Float64 b(Float64 theta) const;
 };
 
