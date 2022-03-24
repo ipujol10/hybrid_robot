@@ -34,3 +34,16 @@ Float64 knm::f1(Float64 theta, Float64 phi2) const {
   auto term3 = mb * pow(d, 2) + Ib;
   return (term1 - term2) / term3;
 }
+
+Float64 knm::a(Float64 theta, Float64 phi2) const {
+  auto term1 = R * d * mb * cos(theta) * phi2;
+  auto term2 = d * g * mb * sin(theta);
+  auto term3 = mb * pow(d, 2) + Ib;
+  return (term1 + term2) / term3;
+}
+
+Float64 knm::b(Float64 theta) const {
+  auto term1 = R * d * mb * sin(theta);
+  auto term2 = mb * pow(d, 2) + Ib;
+  return term1 / term2;
+}

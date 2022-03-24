@@ -46,6 +46,10 @@ public:
   [[nodiscard]] Float64 tau(Float64 theta) const;
 
   [[nodiscard]] Float64 friction_force(Float64 param, bool theta = true) const;
+
+  [[nodiscard]] Float64 a(Float64 theta, Float64 phi2) const;
+
+  [[nodiscard]] Float64 b(Float64 theta) const;
 };
 
 
