@@ -15,6 +15,7 @@ private:
   Float64 mw; //!< mass of the wheels
   Float64 mT; //!< total mass of the robot
   Float64 Iw; //!< inertia of the wheel
+  Float64 Ib; //!< inertia of the body
 
 public:
   /// Initialize the kinematics
@@ -22,13 +23,14 @@ public:
   /// \param d distance from the wheel center to the center of mass of the body
   /// \param mb mass of the body
   /// \param mw mass of the wheels
-  knm(Float64 R, Float64 d, Float64 mb, Float64 mw);
+  /// \param Ib the inertia of the body
+  knm(Float64 R, Float64 d, Float64 mb, Float64 mw, Float64 Ib);
 
   /// The function describing the second derivative of the body angle (theta) or the angular acceleration
   /// \param theta the state theta on the work
   /// \param phi2 the state phi2 on the work
   /// \return the value of the theta2
-  Float64 f1(Float64 theta, Float64 phi2);
+  [[nodiscard]] Float64 f1(Float64 theta, Float64 phi2) const;
 
   ///
   /// \param theta the state theta on the work
