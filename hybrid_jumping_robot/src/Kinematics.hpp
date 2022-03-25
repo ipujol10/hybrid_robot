@@ -7,7 +7,7 @@
 #define g 9.81
 #endif //g
 
-class knm {
+class KNM {
 private:
   Float64 R; //!< radius of the wheel
   Float64 d; //!< distance from the wheel center to the center of mass of the body
@@ -24,8 +24,11 @@ public:
   /// \param mb mass of the body
   /// \param mw mass of the wheels
   /// \param Ib the inertia of the body
-  knm(Float64 R, Float64 d, Float64 mb, Float64 mw, Float64 Ib);
+  KNM(Float64 R, Float64 d, Float64 mb, Float64 mw, Float64 Ib);
 
+  KNM();
+
+private:
   /// The function describing the second derivative of the body angle (theta) or the angular acceleration
   /// \param theta the state theta on the work
   /// \param phi2 the state phi2 on the work
@@ -54,6 +57,7 @@ public:
   /// \return friction force
   [[nodiscard]] Float64 friction_force(Float64 param, bool theta = true) const;
 
+public:
   /// the first value on the linearized model
   /// \param theta angle of the body
   /// \param phi2 angular acceleration of the wheels
