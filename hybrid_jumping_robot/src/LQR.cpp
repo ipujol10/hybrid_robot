@@ -4,7 +4,7 @@
 LQR::LQR() = default;
 
 LQR::LQR(Float64 d, Float64 rad, Float64 mw, Float64 mb, Float64 Ib, Float64 point,
-         int qs, int rs) : kinematics(rad, d, mb, mw, Ib), qs(qs), rs(rs), Q(qs, qs), R(rs, rs) {
+         int qs, int rs) : kinematics(rad, d, mb, mw, Ib), xs(qs), us(rs), Q(qs, qs), R(rs, rs) {
   A = get_A(point);
   B = get_B(point);
 }
@@ -26,21 +26,21 @@ ACADO::DMatrix LQR::get_B(Float64 theta) const {
 }
 
 void LQR::set_Q(const std::vector<Float64> &costs) {
-  if (costs.size() != qs) {
+  if (costs.size() != xs) {
     throw std::invalid_argument("The costs values don't match the number of states");
   }
 
-  for (int i = 0; i < qs; i++) {
+  for (int i = 0; i < xs; i++) {
     Q(i, i) = costs.at(i);
   }
 }
 
 void LQR::set_R(const std::vector<Float64> &costs) {
-  if (costs.size() != rs) {
+  if (costs.size() != us) {
     throw std::invalid_argument("The costs values don't match the number of inputs");
   }
 
-  for (int i = 0; i < rs; i++) {
+  for (int i = 0; i < us; i++) {
     R(i, i) = costs.at(i);
   }
 }

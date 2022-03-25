@@ -13,8 +13,8 @@ private:
   ACADO::DMatrix Q; //!< Cost on the states
   ACADO::DMatrix R; //!< Cost on the inputs
   KNM kinematics; //!< kinematics of the system
-  int qs;
-  int rs;
+  int xs; //!< number of states
+  int us; //!< number of inputs
 
 public:
   LQR();
