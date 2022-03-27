@@ -1,15 +1,16 @@
 #include "LQR.hpp"
-#include <exception>
+//#include <exception>
 
 LQR::LQR() = default;
 
 LQR::LQR(Float64 d, Float64 rad, Float64 mw, Float64 mb, Float64 Ib, Float64 point,
-         int qs, int rs) : kinematics(rad, d, mb, mw, Ib), xs(qs), us(rs), Q(qs, qs), R(rs, rs) {
-  A = get_A(point);
-  B = get_B(point);
+         int qs, int rs) : xs(qs), us(rs), Q(qs, qs), R(rs, rs) {
+  KNM kinematics(rad, d, mb, mw, Ib);
+  A = get_A(point, kinematics);
+  B = get_B(point, kinematics);
 }
 
-ACADO::DMatrix LQR::get_A(Float64 theta) const {
+ACADO::DMatrix LQR::get_A(Float64 theta, const KNM &kinematics) const {
   ACADO::DMatrix mat(2, 2);
   mat(0, 0) = 0;
   mat(0, 1) = 1;
@@ -18,7 +19,7 @@ ACADO::DMatrix LQR::get_A(Float64 theta) const {
   return mat;
 }
 
-ACADO::DMatrix LQR::get_B(Float64 theta) const {
+ACADO::DMatrix LQR::get_B(Float64 theta, const KNM &kinematics) const {
   ACADO::DMatrix mat(2, 1);
   mat(0, 0) = 0;
   mat(1, 0) = kinematics.b(theta);

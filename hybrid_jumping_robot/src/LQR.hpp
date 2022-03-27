@@ -12,7 +12,6 @@ private:
   ACADO::DMatrix B; //!< Linear system
   ACADO::DMatrix Q; //!< Cost on the states
   ACADO::DMatrix R; //!< Cost on the inputs
-  KNM kinematics; //!< kinematics of the system
   unsigned int xs; //!< number of states
   unsigned int us; //!< number of inputs
 
@@ -28,9 +27,9 @@ private:
 
   void set_R(const std::vector<Float64> &costs);
 
-  [[nodiscard]] ACADO::DMatrix get_A(Float64 theta) const;
+  [[nodiscard]] ACADO::DMatrix get_A(Float64 theta, const KNM &kinematics) const;
 
-  [[nodiscard]] ACADO::DMatrix get_B(Float64 theta) const;
+  [[nodiscard]] ACADO::DMatrix get_B(Float64 theta, const KNM &kinematics) const;
 };
 
 
