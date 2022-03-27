@@ -13,12 +13,13 @@ private:
   ACADO::DMatrix Q; //!< Cost on the states
   ACADO::DMatrix R; //!< Cost on the inputs
   KNM kinematics; //!< kinematics of the system
-  int xs; //!< number of states
-  int us; //!< number of inputs
+  unsigned int xs; //!< number of states
+  unsigned int us; //!< number of inputs
 
 public:
   LQR();
   LQR(Float64 d, Float64 rad, Float64 mw, Float64 mb, Float64 Ib, Float64 point, int qs = 2, int rs = 1);
+  LQR(const ACADO::DMatrix &A, const ACADO::DMatrix &B);
 
   ACADO::DMatrix Riccati(const std::vector<Float64> &state_costs, const std::vector<Float64> &input_costs);
 

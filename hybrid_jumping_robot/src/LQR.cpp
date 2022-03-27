@@ -60,3 +60,8 @@ ACADO::DMatrix LQR::Riccati(const std::vector<Float64> &state_costs, const std::
   auto b = B(1, 1);
   auto r = input_costs.at(0);
 }
+
+LQR::LQR(const ACADO::DMatrix &A, const ACADO::DMatrix &B): A(A), B(B) {
+  xs = B.getNumRows();
+  us = B.getNumCols();
+}
