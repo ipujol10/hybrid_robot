@@ -44,3 +44,19 @@ void LQR::set_R(const std::vector<Float64> &costs) {
     R(i, i) = costs.at(i);
   }
 }
+
+ACADO::DMatrix LQR::Riccati(const std::vector<Float64> &state_costs, const std::vector<Float64> &input_costs) {
+  set_Q(state_costs);
+  set_R(input_costs);
+
+  ACADO::DifferentialState theta, theta1, phi, phi1;
+  ACADO::Parameter s11, s12, s22;
+  auto q1 = state_costs.at(0);
+  auto q2 = state_costs.at(1);
+  auto a11 = A(1, 1);
+  auto a12 = A(1, 2);
+  auto a21 = A(2, 1);
+  auto a22 = A(2, 2);
+  auto b = B(1, 1);
+  auto r = input_costs.at(0);
+}
