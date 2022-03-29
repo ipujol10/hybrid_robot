@@ -48,5 +48,5 @@ A_theta1 = subs(diff(Anl, theta1), vars, point);
 A_x = subs(diff(Anl, x), vars, point);
 A_x1 = subs(diff(Anl, x1), vars, point);
 
-A = simplify([A_theta, A_x, A_theta1, A_x1]);
-B = simplify(subs(Bnl, vars, point));
+Ap = simplify([A_theta, A_x, A_theta1, A_x1]);
+Bp = simplify(subs(Bnl, vars, point));
