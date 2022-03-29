@@ -7,7 +7,9 @@ syms theta(t) x(t) d mw mb g alpha beta
 
 %% Der
 x1 = diff(x, t);
+x2 = diff(x1, t);
 theta1 = diff(theta, t);
+theta2 = diff(theta1, t);
 
 %% Var
 vw = x1;
@@ -24,14 +26,15 @@ L = T - V;
 
 Qtheta = simplify(diff(diff(L, theta1), t) - diff(L, theta));
 Qx = simplify(diff(diff(L, x1), t) - diff(L, x));
+Q = [Qtheta; Qx];
 
 %% EQs
 q = [theta; x];
 q1 = diff(q, t);
 
-M = simplify([mb*d^2, d*mb*sin(theta); d*mb*sin(theta), mb+mw]);
+M = simplify([diff(Q, theta2), diff(Q, x2)]);
 M1 = simplify(inv(M));
-h = simplify([d*g*mb*cos(theta); d*mb*cos(theta)*theta1^2] + [alpha*theta1; beta*x1]);
+h = simplify(subs(Q, {theta2, x2}, {0, 0}) + diag([alpha beta])*q1);
 gq = [0; -1];
 
 Anl = [q1; simplify(-M1*h)];
