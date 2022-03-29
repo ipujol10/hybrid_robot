@@ -8,3 +8,14 @@ values = {9.81, mt, 2*0.3, cm, 0, 0};
 
 A = double(subs(Ap, parameters, values));
 B = double(subs(Bp, parameters, values));
+
+%% Output
+C = [0 1 0 0]; % get theta as the output
+D = 0;
+
+%% System
+sys = ss(A, B, C, D);
+Sc = ctrb(sys);
+So = obsv(sys);
+disp(rank(Sc));
+disp(rank(So));
