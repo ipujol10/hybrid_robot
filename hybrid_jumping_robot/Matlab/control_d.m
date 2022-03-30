@@ -42,6 +42,18 @@ else
     R = .001;
     K = lqr(A, B, Q, R);
     
+%     %% Descrete
+%     Ts = 0.01;
+%     sys_d = c2d(sys, Ts);
+%     Ad = sys_d.a;
+%     Bd = sys_d.b;
+%     Cd = sys_d.c;
+%     Dd = sys_d.d;
+%     
+% %     K = lqr(Ad, Bd, Q, R);
+%     poles = [-.3; -.3; -.3; -.3];
+%     K = acker(A, B, poles);
+    
     %% Simulate
     out = sim("model");
     
@@ -56,9 +68,9 @@ else
     plot(out.u);
     title("u");
     
-%     figure;
-%     plot(out.error);
-%     title("error");
-%     legend = legend("$\theta$", "$\phi$", "$\dot{\theta}$", "$\dot{\phi}$");
-%     set(legend, 'Interpreter','latex');
+    figure;
+    plot(out.error);
+    title("error");
+    legend = legend("$\theta$", "$\phi$", "$\dot{\theta}$", "$\dot{\phi}$");
+    set(legend, 'Interpreter','latex');
 end
