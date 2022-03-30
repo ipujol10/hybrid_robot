@@ -38,7 +38,7 @@ q1 = diff(q, t);
 M = simplify([diff(Q, theta2), diff(Q, phi2)]);
 M1 = simplify(inv(M));
 h = simplify(subs(Q, {theta2, phi2}, {0, 0}) + diag([alpha beta])*q1);
-gq = [0; -1];
+gq = [0; 1];
 
 Anl = [q1; simplify(-M1*h)];
 Bnl = [0; 0; simplify(M1*gq)];
