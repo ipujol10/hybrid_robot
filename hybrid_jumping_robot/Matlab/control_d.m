@@ -10,8 +10,8 @@ A = double(subs(Ap, parameters, values));
 B = double(subs(Bp, parameters, values));
 
 %% Output
-C = [1 0 0 0; 0 1 0 0]; % get theta and phi as the output
-% C = [0 1 0 0];
+% C = [1 0 0 0; 0 1 0 0]; % get theta and phi as the output
+C = [0 1 0 0];
 % C = [1 0 0 0];
 D = 0;
 
@@ -40,22 +40,24 @@ else
 %     K = acker(A, B, poles);
     Q = [1 0 0 0; 0 0.001 0 0; 0 0 0.001 0; 0 0 0 0.001];
     R = .001;
-    K = lqr(A, B, Q, R);
     
-%     %% Descrete
-%     Ts = 0.01;
-%     sys_d = c2d(sys, Ts);
-%     Ad = sys_d.a;
-%     Bd = sys_d.b;
-%     Cd = sys_d.c;
-%     Dd = sys_d.d;
-%     
-% %     K = lqr(Ad, Bd, Q, R);
-%     poles = [-.3; -.3; -.3; -.3];
-%     K = acker(A, B, poles);
+    %% Descrete
+    Ts = 0.1;
+    sys_d = c2d(sys, Ts);
+    Ad = sys_d.a;
+    Bd = sys_d.b;
+    Cd = sys_d.c;
+    Dd = sys_d.d;
+    
+%     K = lqr(Ad, Bd, Q, R);
+    poles = [.3; .3; .3; .3]*1;
+    K = acker(Ad, Bd, poles);
+    
+    %% Observer
+    Kobs = acker(Ad', Cd', poles*0.1);
     
     %% Simulate
-    out = sim("model");
+    out = sim("model_d");
     
     %% Figures
     figure;
@@ -68,9 +70,9 @@ else
     plot(out.u);
     title("u");
     
-    figure;
-    plot(out.error);
-    title("error");
-    legend = legend("$\theta$", "$\phi$", "$\dot{\theta}$", "$\dot{\phi}$");
-    set(legend, 'Interpreter','latex');
+%     figure;
+%     plot(out.error);
+%     title("error");
+%     legend = legend("$\theta$", "$\phi$", "$\dot{\theta}$", "$\dot{\phi}$");
+%     set(legend, 'Interpreter','latex');
 end
