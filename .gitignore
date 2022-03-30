@@ -16,3 +16,4 @@ hybrid_jumping_robot/cmake-build-debug/
 *.pyc
 *slprj
 *.asv
+*.slxc
