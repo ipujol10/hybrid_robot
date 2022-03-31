@@ -29,7 +29,7 @@ else
 %         rlocus(sys);
 %     end
 %     x0 = [pi/2+5*pi/180 0 0 0]';
-    X0 = [85*pi/180 0 0 0]';
+    X0 = [105*pi/180 0 0 0]';
     pt = cell2mat(point)';
     x0 = X0 - pt;
     r = [pi/2;0;0;0];
@@ -51,12 +51,14 @@ else
     Cd = sys_d.c;
     Dd = sys_d.d;
     
-%     K = lqr(Ad, Bd, Q, R);
-    poles = [.3; .3; .3; .3]*1;
-    K = acker(Ad, Bd, poles);
+    K = dlqr(Ad, Bd, Q, R);
+%     poles = [.3; .3; .3; .3]*1;
+%     K = acker(Ad, Bd, poles);
+    
     
     %% Observer
-    Kobs = acker(Ad', Cd', poles*0.01)';
+%     Kobs = acker(Ad', Cd', poles*0.01)';
+    Kobs = dlqr(Ad', C', Q, R)';
     
     %% Simulate
     simulate = 1;
