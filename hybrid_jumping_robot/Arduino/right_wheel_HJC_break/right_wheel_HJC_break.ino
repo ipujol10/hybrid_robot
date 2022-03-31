@@ -38,8 +38,8 @@ void setup() {
                 16,
                 true,
                 0,
-                80,
-                80);
+                50,
+                30);
   stepper.runContinous(CCW);
   stepper.setMaxDeceleration(10000.0);//float
   /**
@@ -80,11 +80,9 @@ void loop() {
   if ((cmd == "0")) //Stop
   {
     stepper.stop();
-    servo.write(BREAK_ANGLE);
   }
   else {
     stepper.setRPM(cmd.toInt());
-    servo.write(BREAK_RELAESE_ANGLE);
   }
   Serial1.println(stepper.encoder.getRPM());
   delay(5);
