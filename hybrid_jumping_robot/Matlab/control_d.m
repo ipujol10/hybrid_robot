@@ -44,7 +44,7 @@ else
 %     R = 1;
     
     %% Descrete
-    Ts = 0.05;
+    Ts = 1/200;
     sys_d = c2d(sys, Ts);
     Ad = sys_d.a;
     Bd = sys_d.b;

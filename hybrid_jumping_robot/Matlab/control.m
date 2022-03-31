@@ -45,8 +45,9 @@ else
     K = lqr(A, B, Q, R);
     
     %% Observer
-    eigen = eigs(A-B*K)*5;
-    Kobs = acker(A', C', eigen)';
+%     eigen = eigs(A-B*K)*5;
+%     Kobs = acker(A', C', eigen)';
+    Kobs = lqr(A', C', Q, R)';
     
     %% Simulate
     simulate = 1;
