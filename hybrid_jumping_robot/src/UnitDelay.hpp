@@ -12,6 +12,7 @@ public:
   explicit UnitDelay(const std::vector<Float64> &stating_input = {0});
   explicit UnitDelay(Float64 starting_input = 0);
   std::vector<Float64> delay(const std::vector<Float64> &input);
+  std::vector<Float64> get_last_input();
 };
 
 
