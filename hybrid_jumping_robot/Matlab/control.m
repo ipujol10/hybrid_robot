@@ -29,17 +29,19 @@ else
 %         rlocus(sys);
 %     end
 %     x0 = [pi/2+5*pi/180 0 0 0]';
-    X0 = [pi/2+5*pi/180 0 0 0]';
+    X0 = [pi/2+25*pi/180 0 0 0]';
     pt = cell2mat(point)';
     x0 = X0 - pt;
     r = [pi/2;0;0;0];
-    T = 10;
+    T = 5;
     
     %% Control
 %     poles = [-3; -3; -3; -3]*.5;
 %     K = acker(A, B, poles);
-    Q = [1 0 0 0; 0 0.001 0 0; 0 0 0.001 0; 0 0 0 0.001];
-    R = .001;
+%     Q = [1 0 0 0; 0 0.001 0 0; 0 0 0.001 0; 0 0 0 0.001];
+%     R = .001;
+    Q = eye(4);
+    R = 1;
     K = lqr(A, B, Q, R);
     
     %% Simulate
@@ -47,10 +49,15 @@ else
     
     %% Figures
     figure;
-    plot(out.x);
+    hold on
+    yyaxis left
+    plot(out.x.Time, out.x.Data(:,[1,2]));
+    yyaxis right
+    plot(out.x.Time, out.x.Data(:,[3,4]));
     title("x");
     lefend = legend("$\theta$", "$\phi$", "$\dot{\theta}$", "$\dot{\phi}$");
     set(lefend, 'Interpreter','latex');
+    hold off
     
     figure;
     plot(out.u);
