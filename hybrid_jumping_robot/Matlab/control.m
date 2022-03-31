@@ -10,8 +10,8 @@ A = double(subs(Ap, parameters, values));
 B = double(subs(Bp, parameters, values));
 
 %% Output
-C = [1 0 0 0; 0 1 0 0]; % get theta and phi as the output
-% C = [0 1 0 0];
+% C = [1 0 0 0; 0 1 0 0]; % get theta and phi as the output
+C = [0 1 0 0];
 % C = [1 0 0 0];
 D = 0;
 
@@ -44,28 +44,51 @@ else
     R = 1;
     K = lqr(A, B, Q, R);
     
+    %% Observer
+    eigen = eigs(A-B*K)*5;
+    Kobs = acker(A', C', eigen)';
+    
     %% Simulate
-    out = sim("model");
-    
-    %% Figures
-    figure;
-    hold on
-    yyaxis left
-    plot(out.x.Time, out.x.Data(:,[1,2]));
-    yyaxis right
-    plot(out.x.Time, out.x.Data(:,[3,4]));
-    title("x");
-    lefend = legend("$\theta$", "$\phi$", "$\dot{\theta}$", "$\dot{\phi}$");
-    set(lefend, 'Interpreter','latex');
-    hold off
-    
-    figure;
-    plot(out.u);
-    title("u");
-    
-%     figure;
-%     plot(out.error);
-%     title("error");
-%     legend = legend("$\theta$", "$\phi$", "$\dot{\theta}$", "$\dot{\phi}$");
-%     set(legend, 'Interpreter','latex');
+    simulate = 1;
+    if (simulate)
+        convert_deg = diag([180/pi;180/pi;1;1]);
+        out = sim("model");
+
+        %% Figures
+        figure;
+        hold on
+        yyaxis left
+        plot(out.x.Time, out.x.Data(:,[1,2]));
+        ylabel("Angle [º]")
+        yyaxis right
+        plot(out.x.Time, out.x.Data(:,[3,4]));
+        ylabel("Angular velocity [$\frac{rad}{s}$]",'interpreter','latex')
+        title("x");
+        lefend = legend("$\theta$", "$\phi$", "$\dot{\theta}$", "$\dot{\phi}$");
+        set(lefend, 'Interpreter','latex');
+        hold off
+
+        figure;
+        plot(out.u);
+        title("u");
+
+    %     figure;
+    %     plot(out.error);
+    %     title("error");
+    %     legend = legend("$\theta$", "$\phi$", "$\dot{\theta}$", "$\dot{\phi}$");
+    %     set(legend, 'Interpreter','latex');
+        
+        figure;
+        hold on;
+        yyaxis left
+        plot(out.x_obs.Time, out.x_obs.Data(:,[1,2]));
+        ylabel("Angle [º]")
+        yyaxis right
+        plot(out.x_obs.Time, out.x_obs.Data(:,[3,4]));
+        ylabel("Angular velocity [$\frac{rad}{s}$]",'interpreter','latex')
+        title("x Observed");
+        lefend = legend("$\theta$", "$\phi$", "$\dot{\theta}$", "$\dot{\phi}$");
+        set(lefend, 'Interpreter','latex');
+        hold off
+    end
 end
