@@ -9,7 +9,8 @@ class LQR {
 private:
   ACADO::DMatrix A; //!< Linear system
   ACADO::DMatrix B; //!< Linear system
-  ACADO::DMatrix K; //!< The control Matrix
+  ACADO::DMatrix K; //!< The control Gain
+  ACADO::DMatrix KObs; //!< The observer Gain
 
 public:
   LQR();
