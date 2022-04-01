@@ -26,3 +26,5 @@ std::vector<Float64> Observer::matrix_to_vector(const ACADO::DMatrix &M) {
   }
   return out;
 }
+
+Observer::Observer() = default;

@@ -12,8 +12,6 @@ std::vector<Float64> UnitDelay::delay(const std::vector<Float64> &input) {
   return output;
 }
 
-UnitDelay::UnitDelay(Float64 starting_input) : last_input({starting_input}) {}
-
 std::vector<Float64> UnitDelay::get_last_input() {
   return last_input;
 }
