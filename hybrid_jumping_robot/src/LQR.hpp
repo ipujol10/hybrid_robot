@@ -19,6 +19,8 @@ public:
       const std::vector<Float64> &initial_state);
 
   std::vector<Float64> get_action(const std::vector<Float64> &x);
+
+  std::vector<Float64> get_states(const std::vector<Float64> &u, const std::vector<Float64> &y);
 };
 
 

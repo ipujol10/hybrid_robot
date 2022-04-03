@@ -12,3 +12,7 @@ std::vector<Float64> LQR::get_action(const std::vector<Float64> &x) {
   auto u = -K * conv::vector_to_matrix(x);
   return conv::matrix_to_vector(u);
 }
+
+std::vector<Float64> LQR::get_states(const std::vector<Float64> &u, const std::vector<Float64> &y) {
+  return observer.observe(u, y);
+}
