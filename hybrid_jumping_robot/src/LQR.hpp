@@ -8,16 +8,20 @@
 
 class LQR {
 private:
-  ACADO::DMatrix A; //!< Linear system
-  ACADO::DMatrix B; //!< Linear system
+//  ACADO::DMatrix A; //!< Linear system
+//  ACADO::DMatrix B; //!< Linear system
+  ACADO::DMatrix K; //!< Control matrix
   Observer observer; //!< The observer to estimate the states
-  ACADO::LinearStateFeedback lqr; //!< LQR controller
 
 public:
   LQR();
 
   LQR(const ACADO::DMatrix &A, const ACADO::DMatrix &B, const ACADO::DMatrix &C, const ACADO::DMatrix &K, const ACADO::DMatrix &KObs,
-      const std::vector<Float64> &initial_state, Float64 Ts);
+      const std::vector<Float64> &initial_state);
+
+  std::vector<Float64> get_action(const std::vector<Float64> &x);
+
+
 };
 
 
