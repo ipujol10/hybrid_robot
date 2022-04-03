@@ -13,3 +13,19 @@ RPY conv::quaternion_to_rpy(geometry_msgs::Quaternion q) {
   m.getRPY(roll, pitch, yaw);
   return {roll, pitch, yaw};
 }
+
+ACADO::DMatrix conv::vector_to_matrix(const std::vector<Float64> &vector) {
+  ACADO::DMatrix out(vector.size(), 1);
+  for (int i = 0; i < vector.size(); i++) {
+    out(i, 1) = vector.at(i);
+  }
+  return out;
+}
+
+std::vector<Float64> conv::matrix_to_vector(const ACADO::DMatrix &M) {
+  std::vector<Float64> out;
+  for (int i = 0; i < M.getNumRows(); i++) {
+    out.emplace_back(M(i, 1));
+  }
+  return out;
+}

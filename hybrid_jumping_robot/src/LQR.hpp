@@ -3,7 +3,6 @@
 
 #include "Types.hpp"
 #include "Observer.hpp"
-#include <acado_toolkit.hpp>
 
 
 class LQR {
@@ -20,8 +19,6 @@ public:
       const std::vector<Float64> &initial_state);
 
   std::vector<Float64> get_action(const std::vector<Float64> &x);
-
-
 };
 
 

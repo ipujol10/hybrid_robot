@@ -9,6 +9,6 @@ LQR::LQR(const ACADO::DMatrix &A, const ACADO::DMatrix &B, const ACADO::DMatrix 
 }
 
 std::vector<Float64> LQR::get_action(const std::vector<Float64> &x) {
-  auto u = -K * Observer::vector_to_matrix(x);
-  return Observer::matrix_to_vector(u);
+  auto u = -K * conv::vector_to_matrix(x);
+  return conv::matrix_to_vector(u);
 }
