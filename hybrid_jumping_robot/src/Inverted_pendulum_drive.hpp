@@ -6,18 +6,18 @@
 
 #include "PID_controller.hpp"
 #include "Types.hpp"
+#include "LQR.hpp"
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Float64.h>
 #include <std_msgs/Int8.h>
 #include <string>
-//#include <acado_toolkit.hpp>
 
 
 class IPD {
 private:
   PID pid;
-//  ACADO::LinearStateFeedback lqr;
+  LQR lqr;
   ros::Publisher inverted_vel_pub;
   ros::Subscriber inverted_pitch_sub;
   ros::Subscriber state_sub;
@@ -26,6 +26,7 @@ private:
   ros::Rate rate;
   int state;
   bool active;
+  bool isPID;
 
 public:
     IPD(const std::string& name , Float64 target, Float64 Kp, Float64 Ki, Float64 Kd , Float64 sample_time, int state = -1);

@@ -15,6 +15,7 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
   }
 
   pid.setWindup(20.0);
+  isPID = true;
 }
 
 void IPD::callbackPitch(const std_msgs::Float64 &data) {
@@ -26,7 +27,10 @@ void IPD::loop() {
   while (ros::ok()) {
     if (active) {
       std_msgs::Float64 data;
-      auto velocity = pid.update(Pitch, ros::Time::now(), true, 30, -30);
+      Float64 velocity;
+      if (isPID) {
+        velocity = pid.update(Pitch, ros::Time::now(), true, 30, -30);
+      }
       data.data = velocity;
       inverted_vel_pub.publish(data);
     }
