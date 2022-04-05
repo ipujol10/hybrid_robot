@@ -19,6 +19,7 @@ class PID{
 
 public:
     PID( const std::string &name, Float64 target,Float64 KP,Float64 KI,Float64 KD,Float64 sample_time,ros::Time current_time);
+    PID();
     void setSampleTime(Float64 sample_t);
     void setKp(Float64 proportional_gain);
     void setKi(Float64 integral_gain);

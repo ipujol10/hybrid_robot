@@ -18,10 +18,26 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
   isPID = true;
 }
 
+IPD::IPD(const std::string &name, const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B,
+         const ACADO::DMatrix &C, const ACADO::DMatrix &K, const ACADO::DMatrix &KObs,
+         const std::vector<Float64> &initial_state, int state) : lqr(A, B, C, K, KObs, initial_state), rate(100),
+                                                                 state(state) {
+  ros::NodeHandle nh;
+  inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
+  inverted_pitch_sub = nh.subscribe(inverted_pitch_connection, 1, &IPD::callbackPitch, this);
+  state_sub = nh.subscribe("/HJC/State_machine/State", 1, &IPD::callbackState, this);
+  if (state == -1) {
+    active = true;
+  } else {
+    active = false;
+  }
+  isPID = false;
+}
+
+
 void IPD::callbackPitch(const std_msgs::Float64 &data) {
   Pitch = data.data;
 }
-
 
 void IPD::loop() {
   while (ros::ok()) {
