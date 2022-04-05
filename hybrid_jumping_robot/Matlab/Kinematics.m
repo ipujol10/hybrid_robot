@@ -26,7 +26,7 @@ V = mb*g*d*sin(theta); % potential energy
 L = T - V; % Lagrange equation
 
 Qtheta = simplify(diff(diff(L, theta1), t) - diff(L, theta)); % d/t*dL/dtheta1 - dL/dtheta
-Qx = simplify(diff(diff(L, x1), t) - diff(L, x));% d/t*dL/dx1 - dL/dx
+Qx = simplify(diff(diff(L, x1), t) - diff(L, x)); % d/t*dL/dx1 - dL/dx
 Q = [Qtheta; Qx]; % have both terms on a matrix to have it easier to derivate and obtain both equations of motion
 
 %% EQs
