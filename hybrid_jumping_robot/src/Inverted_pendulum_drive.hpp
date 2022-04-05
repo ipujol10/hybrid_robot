@@ -24,6 +24,7 @@ private:
   std::string inverted_vel_connection = "/HJC/Vel_robot/Set_velocity";
   std::string inverted_pitch_connection = "/HJC/IMU/Pitch";
   ros::Rate rate;
+  std::vector<Float64> sys_states;
   int state;
   bool active;
   bool isPID;
