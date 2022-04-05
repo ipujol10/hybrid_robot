@@ -5,12 +5,18 @@ import rospy
 from std_msgs.msg import Float64
 import math
 import serial
+import RPi.GPIO as GPIO
+import time
+
+
+
+
 
 
 class Left_wheel_robot:
     set_velocity = 0.0
     current_velocity = 0.0
-
+    servoPIN = 17
     def __init__(self, name):
         rospy.init_node(name, anonymous=True)
         self.rate = rospy.Rate(280)
@@ -25,7 +31,11 @@ class Left_wheel_robot:
                                  bytesize=serial.EIGHTBITS
                                  )
         self.ser.flush()
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.servoPIN, GPIO.OUT)
 
+        self.p = GPIO.PWM(self.servoPIN, 50) # GPIO 17 for PWM with 50Hz
+        self.p.start(2.5) # Initialization
     def loop(self):
 
         while not rospy.is_shutdown():
