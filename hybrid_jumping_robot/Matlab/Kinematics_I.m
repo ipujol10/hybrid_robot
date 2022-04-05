@@ -30,8 +30,8 @@ Qx = simplify(diff(diff(L, x1), t) - diff(L, x));% d/t*dL/dx1 - dL/dx
 Q = [Qtheta; Qx]; % have both terms on a matrix to have it easier to derivate and obtain both equations of motion
 
 %% EQs
-q = [theta; x];
-q1 = diff(q, t);
+q = [theta; x]; % the states
+q1 = diff(q, t); % the derivate respect time of the states
 
 M = simplify([diff(Q, theta2), diff(Q, x2)]); % obtain the friction matrix
 M1 = simplify(inv(M)); % inverse of M
