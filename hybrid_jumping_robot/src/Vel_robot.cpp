@@ -3,12 +3,13 @@
 #include <iostream>
 
 Vel::Vel() : rate(100), pid("wheels", 0, 0.1, 1e-9, 1e-7, 0.01, ros::Time::now()),
-             now_velocity(0), can_clear(false) {
+             now_velocity(0), now_position(0), can_clear(false) {
   pid.setWindup(2);
   ros::NodeHandle nh;
   left_front_wheel_publisher = nh.advertise<std_msgs::Float64>(left_front_wheel_connection, 10);
   right_front_wheel_publisher = nh.advertise<std_msgs::Float64>(right_front_wheel_connection, 10);
   current_velocity_publisher = nh.advertise<std_msgs::Float64>(current_velocity_connection, 1);
+  current_wheel_pos_publisher = nh.advertise<std_msgs::Float64>(current_position_connection, 1);
   vel_sub = nh.subscribe(commanded_velocity_connection, 1, &Vel::velocity_callback, this);
   state_sub = nh.subscribe(joint_state_connection, 1, &Vel::now_vel_callback, this);
 }
@@ -47,6 +48,10 @@ void Vel::now_vel_callback(const sensor_msgs::JointState &data) {
   std_msgs::Float64 msg;
   msg.data = now_velocity;
   current_velocity_publisher.publish(msg);
+
+  now_position = (data.position[3] + data.position[4]) / 2;
+  msg.data = now_position;
+  current_wheel_pos_publisher.publish(msg);
 }
 
 void Vel::update_target(Float64 target) {
