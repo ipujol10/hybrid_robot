@@ -38,6 +38,8 @@ public:
 
   void loop();
 
+  static std::array<ACADO::DMatrix, 5> get_matrix();
+
 private:
   void callbackPitch(const std_msgs::Float64 &data);
 
