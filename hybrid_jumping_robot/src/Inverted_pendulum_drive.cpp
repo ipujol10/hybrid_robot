@@ -1,5 +1,4 @@
 #include "Inverted_pendulum_drive.hpp"
-#include <cmath>
 
 IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time, int state) :
     pid(name, target, Kp, Ki, Kd, sample_time, ros::Time::now()), rate(100), state(state) {
@@ -18,7 +17,7 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
   isPID = true;
 }
 
-IPD::IPD(const std::string &name, const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B,
+IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B,
          const ACADO::DMatrix &C, const ACADO::DMatrix &K, const ACADO::DMatrix &KObs,
          const std::vector<Float64> &initial_state, int state) : lqr(A, B, C, K, KObs, initial_state), rate(100),
                                                                  state(state), sys_states(initial_state) {
