@@ -25,6 +25,7 @@ private:
   std::string inverted_pitch_connection = "/HJC/IMU/Pitch";
   ros::Rate rate;
   std::vector<Float64> sys_states;
+  std::vector<Float64> target;
   int state;
   bool active;
   bool isPID;

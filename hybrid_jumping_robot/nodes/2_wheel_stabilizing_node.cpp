@@ -9,10 +9,12 @@ void callback(const std_msgs::Int8 &data) {
 }
 
 int main(int argc, char **argv) {
-  ros::init(argc, argv, "2WS_node");
+  ros::init(argc, argv, "TwoWS_node");
   ros::NodeHandle nh;
   ros::Subscriber state_sub = nh.subscribe("/HJC/State_machine/State", 1, callback);
   ros::Rate loop_rate(280);
+  auto matrix = IPD::get_matrix();
+//  IPD ipd({M_PI_2, 0, 0, 0, 0}, matrix.at(0), matrix.at(1), matrix.at(2), matrix.at(3), matrix.at(4), {0, 0, 0, 0});
   IPD ipd("stabilizing", M_PI_2, 27, 0, 5.5e-1, 9.9e-3, 3);
   ipd.loop();
 }

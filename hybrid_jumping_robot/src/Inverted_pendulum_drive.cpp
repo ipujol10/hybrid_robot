@@ -20,7 +20,8 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
 IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B,
          const ACADO::DMatrix &C, const ACADO::DMatrix &K, const ACADO::DMatrix &KObs,
          const std::vector<Float64> &initial_state, int state) : lqr(A, B, C, K, KObs, initial_state), rate(100),
-                                                                 state(state), sys_states(initial_state) {
+                                                                 state(state), sys_states(initial_state),
+                                                                 target(target) {
   ros::NodeHandle nh;
   inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
   inverted_pitch_sub = nh.subscribe(inverted_pitch_connection, 1, &IPD::callbackPitch, this);
@@ -46,12 +47,17 @@ void IPD::loop() {
       if (isPID) {
         velocity = pid.update(Pitch, ros::Time::now(), true, 30, -30);
       } else {
+        sys_states.at(0) = Pitch - target.at(0);
         auto u = lqr.get_action(sys_states);
         sys_states = lqr.get_states(u, {Pitch});
         velocity = sys_states.back();
       }
       data.data = velocity;
       inverted_vel_pub.publish(data);
+    } else if (!isPID) {
+      sys_states.at(0) = Pitch - target.at(0);
+      auto u = lqr.get_action(sys_states);
+      sys_states = lqr.get_states(u, {Pitch});
     }
     ros::spinOnce();
     rate.sleep();
@@ -83,8 +89,10 @@ std::array<ACADO::DMatrix, 5> IPD::get_matrix() {
   out.at(1) = B;
 
   // C matrix
-  ACADO::DMatrix C(1, 4);
-  C(0, 1) = 1;
+  ACADO::DMatrix C(3, 4);
+  C(0, 0) = 1;
+  C(1, 1) = 1;
+  C(2, 3) = 1;
   out.at(2) = C;
 
   // K matrix
@@ -96,11 +104,19 @@ std::array<ACADO::DMatrix, 5> IPD::get_matrix() {
   out.at(3) = K;
 
   // K observer matrix
-  ACADO::DMatrix KObs(4, 1);
-  KObs(0, 0) = 64.5609;
-  KObs(1, 0) = 2.0552;
-  KObs(2, 0) = 268.4990;
-  KObs(3, 0) = 272.0976;
+  ACADO::DMatrix KObs(4, 3);
+  KObs(0, 0) = 1.0034;
+  KObs(1, 0) = 0.0035;
+  KObs(2, 0) = 1.3549;
+  KObs(3, 0) = 1.4186;
+  KObs(0, 1) = 0.0001;
+  KObs(1, 1) = 0.6180;
+  KObs(2, 1) = 0.0130;
+  KObs(3, 1) = 0.0008;
+  KObs(0, 2) = 0.0738;
+  KObs(1, 2) = 0.0049;
+  KObs(2, 2) = 14.7854;
+  KObs(3, 2) = 0.8573;
   out.at(4) = KObs;
 
   return out;
