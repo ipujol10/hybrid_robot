@@ -7,6 +7,8 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
   inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
   inverted_pitch_sub = nh.subscribe(inverted_pitch_connection, 1, &IPD::callbackPitch, this);
   state_sub = nh.subscribe("/HJC/State_machine/State", 1, &IPD::callbackState, this);
+  inverted_pos_sub = nh.subscribe(inverted_pos_connection, 1, &IPD::callbackPos, this);
+  inverted_vel_sub = nh.subscribe(inverted_current_vel_connection, 1, &IPD::callbackVel, this);
   if (state == -1) {
     active = true;
   } else {
@@ -17,7 +19,7 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
   isPID = true;
 }
 
-IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B,
+IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B, /*NOLINT*/
          const ACADO::DMatrix &C, const ACADO::DMatrix &K, const ACADO::DMatrix &KObs,
          const std::vector<Float64> &initial_state, int state) : lqr(A, B, C, K, KObs, initial_state), rate(100),
                                                                  state(state), sys_states(initial_state),
@@ -39,6 +41,14 @@ void IPD::callbackPitch(const std_msgs::Float64 &data) {
   Pitch = data.data;
 }
 
+void IPD::callbackVel(const std_msgs::Float64 &data) {
+  Velocity = data.data;
+}
+
+void IPD::callbackPos(const std_msgs::Float64 &data) {
+  Position = data.data;
+}
+
 void IPD::loop() {
   while (ros::ok()) {
     if (active) {
@@ -47,17 +57,17 @@ void IPD::loop() {
       if (isPID) {
         velocity = pid.update(Pitch, ros::Time::now(), true, 30, -30);
       } else {
-        sys_states.at(0) = Pitch - target.at(0);
+        std::vector<Float64> y{Pitch - target.at(0), Position - target.at(1), Velocity - target.back()};
         auto u = lqr.get_action(sys_states);
-        sys_states = lqr.get_states(u, {Pitch});
+        sys_states = lqr.get_states(u, y);
         velocity = sys_states.back();
       }
       data.data = velocity;
       inverted_vel_pub.publish(data);
     } else if (!isPID) {
-      sys_states.at(0) = Pitch - target.at(0);
+      std::vector<Float64> y{Pitch - target.at(0), Position - target.at(1), Velocity - target.back()};
       auto u = lqr.get_action(sys_states);
-      sys_states = lqr.get_states(u, {Pitch});
+      sys_states = lqr.get_states(u, y);
     }
     ros::spinOnce();
     rate.sleep();

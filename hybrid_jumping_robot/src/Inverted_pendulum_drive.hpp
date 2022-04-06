@@ -21,14 +21,22 @@ private:
   ros::Publisher inverted_vel_pub;
   ros::Subscriber inverted_pitch_sub;
   ros::Subscriber state_sub;
+  ros::Subscriber inverted_pos_sub;
+  ros::Subscriber inverted_vel_sub;
   std::string inverted_vel_connection = "/HJC/Vel_robot/Set_velocity";
   std::string inverted_pitch_connection = "/HJC/IMU/Pitch";
+  std::string inverted_current_vel_connection = "/HJC/Vel_robot/Current_velocity";
+  std::string inverted_pos_connection = "/HJC/Vel_robot/Current_position";
   ros::Rate rate;
   std::vector<Float64> sys_states;
   std::vector<Float64> target;
   int state;
   bool active;
   bool isPID;
+
+  Float64 Pitch;
+  Float64 Velocity;
+  Float64 Position;
 
 public:
   IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time, int state = -1);
@@ -46,7 +54,9 @@ private:
 
   void callbackState(const std_msgs::Int8 &data);
 
-  Float64 Pitch;
+  void callbackVel(const std_msgs::Float64 &data);
+
+  void callbackPos(const std_msgs::Float64 &data);
 };
 
 
