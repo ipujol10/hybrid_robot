@@ -18,7 +18,7 @@ RPY conv::quaternion_to_rpy(geometry_msgs::Quaternion q) {
 ACADO::DMatrix conv::vector_to_matrix(const std::vector<Float64> &vector) {
   ACADO::DMatrix out(vector.size(), 1); // initialize the matrix
   for (int i = 0; i < vector.size(); i++) {
-    out(i, 1) = vector.at(i); // set each row to the vector value
+    out(i, 0) = vector.at(i); // set each row to the vector value
   }
   return out;
 }
@@ -29,7 +29,7 @@ std::vector<Float64> conv::matrix_to_vector(const ACADO::DMatrix &M) {
   }
   std::vector<Float64> out;
   for (int i = 0; i < M.getNumRows(); i++) {
-    out.emplace_back(M(i, 1)); // for each value in matrix, append it to the vector
+    out.emplace_back(M(i, 0)); // for each value in matrix, append it to the vector
   }
   return out;
 }

@@ -50,17 +50,19 @@ void IPD::callbackPos(const std_msgs::Float64 &data) {
 }
 
 void IPD::loop() {
+  ROS_ERROR(active ? "true" : "false");
   while (ros::ok()) {
     if (active) {
+      ROS_WARN_THROTTLE(0.5, "Loop Active");
       std_msgs::Float64 data;
-      Float64 velocity;
+      Float64 velocity = 0;
       if (isPID) {
         velocity = pid.update(Pitch, ros::Time::now(), true, 30, -30);
       } else {
-        std::vector<Float64> y{Pitch - target.at(0), Position - target.at(1), Velocity - target.back()};
-        auto u = lqr.get_action(sys_states);
-        sys_states = lqr.get_states(u, y);
-        velocity = sys_states.back();
+//        std::vector<Float64> y{Pitch - target.at(0), Position - target.at(1), Velocity - target.back()};
+//        auto u = lqr.get_action(sys_states);
+//        sys_states = lqr.get_states(u, y);
+//        velocity = sys_states.back();
       }
       data.data = velocity;
       inverted_vel_pub.publish(data);
