@@ -12,3 +12,7 @@ std::vector<Float64> Observer::observe(const std::vector<Float64> &u, const std:
 }
 
 Observer::Observer() = default;
+
+void Observer::update_starting_conditions(const std::vector<Float64> &initial_state) {
+  delay.update_starting_conditions(initial_state);
+}

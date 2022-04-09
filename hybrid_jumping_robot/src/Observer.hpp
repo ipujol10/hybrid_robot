@@ -14,9 +14,13 @@ private:
 
 public:
   Observer();
+
   Observer(const ACADO::DMatrix &A, const ACADO::DMatrix &B, const ACADO::DMatrix &C, const ACADO::DMatrix &K,
            const std::vector<Float64> &initial_state);
+
   std::vector<Float64> observe(const std::vector<Float64> &u, const std::vector<Float64> &y);
+
+  void update_starting_conditions(const std::vector<Float64> &initial_state);
 };
 
 

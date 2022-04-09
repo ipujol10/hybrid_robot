@@ -15,3 +15,7 @@ std::vector<Float64> UnitDelay::delay(const std::vector<Float64> &input) {
 std::vector<Float64> UnitDelay::get_last_input() {
   return last_input;
 }
+
+void UnitDelay::update_starting_conditions(const std::vector<Float64> &initial_state) {
+  last_input = initial_state;
+}
