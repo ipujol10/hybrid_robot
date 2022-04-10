@@ -35,8 +35,10 @@ private:
   int state;
   bool active;
   bool isPID;
+  ros::Time last_time;
 
   Float64 Pitch;
+  Float64 PitchVel;
   Float64 Velocity;
   Float64 Position;
 
@@ -61,6 +63,8 @@ private:
   void callbackPos(const std_msgs::Float64 &data);
 
   static std::string vector_to_string(const std::vector<Float64> &vector);
+
+  static std::vector<Float64> vector_subs(const std::vector<Float64> &a, const std::vector<Float64> &b);
 };
 
 

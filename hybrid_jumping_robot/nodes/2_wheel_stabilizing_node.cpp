@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
   ros::Subscriber state_sub = nh.subscribe("/HJC/State_machine/State", 1, callback);
   ros::Rate loop_rate(280);
   auto matrix = IPD::get_matrix();
-  IPD ipd({M_PI_2, 0, 0, 0, 0}, matrix.at(0), matrix.at(1), matrix.at(2), matrix.at(3), matrix.at(4), {0, 0, 0, 0}, 3);
+  IPD ipd({M_PI_2, 0, 0, 0}, matrix.at(0), matrix.at(1), matrix.at(2), matrix.at(3), matrix.at(4), {0, 0, 0, 0}, 3);
 //  IPD ipd("stabilizing", M_PI_2, 27, 0, 5.5e-1, 9.9e-3, 3);
   ipd.loop();
 }

@@ -19,6 +19,8 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
 
   pid.setWindup(20.0);
   isPID = true;
+
+  last_time = ros::Time::now();
 }
 
 IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B, /*NOLINT*/
@@ -36,11 +38,15 @@ IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACAD
     active = false;
   }
   isPID = false;
+
+  last_time = ros::Time::now();
 }
 
 
 void IPD::callbackPitch(const std_msgs::Float64 &data) {
   Pitch = data.data;
+  ros::Duration d_time = ros::Time::now() - last_time;
+  PitchVel = angular_velocity.smooth(Pitch, d_time.toSec());
 }
 
 void IPD::callbackVel(const std_msgs::Float64 &data) {
@@ -61,8 +67,10 @@ void IPD::loop() {
       if (isPID) {
         velocity = pid.update(Pitch, ros::Time::now(), true, 30, -30);
       } else {
-        std::vector<Float64> y{Pitch - target.at(0), Position - target.at(1), Velocity - target.back()};
-        auto u = lqr.get_action(sys_states);
+//        std::vector<Float64> y{Pitch - target.at(0), Position - target.at(1), PitchVel - target.at(2),
+//                               Velocity - target.back()};
+        auto y = vector_subs({Pitch, Position, PitchVel, Velocity}, target);
+        auto u = lqr.get_action(y);
 //        ROS_WARN("Action: %f", u.at(0));
         sys_states = lqr.get_states(u, y);
         velocity = sys_states.back();
@@ -70,12 +78,8 @@ void IPD::loop() {
       }
       data.data = velocity;
       inverted_vel_pub.publish(data);
-    } else if (!isPID) {
-      std::vector<Float64> y{Pitch - target.at(0), Position - target.at(1), Velocity - target.back()};
-      auto u = lqr.get_action(sys_states);
-      out << "U: " << vector_to_string(u);
-      sys_states = lqr.get_states(u, y);
     }
+    out << "Pitch Velocity: " << PitchVel << "\n";
     out << "States: " << vector_to_string(sys_states);
     out << "\n";
     ros::spinOnce();
@@ -153,5 +157,16 @@ std::string IPD::vector_to_string(const std::vector<Float64> &vector) {
     out += std::to_string(el) + ", ";
   }
   out = out.substr(0, out.size() - 2) + "]\n";
+  return out;
+}
+
+std::vector<Float64> IPD::vector_subs(const std::vector<Float64> &a, const std::vector<Float64> &b) {
+  if (a.size() != b.size()) {
+    throw std::invalid_argument("Both vectors must have the same length");
+  }
+  std::vector<Float64> out;
+  for (int i = 0; i < a.size(); i++) {
+    out.emplace_back(a.at(i) - b.at(i));
+  }
   return out;
 }

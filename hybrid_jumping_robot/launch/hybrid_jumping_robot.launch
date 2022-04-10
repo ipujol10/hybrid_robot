@@ -43,6 +43,6 @@
     <node pkg="hybrid_jumping_robot" name="State_machine_node" type="State_machine_node" output="screen"/>
     <node pkg="hybrid_jumping_robot" name="Wheel_4_break_node" type="Wheel_4_break_node" output="screen"/>
     <node pkg="hybrid_jumping_robot" name="Wheel_4_drive_node" type="Wheel_4_drive_node" output="screen"/>
-<!--     <node pkg="hybrid_jumping_robot" name="Wheel_2_stabilizing_node" type="Wheel_2_stabilizing_node" output="screen"/> -->
+    <node pkg="hybrid_jumping_robot" name="Wheel_2_stabilizing_node" type="Wheel_2_stabilizing_node" output="screen"/>
 
 </launch>
