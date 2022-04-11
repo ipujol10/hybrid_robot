@@ -3,7 +3,7 @@
 #include <fstream>
 
 IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time, int state) :
-    pid(name, target, Kp, Ki, Kd, sample_time, ros::Time::now()), rate(100), state(state), angular_velocity(.4) {
+    pid(name, target, Kp, Ki, Kd, sample_time, ros::Time::now()), rate(200), state(state), angular_velocity(.4) {
   ros::NodeHandle nh;
 //    inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1000);
   inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
@@ -25,8 +25,8 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
 
 IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B, /*NOLINT*/
          const ACADO::DMatrix &C, const ACADO::DMatrix &K, const ACADO::DMatrix &KObs,
-         const std::vector<Float64> &initial_state, int state) : lqr(A, B, C, K, KObs, initial_state), rate(100),
-                                                                 state(state), sys_states(initial_state),
+         const std::vector<Float64> &initial_state, int state) : lqr(A, B, C, K, KObs, vector_subs(initial_state, target)), rate(200),
+                                                                 state(state), sys_states(vector_subs(initial_state, target)),
                                                                  target(target), angular_velocity(.4) {
   ros::NodeHandle nh;
   inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
@@ -72,6 +72,7 @@ void IPD::loop() {
         auto y = vector_subs({Pitch, Position, PitchVel, Velocity}, target);
         auto u = lqr.get_action(y);
 //        ROS_WARN("Action: %f", u.at(0));
+        out << "u: " << u << "\n";
         sys_states = lqr.get_states(u, y);
         velocity = sys_states.back();
 //        ROS_WARN("Velocity: %f", velocity);
