@@ -38,7 +38,7 @@ void setup() {
                 16,
                 true,
                 0,
-                50,
+                80,
                 30);
   stepper.runContinous(CCW);
   stepper.setMaxDeceleration(10000.0);//float
@@ -49,13 +49,13 @@ void setup() {
             available modes:
             FREEWHEELBRAKE - This will result in no holding torque at standstill
             COOLBRAKE 1 - This will make the motor brake by shorting the two bottom FET's of the H-Bridge. This will provide less holding torque, but will significantly reduce driver heat
-            HARDBRAKE 2 - This will make the motor brake by sending the full specified current through the coils. This will provide high holding torque, but will make the driver (and motor) dissipate power
+            HARDBRAKE 2 - This willmake the motor brake by sending the full specified current through the coils. This will provide high holding torque, but will make the driver (and motor) dissipate power
 
      @param[in]   brakeCurrent (optional) -  if HARDBRAKE is use as mode, this argument can set the current to use for braking (0-100% of 2A).
             If argument is not specified, the motor will brake with 25% of max current
   */
-  stepper.setBrakeMode( 2, 75.0 );
-  stepper.disableStallguard();
+  stepper.setBrakeMode( 0, 75.0 );
+  stepper.enableStallguard();
   //Serial is starting communciation on UART0
   //Serial is used for debugging purpose
   Serial.begin(115200);
@@ -84,6 +84,9 @@ void loop() {
   else {
     stepper.setRPM(cmd.toInt());
   }
-  Serial1.println(stepper.encoder.getRPM());
-  delay(5);
+  String ret = "RPM:";
+  ret.concat(stepper.encoder.getRPM());
+  ret.concat(",Pitch:");
+  ret.concat(stepper.encoder.getAngle());
+  Serial1.println(ret);
 }
