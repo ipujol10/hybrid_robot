@@ -27,8 +27,8 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
 
 IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B, const ACADO::DMatrix &C,
          const ACADO::DMatrix &K, const ACADO::DMatrix &KObs, const std::vector<Float64> &initial_state,
-         Float64 frequency, int state) : lqr(A, B, C, K, KObs, vector_subs(initial_state, target)), rate(frequency),
-                                         state(state), sys_states(vector_subs(initial_state, target)), target(target),
+         Float64 frequency, int state) : lqr(A, B, C, K, KObs, vector_sum(initial_state, target)), rate(frequency),
+                                         state(state), sys_states(vector_sum(initial_state, target)), target(target),
                                          angular_velocity(.4) {
   ros::NodeHandle nh;
   inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
@@ -72,19 +72,22 @@ void IPD::loop() {
       } else {
 //        std::vector<Float64> y{Pitch - target.at(0), Position - target.at(1), PitchVel - target.at(2),
 //                               Velocity - target.back()};
-        auto y = vector_subs({Pitch, Position, PitchVel, Velocity}, target);
+//        auto y = vector_sum({Pitch, Position, PitchVel, Velocity}, target);
+        auto y = vector_sum({Pitch, PitchVel}, target);
         auto u = lqr.get_action(y);
 //        ROS_WARN("Action: %f", u.at(0));
-        out << "u: " << u << "\n";
+        out << "u: " << u.at(0) << "\n";
         sys_states = lqr.get_states(u, y);
         velocity = sys_states.back();
 //        ROS_WARN("Velocity: %f", velocity);
       }
       data.data = velocity;
       inverted_vel_pub.publish(data);
+    } else if (!isPID) {
+      sys_states = vector_sum({Pitch, PitchVel}, target);
     }
     out << "Pitch Velocity: " << PitchVel << "\n";
-    out << "States: " << vector_to_string(sys_states);
+    out << "States: " << vector_to_string(vector_sum(sys_states, target, true));
     out << "\n";
     ros::spinOnce();
     rate.sleep();
@@ -200,13 +203,14 @@ std::string IPD::vector_to_string(const std::vector<Float64> &vector) {
   return out;
 }
 
-std::vector<Float64> IPD::vector_subs(const std::vector<Float64> &a, const std::vector<Float64> &b) {
+std::vector<Float64> IPD::vector_sum(const std::vector<Float64> &a, const std::vector<Float64> &b, bool sum) {
   if (a.size() != b.size()) {
     throw std::invalid_argument("Both vectors must have the same length");
   }
+  int sign = sum ? 1 : -1;
   std::vector<Float64> out;
   for (int i = 0; i < a.size(); i++) {
-    out.emplace_back(a.at(i) - b.at(i));
+    out.emplace_back(a.at(i) + sign * b.at(i));
   }
   return out;
 }

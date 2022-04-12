@@ -66,7 +66,7 @@ private:
 
   static std::string vector_to_string(const std::vector<Float64> &vector);
 
-  static std::vector<Float64> vector_subs(const std::vector<Float64> &a, const std::vector<Float64> &b);
+  static std::vector<Float64> vector_sum(const std::vector<Float64> &a, const std::vector<Float64> &b, bool sum = false);
 };
 
 
