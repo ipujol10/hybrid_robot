@@ -64,6 +64,7 @@ void IPD::loop() {
   std::ofstream out;
   out.open("/home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/bagfiles/states.txt", std::ios::out);
   while (ros::ok()) {
+    sys_states = vector_sum({Pitch, PitchVel}, target);
     if (active) {
       std_msgs::Float64 data;
       Float64 velocity = 0;
@@ -73,18 +74,17 @@ void IPD::loop() {
 //        std::vector<Float64> y{Pitch - target.at(0), Position - target.at(1), PitchVel - target.at(2),
 //                               Velocity - target.back()};
 //        auto y = vector_sum({Pitch, Position, PitchVel, Velocity}, target);
-        auto y = vector_sum({Pitch, PitchVel}, target);
-        auto u = lqr.get_action(y);
+//        auto y = vector_sum({Pitch, PitchVel}, target);
+        auto u = lqr.get_action(sys_states);
 //        ROS_WARN("Action: %f", u.at(0));
         out << "u: " << u.at(0) << "\n";
-        sys_states = lqr.get_states(u, y);
-        velocity = sys_states.back();
+//        sys_states = lqr.get_states(u, sys_states);
+//        velocity = sys_states.back();
+        velocity = Velocity + u.at(0) * Ts;
 //        ROS_WARN("Velocity: %f", velocity);
       }
       data.data = velocity;
       inverted_vel_pub.publish(data);
-    } else if (!isPID) {
-      sys_states = vector_sum({Pitch, PitchVel}, target);
     }
     out << "Pitch Velocity: " << PitchVel << "\n";
     out << "States: " << vector_to_string(vector_sum(sys_states, target, true));
