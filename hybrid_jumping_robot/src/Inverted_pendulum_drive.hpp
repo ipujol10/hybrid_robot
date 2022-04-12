@@ -41,13 +41,15 @@ private:
   Float64 PitchVel;
   Float64 Velocity;
   Float64 Position;
+  Float64 Ts; //!< Sample time
 
 public:
-  IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time, int state = -1);
+  IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time,
+      int state = -1, Float64 frequency = 200);
 
   IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B,
       const ACADO::DMatrix &C, const ACADO::DMatrix &K, const ACADO::DMatrix &KObs,
-      const std::vector<Float64> &initial_state, int state = -1);
+      const std::vector<Float64> &initial_state, Float64 frequency, int state = -1);
 
   void loop();
 

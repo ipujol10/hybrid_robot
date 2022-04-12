@@ -2,8 +2,9 @@
 #include <iostream>
 #include <fstream>
 
-IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time, int state) :
-    pid(name, target, Kp, Ki, Kd, sample_time, ros::Time::now()), rate(200), state(state), angular_velocity(.4) {
+IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time,
+         int state, Float64 frequency) : pid(name, target, Kp, Ki, Kd, sample_time, ros::Time::now()), rate(frequency),
+                                         state(state), angular_velocity(.4) {
   ros::NodeHandle nh;
 //    inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1000);
   inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
@@ -21,13 +22,14 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
   isPID = true;
 
   last_time = ros::Time::now();
+  Ts = 1 / frequency;
 }
 
-IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B, /*NOLINT*/
-         const ACADO::DMatrix &C, const ACADO::DMatrix &K, const ACADO::DMatrix &KObs,
-         const std::vector<Float64> &initial_state, int state) : lqr(A, B, C, K, KObs, vector_subs(initial_state, target)), rate(200),
-                                                                 state(state), sys_states(vector_subs(initial_state, target)),
-                                                                 target(target), angular_velocity(.4) {
+IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B, const ACADO::DMatrix &C,
+         const ACADO::DMatrix &K, const ACADO::DMatrix &KObs, const std::vector<Float64> &initial_state,
+         Float64 frequency, int state) : lqr(A, B, C, K, KObs, vector_subs(initial_state, target)), rate(frequency),
+                                         state(state), sys_states(vector_subs(initial_state, target)), target(target),
+                                         angular_velocity(.4) {
   ros::NodeHandle nh;
   inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
   inverted_pitch_sub = nh.subscribe(inverted_pitch_connection, 1, &IPD::callbackPitch, this);
@@ -40,6 +42,7 @@ IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACAD
   isPID = false;
 
   last_time = ros::Time::now();
+  Ts = 1 / frequency;
 }
 
 
@@ -97,56 +100,92 @@ void IPD::callbackState(const std_msgs::Int8 &data) {
   }
 }
 
+//std::array<ACADO::DMatrix, 5> IPD::get_matrix() {
+//  std::array<ACADO::DMatrix, 5> out;
+//  // A matrix
+//  ACADO::DMatrix A(4, 4);
+//  A(0, 2) = 1;
+//  A(1, 3) = 1;
+//  A(2, 0) = 270.4470;
+//  A(3, 0) = 283.4000;
+//  out.at(0) = A;
+//
+//  // B matrix
+//  ACADO::DMatrix B(4, 1);
+//  B(2, 0) = 193.4632;
+//  B(3, 0) = 296.2963;
+//  out.at(1) = B;
+//
+//  // C matrix
+//  ACADO::DMatrix C(4, 4);
+//  C(0, 0) = 1;
+//  C(1, 1) = 1;
+//  C(2, 2) = 1;
+//  C(3, 3) = 1;
+//  out.at(2) = C;
+//
+//  // K matrix
+//  ACADO::DMatrix K(1, 4);
+//  K(0, 0) = 5.5667;
+//  K(0, 1) = -0.0156;
+//  K(0, 2) = 0.5959;
+//  K(0, 3) = -0.0352;
+//  out.at(3) = K;
+//
+//  // K observer matrix
+//  ACADO::DMatrix KObs(4, 4);
+//  KObs(0, 0) = 1.0135;
+//  KObs(1, 0) = 0.0142;
+//  KObs(2, 0) = 2.7166;
+//  KObs(3, 0) = 2.8467;
+//  KObs(0, 1) = 0;
+//  KObs(1, 1) = 0.6181;
+//  KObs(2, 1) = 0;
+//  KObs(3, 1) = 0.0018;
+//  KObs(0, 2) = 0.0100;
+//  KObs(1, 2) = 0.0001;
+//  KObs(2, 2) = 1.0125;
+//  KObs(3, 2) = 0.0149;
+//  KObs(0, 3) = 0;
+//  KObs(1, 3) = 0.0109;
+//  KObs(2, 3) = 0.0007;
+//  KObs(3, 3) = 0.9087;
+//  out.at(4) = KObs;
+//
+//  return out;
+//}
+
 std::array<ACADO::DMatrix, 5> IPD::get_matrix() {
   std::array<ACADO::DMatrix, 5> out;
   // A matrix
-  ACADO::DMatrix A(4, 4);
-  A(0, 2) = 1;
-  A(1, 3) = 1;
-  A(2, 0) = 270.4470;
-  A(3, 0) = 283.4000;
+  ACADO::DMatrix A(2, 2);
+  A(0, 1) = 1;
+  A(1, 0) = 85.4043194374686;
   out.at(0) = A;
 
   // B matrix
-  ACADO::DMatrix B(4, 1);
-  B(2, 0) = 193.4632;
-  B(3, 0) = 296.2963;
+  ACADO::DMatrix B(2, 1);
+  B(1, 0) = -0.652938221998995;
   out.at(1) = B;
 
   // C matrix
-  ACADO::DMatrix C(4, 4);
+  ACADO::DMatrix C(2, 2);
   C(0, 0) = 1;
   C(1, 1) = 1;
-  C(2, 2) = 1;
-  C(3, 3) = 1;
   out.at(2) = C;
 
   // K matrix
-  ACADO::DMatrix K(1, 4);
-  K(0, 0) = 5.5667;
-  K(0, 1) = -0.0156;
-  K(0, 2) = 0.5959;
-  K(0, 3) = -0.0352;
+  ACADO::DMatrix K(1, 2);
+  K(0, 0) = -370.789576601127;
+  K(0, 1) = -44.3350101572407;
   out.at(3) = K;
 
   // K observer matrix
-  ACADO::DMatrix KObs(4, 4);
-  KObs(0, 0) = 1.0135;
-  KObs(1, 0) = 0.0142;
-  KObs(2, 0) = 2.7166;
-  KObs(3, 0) = 2.8467;
-  KObs(0, 1) = 0;
-  KObs(1, 1) = 0.6181;
-  KObs(2, 1) = 0;
-  KObs(3, 1) = 0.0018;
-  KObs(0, 2) = 0.0100;
-  KObs(1, 2) = 0.0001;
-  KObs(2, 2) = 1.0125;
-  KObs(3, 2) = 0.0149;
-  KObs(0, 3) = 0;
-  KObs(1, 3) = 0.0109;
-  KObs(2, 3) = 0.0007;
-  KObs(3, 3) = 0.9087;
+  ACADO::DMatrix KObs(2, 2);
+  KObs(0, 0) = 1.00104772344165;
+  KObs(1, 0) = 0.427165035127185;
+  KObs(0, 1) = 0.0049967972077693;
+  KObs(1, 1) = 1.00006886107095;
   out.at(4) = KObs;
 
   return out;
