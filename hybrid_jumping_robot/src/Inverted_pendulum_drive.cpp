@@ -1,6 +1,7 @@
 #include "Inverted_pendulum_drive.hpp"
 #include <iostream>
 #include <fstream>
+#include <std_srvs/Empty.h>
 
 IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time,
          int state, Float64 frequency) : pid(name, target, Kp, Ki, Kd, sample_time, ros::Time::now()), rate(frequency),
@@ -43,6 +44,9 @@ IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACAD
 
   last_time = ros::Time::now();
   Ts = 1 / frequency;
+
+  Pitch = initial_state.at(0);
+  PitchVel = initial_state.at(1);
 }
 
 
@@ -61,9 +65,15 @@ void IPD::callbackPos(const std_msgs::Float64 &data) {
 }
 
 void IPD::loop() {
+  ros::NodeHandle nh;
   std::ofstream out;
   out.open("/home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/bagfiles/states.txt", std::ios::out);
+  ros::ServiceClient pauseGazebo = nh.serviceClient<std_srvs::Empty>("/gazebo/pause_physics");
+  ros::ServiceClient unpauseGazebo = nh.serviceClient<std_srvs::Empty>("/gazebo/unpause_physics");
+  std_srvs::Empty pauseSrv;
+  std_srvs::Empty unpauseSrv;
   while (ros::ok()) {
+    pauseGazebo.call(pauseSrv);
     sys_states = vector_sum({Pitch, PitchVel}, target);
     if (active) {
       std_msgs::Float64 data;
@@ -81,14 +91,18 @@ void IPD::loop() {
 //        sys_states = lqr.get_states(u, sys_states);
 //        velocity = sys_states.back();
         velocity = Velocity + u.at(0) * Ts;
+        auto real_states = vector_sum(sys_states, target, true);
+        ROS_INFO("acc (u) = % .5f", u.at(0));
+        ROS_INFO("[Pitch, Pitch_Velocity]: [% .5f, %.5f]", real_states.at(0), real_states.at(1));
 //        ROS_WARN("Velocity: %f", velocity);
       }
       data.data = velocity;
       inverted_vel_pub.publish(data);
     }
-    out << "Pitch Velocity: " << PitchVel << "\n";
-    out << "States: " << vector_to_string(vector_sum(sys_states, target, true));
+//    out << "Pitch Velocity: " << PitchVel << "\n";
+    out << "[Pitch, Pitch_Velocity]: " << vector_to_string(vector_sum(sys_states, target, true));
     out << "\n";
+    unpauseGazebo.call(unpauseSrv);
     ros::spinOnce();
     rate.sleep();
   }
@@ -168,7 +182,7 @@ std::array<ACADO::DMatrix, 5> IPD::get_matrix() {
 
   // B matrix
   ACADO::DMatrix B(2, 1);
-  B(1, 0) = -0.652938221998995;
+  B(1, 0) = 0.652938221998995;
   out.at(1) = B;
 
   // C matrix
@@ -179,8 +193,8 @@ std::array<ACADO::DMatrix, 5> IPD::get_matrix() {
 
   // K matrix
   ACADO::DMatrix K(1, 2);
-  K(0, 0) = -370.789576601127;
-  K(0, 1) = -44.3350101572407;
+  K(0, 0) = 370.789576601112;
+  K(0, 1) = 44.33501015724;
   out.at(3) = K;
 
   // K observer matrix
