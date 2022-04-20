@@ -6,6 +6,7 @@ from registers import *
 from mpu9250 import MPU9250
 import math
 import time
+import madgwick
 
 class IMU:
     acc = 0.0
@@ -32,6 +33,7 @@ class IMU:
         self.mpu.configure() # Apply the settings to the registers.
         self.mpu.calibrateMPU6500() # Calibrate sensors
         self.mpu.configure() # The calibration function resets the sensors, so you need to reconfigure them
+        self.madgwick_angles = madgwick.MadgwickAHRS()
 
     def loop(self):
         while not rospy.is_shutdown():
@@ -39,6 +41,8 @@ class IMU:
             self.gyro = self.mpu.readGyroscopeMaster()
             self.mag = self.mpu.readMagnetometerMaster()
             self.temp = self.mpu.readTemperatureMaster()
+            self.madgwick_angles.update(self.gyro,self.acc,self.mag)
+            rpy = self.madgwick_angles.quaternion.to_euler_angles()
             roll_pitch = self.calculateOriantation(self.acc)
             self.pubPitch.publish(Float64(roll_pitch['pitch']))
             rospy.loginfo_throttle(1, roll_pitch['pitch'])
