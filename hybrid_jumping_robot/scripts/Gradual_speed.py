@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import time
+
 import rospy
 from std_msgs.msg import Float64
 
@@ -8,6 +10,7 @@ class Gradual:
         self.current_velocity = 0
         self.pub = rospy.Publisher("/HJC/Vel_robot/Set_velocity", Float64, queue_size=10)
         self.subs = rospy.Subscriber("/HJC/Vel_robot/Current_velocity", Float64, self.callback, queue_size=10)
+        self.rate = rospy.Rate(200)
 
     def callback(self, msg: Float64):
         self.current_velocity = msg.data
@@ -15,21 +18,24 @@ class Gradual:
 
     def go(self):
         while not rospy.is_shutdown():
-            for i in range(1, 11):
-                vel = -i * 10
+
+            scale = 2
+            for i in range(0, int(54/scale)):
+                vel = -i * 3.6 * scale
                 rospy.loginfo("Go Velocity: {}".format(vel))
                 self.pub.publish(Float64(vel))
-                while not close(self.current_velocity, vel, 1):
-                    pass
-
+                #while not close(self.current_velocity, vel, 1):
+                self.rate.sleep()
+                time.sleep(1)
+            '''
             for i in range(2, 6):
                 vel = -i * 100
                 rospy.loginfo("Go Velocity: {}".format(vel))
                 self.pub.publish(Float64(vel))
                 while not close(self.current_velocity, vel, 1):
                     pass
+            '''
 
-            break
 
 
 def close(num, n, perc):
