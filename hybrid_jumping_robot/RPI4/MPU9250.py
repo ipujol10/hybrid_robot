@@ -202,8 +202,8 @@ class MPU9250:
         z = self.dataConv(data[5], data[4])
 
         x = round(x*self.ares, 3) - self.aBias[0]
-        y = round(y*self.ares, 3) - self.aBias[0]
-        z = round(z*self.ares, 3) - self.aBias[0]
+        y = round(y*self.ares, 3) - self.aBias[1]
+        z = round(z*self.ares, 3) - self.aBias[2]
 
         return {"x": -10*y, "y": -10*x, "z": 10*z}
 

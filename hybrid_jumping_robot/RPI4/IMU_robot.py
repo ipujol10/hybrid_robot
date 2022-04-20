@@ -43,6 +43,7 @@ class IMU:
         accelZ = acc['z']
         pitch = 180 * math.atan2(accelX, math.sqrt(accelY * accelY + accelZ * accelZ)) / math.pi
         roll = 180 * math.atan2(accelY, math.sqrt(accelX * accelX + accelZ * accelZ)) / math.pi
+
         return {"pitch": pitch, "roll": roll}
 
     def calculateAngularVelocity(self, pitch, now):
