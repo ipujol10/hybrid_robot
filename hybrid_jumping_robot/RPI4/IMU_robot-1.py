@@ -24,22 +24,17 @@ class IMU:
                             address_mpu_master=MPU9050_ADDRESS_68, # Master has 0x68 Address
                             address_mpu_slave=MPU9050_ADDRESS_68, # Slave has 0x68 Address
                             bus=1,
-                            gfs=GFS_1000,
-                            afs=AFS_8G,
-                            mfs=AK8963_BIT_16,
+                            gfs=GFS_500,
+                            afs=AFS_4G,
+                            mfs=AK8963_BIT_14,
                             mode=AK8963_MODE_C100HZ)
 
         self.mpu.configure() # Apply the settings to the registers.
         self.mpu.calibrateMPU6500() # Calibrate sensors
         self.mpu.configure() # The calibration function resets the sensors, so you need to reconfigure them
 
-
-    #self.mpu.configMPU9250(MPU9250.GFS_2000, MPU9250.AFS_2G)
-        #self.mpu.configAK8963(MPU9250.AK8963_BIT_14, 1)
-
     def loop(self):
         while not rospy.is_shutdown():
-
             self.acc = self.mpu.readAccelerometerMaster()
             self.gyro = self.mpu.readGyroscopeMaster()
             self.mag = self.mpu.readMagnetometerMaster()
@@ -49,9 +44,6 @@ class IMU:
             rospy.loginfo_throttle(1, roll_pitch['pitch'])
             self.pubAngVel.publish(Float64(self.calculateAngularVelocity(roll_pitch['pitch'], rospy.get_rostime())))
             self.rate.sleep()
-
-
-
         time.sleep(1)
 
     def calculateOriantation(self, acc):
@@ -60,7 +52,6 @@ class IMU:
         accelZ = acc[2]
         pitch = 180 * math.atan2(accelX, math.sqrt(accelY * accelY + accelZ * accelZ)) / math.pi
         roll = 180 * math.atan2(accelY, math.sqrt(accelX * accelX + accelZ * accelZ)) / math.pi
-
         return {"pitch": pitch, "roll": roll}
 
     def calculateAngularVelocity(self, pitch, now):
