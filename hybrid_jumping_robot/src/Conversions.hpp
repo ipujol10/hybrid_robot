@@ -30,6 +30,16 @@ namespace conv {
   /// \param M the matrix
   /// \return the vector
   std::vector<Float64> matrix_to_vector(const ACADO::DMatrix &M);
+
+  /// Convert from rpm to rad/s
+  /// \param rpm velocity in rpm
+  /// \return velocity in rad/s
+  Float64 rpm_to_rads(Float64 rpm);
+
+  /// Convert form rad/s to rpm
+  /// \param rads velocity in rad/s
+  /// \return velocity in rpm
+  Float64 rads_to_rpm(Float64 rads);
 }
 
 

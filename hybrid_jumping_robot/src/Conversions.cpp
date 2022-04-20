@@ -33,3 +33,11 @@ std::vector<Float64> conv::matrix_to_vector(const ACADO::DMatrix &M) {
   }
   return out;
 }
+
+Float64 conv::rpm_to_rads(Float64 rpm) {
+  return rpm * M_PI / 30;
+}
+
+Float64 conv::rads_to_rpm(Float64 rads) {
+  return rads * 30 / M_PI;
+}
