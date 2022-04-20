@@ -90,7 +90,7 @@ void IPD::loop() {
         out << "u: " << u.at(0) << "\n";
 //        sys_states = lqr.get_states(u, sys_states);
 //        velocity = sys_states.back();
-        velocity = Velocity + u.at(0) * Ts;
+        velocity = Velocity + conv::rads_to_rpm(u.at(0) * Ts);
         auto real_states = vector_sum(sys_states, target, true);
         ROS_INFO("acc (u) = % .5f", u.at(0));
         ROS_INFO("[Pitch, Pitch_Velocity]: [% .5f, %.5f]", real_states.at(0), real_states.at(1));
