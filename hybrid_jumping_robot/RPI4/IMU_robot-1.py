@@ -6,7 +6,7 @@ from registers import *
 from mpu9250 import MPU9250
 import math
 import time
-import madgwick
+#from madgwick import *
 
 class IMU:
     acc = 0.0
@@ -33,7 +33,7 @@ class IMU:
         self.mpu.configure() # Apply the settings to the registers.
         self.mpu.calibrateMPU6500() # Calibrate sensors
         self.mpu.configure() # The calibration function resets the sensors, so you need to reconfigure them
-        self.madgwick_angles = madgwick.MadgwickAHRS()
+        #self.madgwick_angles = MadgwickAHRS()
 
     def loop(self):
         while not rospy.is_shutdown():
@@ -41,11 +41,12 @@ class IMU:
             self.gyro = self.mpu.readGyroscopeMaster()
             self.mag = self.mpu.readMagnetometerMaster()
             self.temp = self.mpu.readTemperatureMaster()
-            self.madgwick_angles.update(self.gyro,self.acc,self.mag)
-            rpy = self.madgwick_angles.quaternion.to_euler_angles()
+            #self.madgwick_angles.update(self.gyro,self.acc,self.mag)
+            #rpy = self.madgwick_angles.quaternion.to_euler_angles()
+            #print("rpy: ", rpy)
             roll_pitch = self.calculateOriantation(self.acc)
             self.pubPitch.publish(Float64(roll_pitch['pitch']))
-            rospy.loginfo_throttle(1, roll_pitch['pitch'])
+            rospy.loginfo_throttle(1,"pitch is {} and roll is {}".format( roll_pitch['pitch'], roll_pitch['roll']))
             self.pubAngVel.publish(Float64(self.calculateAngularVelocity(roll_pitch['pitch'], rospy.get_rostime())))
             self.rate.sleep()
         time.sleep(1)
@@ -54,7 +55,7 @@ class IMU:
         accelX = acc[0]
         accelY = acc[1]
         accelZ = acc[2]
-        pitch = 180 * math.atan2(accelX, math.sqrt(accelY * accelY + accelZ * accelZ)) / math.pi
+        pitch = math.atan2(accelX, math.sqrt(accelY * accelY + accelZ * accelZ))
         roll = 180 * math.atan2(accelY, math.sqrt(accelX * accelX + accelZ * accelZ)) / math.pi
         return {"pitch": pitch, "roll": roll}
 

@@ -14,7 +14,6 @@
 """
 
 import numpy as np
-import numbers
 
 
 class Quaternion:
@@ -107,7 +106,7 @@ class Quaternion:
             z = self._q[0]*other._q[3] + self._q[1]*other._q[2] - self._q[2]*other._q[1] + self._q[3]*other._q[0]
 
             return Quaternion(w, x, y, z)
-        elif isinstance(other, numbers.Number):
+        else:
             q = self._q * other
             return Quaternion(q)
 
