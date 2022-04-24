@@ -76,13 +76,11 @@ class wheel_robot:
             if self.left_wheel_serial.in_waiting > 0:
                 try:
                     data_input_left = self.left_wheel_serial.readline()
-                    #print(data_input_left)
                     data_arr_left = data_input_left.split(",")
                     self.velocity_left = data_arr_left[0].split(":")[1]
                     angle_out_left = data_arr_left[1].split(":")
                     self.angle_left = angle_out_left[1].rstrip()
-                    #print("angle: {} rpm: {}".format(angle_left, data_left))
-                    #print("data left has type:{} value is {}".format(type(data_left),data_left))
+
                 except KeyboardInterrupt:
                     print("Exiting Program")
                 except:
@@ -96,9 +94,6 @@ class wheel_robot:
                     angle_out_right = data_arr_right[1].split(":")
                     self.angle_right = angle_out_right[1].rstrip()
 
-                    #print("data right has type:{} value is {}".format(type(data_right),data_right))
-
-
                 except KeyboardInterrupt:
                     print("Exiting Program")
                 except:
@@ -111,6 +106,7 @@ class wheel_robot:
             self.rate.sleep()
         self.left_wheel_serial.close()
         self.right_wheel_serial.close()
+        self.serBreak.close()
 
     def set_velocity_cb(self, data):
         self.set_velocity = data.data
