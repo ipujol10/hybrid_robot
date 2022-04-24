@@ -2,6 +2,7 @@
 
 import rospy
 from std_msgs.msg import Float64
+from geometry.msgs import Vector3
 import math
 import serial
 import time
@@ -12,6 +13,7 @@ class wheel_robot:
     current_velocity = 0.0
     velocity_left = 0.0
     velocity_right = 0.0
+    #meassurea this
     base_withd = 1
     wheel_radii = 16/2
 
@@ -32,6 +34,7 @@ class wheel_robot:
         self.rate = rospy.Rate(280)
         self.sub_set_velocity = rospy.Subscriber('/HJC/Vel_robot/Set_velocity', Float64, self.set_velocity_cb)
         self.pub_current_velocity = rospy.Publisher('/HJC/Vel_robot/Current_velocity', Float64, queue_size=1)
+        self.pub_current_pos = rospy.Publisher('/HJC/Vel_robot/Current_pos', Vector3, queue_size=1)
         self.pub_left_wheel_pos = rospy.Publisher('/HJC/Vel_robot/Left_wheel_pos', Float64, queue_size=1)
         self.pub_right_wheel_pos = rospy.Publisher('/HJC/Vel_robot/Right_wheel_pos', Float64, queue_size=1)
         # /dev/ttyAMA4 is on gpio pin 8 TX 9 RX pin on rpi is 24 & 21
@@ -100,6 +103,11 @@ class wheel_robot:
                     print("Error Occurs, Exiting Program")
             self.odom()
             vel = float(self.velocity_left) + float(self.velocity_right) * 0.5
+            pos_msg = Vector3
+            pos_msg.x = self.x_pos
+            pos_msg.y = self.y_pos
+            pos_msg.z = self.theta_pos
+            self.pub_current_pos.publish(pos_msg)
             self.pub_current_velocity.publish(Float64(float(self.rpmtovel(vel))))
             self.pub_left_wheel_pos.publish(Float64(float(self.angle_left)))
             self.pub_right_wheel_pos.publish(Float64(float(self.angle_right)))
