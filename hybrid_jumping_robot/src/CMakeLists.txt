@@ -18,5 +18,5 @@ set(SOURCE_FILES IMU_robot.cpp Robot.cpp Conversions.cpp Actuator_robot.cpp Vel_
 
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})
-target_link_libraries(${PROJECT_NAME} ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} ${ACADO_SHARED_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES})
 set_target_properties(${PROJECT_NAME} PROPERTIES LIKER_LANGUAGE CXX)
