@@ -14,7 +14,15 @@ std::vector<Float64> LQR::get_action(const std::vector<Float64> &x) {
 //  std::cout << K << std::endl;
 //  std::cout << x_m << std::endl;
 //  std::cout << u << std::endl;
-  return conv::matrix_to_vector(u);
+  std::vector<Float64> out = conv::matrix_to_vector(u);
+  for (auto &el : out) {
+    if (isnan(el) || isinf(el)) {
+      std::cout << K << std::endl;
+      std::cout << x_m << std::endl;
+      el = 0;
+    }
+  }
+  return out;
 }
 
 std::vector<Float64> LQR::get_states(const std::vector<Float64> &u, const std::vector<Float64> &y) {

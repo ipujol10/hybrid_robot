@@ -35,6 +35,7 @@ IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACAD
   inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
   inverted_pitch_sub = nh.subscribe(inverted_pitch_connection, 1, &IPD::callbackPitch, this);
   state_sub = nh.subscribe("/HJC/State_machine/State", 1, &IPD::callbackState, this);
+  inverted_vel_sub = nh.subscribe(inverted_current_vel_connection, 1, &IPD::callbackVel, this);
   if (state == -1) {
     active = true;
   } else {
@@ -51,7 +52,10 @@ IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACAD
 
 
 void IPD::callbackPitch(const std_msgs::Float64 &data) {
-  Pitch = data.data;
+  auto newPitch = data.data;
+  if (!(isnan(newPitch) || isinf(newPitch))) {
+    Pitch = newPitch;
+  }
   ros::Duration d_time = ros::Time::now() - last_time;
   PitchVel = angular_velocity.smooth(Pitch, d_time.toSec());
 }
@@ -68,11 +72,14 @@ void IPD::loop() {
   ros::NodeHandle nh;
   std::ofstream out;
   out.open("/home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/bagfiles/states.txt", std::ios::out);
+  std::ofstream times;
+  times.open("/home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/bagfiles/times.txt");
   ros::ServiceClient pauseGazebo = nh.serviceClient<std_srvs::Empty>("/gazebo/pause_physics");
   ros::ServiceClient unpauseGazebo = nh.serviceClient<std_srvs::Empty>("/gazebo/unpause_physics");
   std_srvs::Empty pauseSrv;
   std_srvs::Empty unpauseSrv;
   while (ros::ok()) {
+    auto now = ros::Time::now();
     pauseGazebo.call(pauseSrv);
     sys_states = vector_sum({Pitch, PitchVel}, target);
     if (active) {
@@ -87,13 +94,16 @@ void IPD::loop() {
 //        auto y = vector_sum({Pitch, PitchVel}, target);
         auto u = lqr.get_action(sys_states);
 //        ROS_WARN("Action: %f", u.at(0));
-        out << "u: " << u.at(0) << "\n";
 //        sys_states = lqr.get_states(u, sys_states);
 //        velocity = sys_states.back();
-        velocity = Velocity + conv::rads_to_rpm(u.at(0) * Ts);
+        auto acc_rpm = conv::rads_to_rpm(u.at(0));
+        out << "u: " << acc_rpm << "\n";
+        velocity = Velocity + acc_rpm * Ts;
         auto real_states = vector_sum(sys_states, target, true);
-        ROS_INFO("acc (u) = % .5f", u.at(0));
+        ROS_INFO("acc (u) = % .5f", acc_rpm);
         ROS_INFO("[Pitch, Pitch_Velocity]: [% .5f, %.5f]", real_states.at(0), real_states.at(1));
+        ROS_INFO("Velocity: % .5f\n", Velocity);
+        out << "New Velocity: " << velocity << ", Current Velocity: " << Velocity << "\n";
 //        ROS_WARN("Velocity: %f", velocity);
       }
       data.data = velocity;
@@ -102,6 +112,7 @@ void IPD::loop() {
 //    out << "Pitch Velocity: " << PitchVel << "\n";
     out << "[Pitch, Pitch_Velocity]: " << vector_to_string(vector_sum(sys_states, target, true));
     out << "\n";
+    times << (ros::Time::now() - now).toNSec() << "\n";
     unpauseGazebo.call(unpauseSrv);
     ros::spinOnce();
     rate.sleep();
