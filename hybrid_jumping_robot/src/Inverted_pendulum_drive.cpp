@@ -227,15 +227,3 @@ std::string IPD::vector_to_string(const std::vector<Float64> &vector) {
   out = out.substr(0, out.size() - 2) + "]\n";
   return out;
 }
-
-std::vector<Float64> IPD::vector_sum(const std::vector<Float64> &a, const std::vector<Float64> &b, bool sum) {
-  if (a.size() != b.size()) {
-    throw std::invalid_argument("Both vectors must have the same length");
-  }
-  int sign = sum ? 1 : -1;
-  std::vector<Float64> out;
-  for (int i = 0; i < a.size(); i++) {
-    out.emplace_back(a.at(i) + sign * b.at(i));
-  }
-  return out;
-}

@@ -18,9 +18,7 @@ public:
   LQR(const ACADO::DMatrix &A, const ACADO::DMatrix &B, const ACADO::DMatrix &C, const ACADO::DMatrix &K, const ACADO::DMatrix &KObs,
       const std::vector<Float64> &initial_state);
 
-  std::vector<Float64> get_action(const std::vector<Float64> &x);
-
-  std::vector<Float64> get_states(const std::vector<Float64> &u, const std::vector<Float64> &y);
+  Eigen::MatrixXd get_action(const Eigen::MatrixXd &x);
 };
 
 
