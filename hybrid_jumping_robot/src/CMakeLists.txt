@@ -13,8 +13,8 @@ find_package(catkin REQUIRED COMPONENTS
     message_generation
     )
 
-set(HEADER_FILES IMU_robot.hpp Conversions.hpp Types.hpp Robot.hpp Actuator_robot.hpp Vel_robot.hpp Hybrid_jumping_Robot.hpp PID_controller.hpp Data.hpp Inverted_pendulum_drive.hpp State_machine.hpp LQR.hpp Observer.hpp UnitDelay.hpp NoiseFilter.hpp ExponentialFilter.hpp VelocitySmooth.hpp)
-set(SOURCE_FILES IMU_robot.cpp Robot.cpp Conversions.cpp Actuator_robot.cpp Vel_robot.cpp Hybrid_jumping_Robot.cpp PID_controller.cpp Inverted_pendulum_drive.cpp State_machine.cpp LQR.cpp Observer.cpp UnitDelay.cpp ExponentialFilter.cpp VelocitySmooth.cpp)
+set(HEADER_FILES IMU_robot.hpp Conversions.hpp Types.hpp Robot.hpp Actuator_robot.hpp Vel_robot.hpp Hybrid_jumping_Robot.hpp PID_controller.hpp Data.hpp Inverted_pendulum_drive.hpp State_machine.hpp LQR.hpp NoiseFilter.hpp ExponentialFilter.hpp VelocitySmooth.hpp)
+set(SOURCE_FILES IMU_robot.cpp Robot.cpp Conversions.cpp Actuator_robot.cpp Vel_robot.cpp Hybrid_jumping_Robot.cpp PID_controller.cpp Inverted_pendulum_drive.cpp State_machine.cpp LQR.cpp ExponentialFilter.cpp VelocitySmooth.cpp)
 
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})
