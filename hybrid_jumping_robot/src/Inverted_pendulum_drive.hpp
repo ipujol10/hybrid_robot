@@ -63,8 +63,6 @@ private:
   void callbackVel(const std_msgs::Float64 &data);
 
   void callbackPos(const std_msgs::Float64 &data);
-
-  static std::string vector_to_string(const std::vector<Float64> &vector);
 };
 
 

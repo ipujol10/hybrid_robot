@@ -218,12 +218,3 @@ std::array<ACADO::DMatrix, 5> IPD::get_matrix() {
 
   return out;
 }
-
-std::string IPD::vector_to_string(const std::vector<Float64> &vector) {
-  std::string out = "[";
-  for (auto el: vector) {
-    out += std::to_string(el) + ", ";
-  }
-  out = out.substr(0, out.size() - 2) + "]\n";
-  return out;
-}
