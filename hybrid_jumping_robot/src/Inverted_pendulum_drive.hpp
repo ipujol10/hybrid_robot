@@ -13,7 +13,6 @@
 #include <std_msgs/Float64.h>
 #include <std_msgs/Int8.h>
 #include <string>
-#include <Eigen/Dense>
 
 
 class IPD {
@@ -31,8 +30,8 @@ private:
   std::string inverted_current_vel_connection = "/HJC/Vel_robot/Current_velocity";
   std::string inverted_pos_connection = "/HJC/Vel_robot/Current_position";
   ros::Rate rate;
-  Eigen::MatrixXd sys_states;
-  Eigen::MatrixXd target;
+  Matrix sys_states;
+  Matrix target;
   int state;
   bool active;
   bool isPID;
@@ -48,12 +47,12 @@ public:
   IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time,
       int state = -1, Float64 frequency = 200);
 
-  IPD(const Eigen::MatrixXd &target, const Eigen::MatrixXd &K, const Eigen::MatrixXd &initial_state, Float64 frequency,
+  IPD(const Matrix &target, const Matrix &K, const Matrix &initial_state, Float64 frequency,
       int state = -1);
 
   void loop();
 
-  static std::array<Eigen::MatrixXd, 5> get_matrix();
+  static std::array<Matrix, 5> get_matrix();
 
 private:
   void callbackPitch(const std_msgs::Float64 &data);

@@ -26,7 +26,7 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
   Ts = 1 / frequency;
 }
 
-IPD::IPD(const Eigen::MatrixXd &target, const Eigen::MatrixXd &K, const Eigen::MatrixXd &initial_state,
+IPD::IPD(const Matrix &target, const Matrix &K, const Matrix &initial_state,
          Float64 frequency, int state) : lqr(K), rate(frequency), state(state), sys_states(initial_state - target),
                                          target(target), angular_velocity(.4) {
   ros::NodeHandle nh;
@@ -79,8 +79,8 @@ void IPD::loop() {
   while (ros::ok()) {
     auto now = ros::Time::now();
     pauseGazebo.call(pauseSrv);
-    Eigen::MatrixXd current_real_state{{Pitch},
-                                       {PitchVel}};
+    Matrix current_real_state{{Pitch},
+                              {PitchVel}};
     sys_states = current_real_state - target;
     if (active) {
       std_msgs::Float64 data;
@@ -183,25 +183,25 @@ void IPD::callbackState(const std_msgs::Int8 &data) {
 //  return out;
 //}
 
-std::array<Eigen::MatrixXd, 5> IPD::get_matrix() {
-  std::array<Eigen::MatrixXd, 5> out;
+std::array<Matrix, 5> IPD::get_matrix() {
+  std::array<Matrix, 5> out;
   // A matrix
-  Eigen::MatrixXd A{{0,                1},
-                    {85.4043194374686, 0}};
+  Matrix A{{0,                1},
+           {85.4043194374686, 0}};
   out.at(0) = A;
 
   // B matrix
-  Eigen::MatrixXd B{{0},
-                    {0.65293822199899}};
+  Matrix B{{0},
+           {0.65293822199899}};
   out.at(1) = B;
 
   // C matrix
-  Eigen::MatrixXd C{{1, 0},
-                    {0, 1}};
+  Matrix C{{1, 0},
+           {0, 1}};
   out.at(2) = C;
 
   // K matrix
-  Eigen::MatrixXd K{{370.789576601112, 44.33501015724}};
+  Matrix K{{370.789576601112, 44.33501015724}};
   out.at(3) = K;
 
   // K observer matrix
@@ -210,8 +210,8 @@ std::array<Eigen::MatrixXd, 5> IPD::get_matrix() {
 //  KObs(1, 0) = 0.427165035127185;
 //  KObs(0, 1) = 0.0049967972077693;
 //  KObs(1, 1) = 1.00006886107095;
-  Eigen::MatrixXd KObs{{1.00104772344165,   0.427165035127185},
-                       {0.0049967972077693, 1.00006886107095}};
+  Matrix KObs{{1.00104772344165,   0.427165035127185},
+              {0.0049967972077693, 1.00006886107095}};
   out.at(4) = KObs;
 
   return out;

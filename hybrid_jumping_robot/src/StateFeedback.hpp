@@ -2,19 +2,17 @@
 #define HYBRID_JUMPING_ROBOT_STATEFEEDBACK_HPP
 
 #include "Types.hpp"
-#include <Eigen/Dense>
-
 
 class StateFeedback {
 private:
-  Eigen::MatrixXd K; //!< Control matrix
+  Matrix K; //!< Control matrix
 
 public:
   StateFeedback();
 
-  StateFeedback(const Eigen::MatrixXd &K);
+  StateFeedback(const Matrix &K);
 
-  Eigen::MatrixXd get_action(const Eigen::MatrixXd &x);
+  Matrix get_action(const Matrix &x);
 };
 
 

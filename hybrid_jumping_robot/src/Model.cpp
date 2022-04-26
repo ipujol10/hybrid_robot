@@ -1,14 +1,14 @@
 #include "Model.hpp"
 
 Model::Model(int states, int inputs, int outputs) : X(states), U(inputs), Y(outputs) {
-  A = Eigen::MatrixXd(X, X);
-  B = Eigen::MatrixXd(X, U);
-  C = Eigen::MatrixXd(Y, X); /*NOLINT*/
-  D = Eigen::MatrixXd(Y, U);
+  A = Matrix(X, X);
+  B = Matrix(X, U);
+  C = Matrix(Y, X); /*NOLINT*/
+  D = Matrix(Y, U);
 }
 
-void Model::set_model(const Eigen::MatrixXd &a, const Eigen::MatrixXd &b, const Eigen::MatrixXd &c,
-                      const Eigen::MatrixXd &d) {
+void Model::set_model(const Matrix &a, const Matrix &b, const Matrix &c,
+                      const Matrix &d) {
   if (!(a.rows() == a.cols() && a.rows() == 1 && a(0, 0) == 0)) {
     if (a.rows() != X || a.cols() != X) {
       throw std::invalid_argument("The dimensions of the matrix doesn't match with the model");
@@ -35,7 +35,7 @@ void Model::set_model(const Eigen::MatrixXd &a, const Eigen::MatrixXd &b, const 
   }
 }
 
-void Model::set_A(const Eigen::MatrixXd &a) {
+void Model::set_A(const Matrix &a) {
   if (!(a.rows() == a.cols() && a.rows() == 1 && a(0, 0) == 0)) {
     if (a.rows() != X || a.cols() != X) {
       throw std::invalid_argument("The dimensions of the matrix doesn't match with the model");
@@ -44,7 +44,7 @@ void Model::set_A(const Eigen::MatrixXd &a) {
   }
 }
 
-void Model::set_B(const Eigen::MatrixXd &b) {
+void Model::set_B(const Matrix &b) {
   if (!(b.rows() == b.cols() && b.rows() == 1 && b(0, 0) == 0)) {
     if (b.rows() != X || b.cols() != U) {
       throw std::invalid_argument("The dimensions of the matrix doesn't match with the model");
@@ -53,7 +53,7 @@ void Model::set_B(const Eigen::MatrixXd &b) {
   }
 }
 
-void Model::set_C(const Eigen::MatrixXd &c) {
+void Model::set_C(const Matrix &c) {
   if (!(c.rows() == c.cols() && c.rows() == 1 && c(0, 0) == 0)) {
     if (c.rows() != Y || c.cols() != X) {
       throw std::invalid_argument("The dimensions of the matrix doesn't match with the model");
@@ -62,7 +62,7 @@ void Model::set_C(const Eigen::MatrixXd &c) {
   }
 }
 
-void Model::set_D(const Eigen::MatrixXd &d) {
+void Model::set_D(const Matrix &d) {
   if (!(d.rows() == d.cols() && d.rows() == 1 && d(0, 0) == 0)) {
     if (d.rows() != Y || d.cols() != U) {
       throw std::invalid_argument("The dimensions of the matrix doesn't match with the model");

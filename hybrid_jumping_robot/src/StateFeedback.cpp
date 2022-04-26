@@ -2,11 +2,11 @@
 
 StateFeedback::StateFeedback() = default;
 
-StateFeedback::StateFeedback(const Eigen::MatrixXd &K): K(K) { /*NOLINT*/
+StateFeedback::StateFeedback(const Matrix &K) : K(K) { /*NOLINT*/
 
 }
 
-Eigen::MatrixXd StateFeedback::get_action(const Eigen::MatrixXd &x) {
+Matrix StateFeedback::get_action(const Matrix &x) {
   auto u = -K * x;
   return u;
 }
