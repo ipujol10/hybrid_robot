@@ -6,7 +6,7 @@
 
 #include "PID_controller.hpp"
 #include "Types.hpp"
-#include "LQR.hpp"
+#include "StateFeedback.hpp"
 #include "VelocitySmooth.hpp"
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
@@ -19,7 +19,7 @@
 class IPD {
 private:
   PID pid;
-  LQR lqr;
+  StateFeedback lqr;
   VelocitySmooth angular_velocity;
   ros::Publisher inverted_vel_pub;
   ros::Subscriber inverted_pitch_sub;
