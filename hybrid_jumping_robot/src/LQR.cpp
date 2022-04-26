@@ -2,9 +2,7 @@
 
 LQR::LQR() = default;
 
-LQR::LQR(const ACADO::DMatrix &A, const ACADO::DMatrix &B, const ACADO::DMatrix &C, const ACADO::DMatrix &K,
-         const ACADO::DMatrix &KObs, const std::vector<Float64> &initial_state) : K(K), observer(A, B, C, KObs,
-                                                                                                 initial_state) {
+LQR::LQR(const Eigen::MatrixXd &K): K(K) { /*NOLINT*/
 
 }
 

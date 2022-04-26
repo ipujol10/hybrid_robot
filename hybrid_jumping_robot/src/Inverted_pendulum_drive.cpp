@@ -26,11 +26,9 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
   Ts = 1 / frequency;
 }
 
-IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACADO::DMatrix &B, const ACADO::DMatrix &C,
-         const ACADO::DMatrix &K, const ACADO::DMatrix &KObs, const std::vector<Float64> &initial_state,
-         Float64 frequency, int state) : lqr(A, B, C, K, KObs, vector_sum(initial_state, target)), rate(frequency),
-                                         state(state), sys_states(vector_sum(initial_state, target)), target(target),
-                                         angular_velocity(.4) {
+IPD::IPD(const Eigen::MatrixXd &target, const Eigen::MatrixXd &K, const Eigen::MatrixXd &initial_state,
+         Float64 frequency, int state) : lqr(K), rate(frequency), state(state), sys_states(initial_state - target),
+                                         target(target), angular_velocity(.4) {
   ros::NodeHandle nh;
   inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
   inverted_pitch_sub = nh.subscribe(inverted_pitch_connection, 1, &IPD::callbackPitch, this);
@@ -46,8 +44,8 @@ IPD::IPD(const std::vector<Float64> &target, const ACADO::DMatrix &A, const ACAD
   last_time = ros::Time::now();
   Ts = 1 / frequency;
 
-  Pitch = initial_state.at(0);
-  PitchVel = initial_state.at(1);
+  Pitch = initial_state(0, 0);
+  PitchVel = initial_state(1, 0);
 }
 
 
@@ -81,7 +79,9 @@ void IPD::loop() {
   while (ros::ok()) {
     auto now = ros::Time::now();
     pauseGazebo.call(pauseSrv);
-    sys_states = vector_sum({Pitch, PitchVel}, target);
+    Eigen::MatrixXd current_real_state{{Pitch},
+                                       {PitchVel}};
+    sys_states = current_real_state - target;
     if (active) {
       std_msgs::Float64 data;
       Float64 velocity = 0;
@@ -96,12 +96,12 @@ void IPD::loop() {
 //        ROS_WARN("Action: %f", u.at(0));
 //        sys_states = lqr.get_states(u, sys_states);
 //        velocity = sys_states.back();
-        auto acc_rpm = conv::rads_to_rpm(u.at(0));
+        auto acc_rpm = conv::rads_to_rpm(u(0, 0));
         out << "u: " << acc_rpm << "\n";
         velocity = Velocity + acc_rpm * Ts;
-        auto real_states = vector_sum(sys_states, target, true);
+        auto real_states = sys_states + target;
         ROS_INFO("acc (u) = % .5f", acc_rpm);
-        ROS_INFO("[Pitch, Pitch_Velocity]: [% .5f, %.5f]", real_states.at(0), real_states.at(1));
+        ROS_INFO("[Pitch, Pitch_Velocity]: [% .5f, %.5f]", real_states(0, 0), real_states(1, 0));
         ROS_INFO("Velocity: % .5f\n", Velocity);
         out << "New Velocity: " << velocity << ", Current Velocity: " << Velocity << "\n";
 //        ROS_WARN("Velocity: %f", velocity);
@@ -110,7 +110,7 @@ void IPD::loop() {
       inverted_vel_pub.publish(data);
     }
 //    out << "Pitch Velocity: " << PitchVel << "\n";
-    out << "[Pitch, Pitch_Velocity]: " << vector_to_string(vector_sum(sys_states, target, true));
+    out << "[Pitch, Pitch_Velocity]: " << sys_states + target << "\n";
     out << "\n";
     times << (ros::Time::now() - now).toNSec() << "\n";
     unpauseGazebo.call(unpauseSrv);
@@ -183,37 +183,35 @@ void IPD::callbackState(const std_msgs::Int8 &data) {
 //  return out;
 //}
 
-std::array<ACADO::DMatrix, 5> IPD::get_matrix() {
-  std::array<ACADO::DMatrix, 5> out;
+std::array<Eigen::MatrixXd, 5> IPD::get_matrix() {
+  std::array<Eigen::MatrixXd, 5> out;
   // A matrix
-  ACADO::DMatrix A(2, 2);
-  A(0, 1) = 1;
-  A(1, 0) = 85.4043194374686;
+  Eigen::MatrixXd A{{0,                1},
+                    {85.4043194374686, 0}};
   out.at(0) = A;
 
   // B matrix
-  ACADO::DMatrix B(2, 1);
-  B(1, 0) = 0.652938221998995;
+  Eigen::MatrixXd B{{0},
+                    {0.65293822199899}};
   out.at(1) = B;
 
   // C matrix
-  ACADO::DMatrix C(2, 2);
-  C(0, 0) = 1;
-  C(1, 1) = 1;
+  Eigen::MatrixXd C{{1, 0},
+                    {0, 1}};
   out.at(2) = C;
 
   // K matrix
-  ACADO::DMatrix K(1, 2);
-  K(0, 0) = 370.789576601112;
-  K(0, 1) = 44.33501015724;
+  Eigen::MatrixXd K{{370.789576601112, 44.33501015724}};
   out.at(3) = K;
 
   // K observer matrix
-  ACADO::DMatrix KObs(2, 2);
-  KObs(0, 0) = 1.00104772344165;
-  KObs(1, 0) = 0.427165035127185;
-  KObs(0, 1) = 0.0049967972077693;
-  KObs(1, 1) = 1.00006886107095;
+//  ACADO::DMatrix KObs(2, 2);
+//  KObs(0, 0) = 1.00104772344165;
+//  KObs(1, 0) = 0.427165035127185;
+//  KObs(0, 1) = 0.0049967972077693;
+//  KObs(1, 1) = 1.00006886107095;
+  Eigen::MatrixXd KObs{{1.00104772344165,   0.427165035127185},
+                       {0.0049967972077693, 1.00006886107095}};
   out.at(4) = KObs;
 
   return out;
