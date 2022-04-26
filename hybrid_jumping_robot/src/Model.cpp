@@ -7,6 +7,8 @@ Model::Model(int states, int inputs, int outputs) : X(states), U(inputs), Y(outp
   D = Matrix(Y, U);
 }
 
+Model::Model() = default;
+
 void Model::set_model(const Matrix &a, const Matrix &b, const Matrix &c,
                       const Matrix &d) {
   if (!(a.rows() == a.cols() && a.rows() == 1 && a(0, 0) == 0)) {
