@@ -21,18 +21,6 @@ Matrix StateFeedback::get_action(const Matrix &x) {
 }
 
 void StateFeedback::initialise() {
-  /*
-   * Put here the N gain (Precompensator) // TODO
-   * */
-
-  ALC = model.get_A() - L * model.get_C();
-}
-
-Matrix StateFeedback::get_u() const {
-  return u;
-}
-
-Matrix StateFeedback::estimate_state(const Matrix &y, Float64 dt) {
   // Nbar is to map the reference to the control offset. Here is precalculated
   Matrix sys(X + Y, X + U);
   sys << model.get_A(), model.get_B(), model.get_C(), model.get_D();
@@ -48,7 +36,15 @@ Matrix StateFeedback::estimate_state(const Matrix &y, Float64 dt) {
 
   // Split in Nx and Nu and calculate N
   N_bar = K * invSys.block(0, X, X, Y) + invSys.block(X, X, U, Y);
+  ALC = model.get_A() - L * model.get_C();
+}
 
+Matrix StateFeedback::get_u() const {
+  return u;
+}
+
+Matrix StateFeedback::estimate_state(const Matrix &y, Float64 dt) {
+  // TODO: see if it has to change as it is probably a discretitatzion
   return x_hat + (ALC * x_hat + model.get_B() * u + L * y) * dt;
 }
 
