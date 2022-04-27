@@ -6,7 +6,8 @@ from registers import *
 from mpu9250 import MPU9250
 import math
 import time
-#from madgwick import *
+from madgwick import *
+import numpy
 
 class IMU:
     acc = 0.0
@@ -14,6 +15,7 @@ class IMU:
     mag = 0.0
     temp = 0.0
     oldPitch = 0.0
+    oldRoll = 0.0
     oldTime = 0
 
     def __init__(self, name):
@@ -42,7 +44,8 @@ class IMU:
             self.mag = self.mpu.readMagnetometerMaster()
             self.temp = self.mpu.readTemperatureMaster()
             #self.madgwick_angles.update(self.gyro,self.acc,self.mag)
-            #rpy = self.madgwick_angles.quaternion.to_euler_angles()
+            #rpy = numpy.ndarray
+            #rpy = self.madgwick_angles.quaternion.q()
             #print("rpy: ", rpy)
             roll_pitch = self.calculateOriantation(self.acc)
             self.pubPitch.publish(Float64(roll_pitch['pitch']))
@@ -55,8 +58,15 @@ class IMU:
         accelX = acc[0]
         accelY = acc[1]
         accelZ = acc[2]
-        pitch = math.atan2(accelX, math.sqrt(accelY * accelY + accelZ * accelZ))
-        roll = 180 * math.atan2(accelY, math.sqrt(accelX * accelX + accelZ * accelZ)) / math.pi
+        #rospy.loginfo_throttle(1,"x is {} and y is {} z is {}".format( accelX, accelY, accelZ))
+        pitch = round(math.atan2(accelX, math.sqrt(accelY * accelY + accelZ * accelZ)), 3)
+        roll = round(math.atan2(accelY, math.sqrt(accelX * accelX + accelZ * accelZ)),3)
+        if accelZ < 0:
+            pitch = -pitch
+        pitch = self.notch(pitch, self.oldPitch)
+        roll = self.notch(roll, self.oldRoll)
+        self.oldPitch = pitch
+        self.oldRoll = roll
         return {"pitch": pitch, "roll": roll}
 
     def calculateAngularVelocity(self, pitch, now):
@@ -65,6 +75,8 @@ class IMU:
         self.oldPitch = pitch
         return pitch
 
+    def notch(self,new,old,alpha = 0.3):
+        return new * alpha + (1-alpha) * old
 
 if __name__ == '__main__':
     imu = IMU('testIMU')
