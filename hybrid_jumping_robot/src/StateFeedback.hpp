@@ -38,13 +38,16 @@ public:
 
   Matrix get_action(const Matrix &x);
 
-  void initialise();
+  void initialise(const Matrix &k, const Matrix &l = Matrix{{0}}, const Matrix &i = Matrix{{0}});
 
   [[nodiscard]] Matrix get_u() const;
 
   Matrix estimate_state(const Matrix &y, Float64 dt);
 
   void update(const Matrix &y, Float64 dt);
+
+private:
+  void set_gains(const Matrix &k, const Matrix &l, const Matrix &i);
 };
 
 

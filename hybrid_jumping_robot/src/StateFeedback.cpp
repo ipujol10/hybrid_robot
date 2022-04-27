@@ -13,6 +13,7 @@ StateFeedback::StateFeedback(const Model &model) : model(model), X(model.X), Y(m
   w_hat = Matrix(U, 1);
   L = Matrix(X, Y);
   I = Matrix(U, Y);
+  K = Matrix(U, X);
 }
 
 Matrix StateFeedback::get_action(const Matrix &x) {
@@ -20,7 +21,9 @@ Matrix StateFeedback::get_action(const Matrix &x) {
   return u;
 }
 
-void StateFeedback::initialise() {
+void StateFeedback::initialise(const Matrix &k, const Matrix &l, const Matrix &i) {
+  set_gains(k, k, i);
+
   // Nbar is to map the reference to the control offset. Here is precalculated
   Matrix sys(X + Y, X + U);
   sys << model.get_A(), model.get_B(), model.get_C(), model.get_D();
@@ -28,15 +31,15 @@ void StateFeedback::initialise() {
   // Find the inverse
   Matrix invSys(X + U, X + Y);
 
-  if (model.U < model.Y) { // more outputs than inputs --> left inverse
+  if (U < Y) { // more outputs than inputs --> left inverse
     invSys = (sys.transpose() * sys).inverse() * sys.transpose();
   } else { // more inputs than outputs --> right inverse
     invSys = sys.transpose() * (sys * sys.transpose()).inverse();
   }
 
   // Split in Nx and Nu and calculate N
-  N_bar = K * invSys.block(0, X, X, Y) + invSys.block(X, X, U, Y);
-  ALC = model.get_A() - L * model.get_C();
+  N_bar = k * invSys.block(0, X, X, Y) + invSys.block(X, X, U, Y);
+  ALC = model.get_A() - l * model.get_C();
 }
 
 Matrix StateFeedback::get_u() const {
@@ -65,4 +68,25 @@ void StateFeedback::update(const Matrix &y, Float64 dt) {
   // get the offset to control the disturbance w
   w_hat += I * (y - r) * dt;
   u += w_hat;
+}
+
+void StateFeedback::set_gains(const Matrix &k, const Matrix &l, const Matrix &i) {
+  if (k.rows() != U || k.cols() != X) {
+    throw std::invalid_argument("The dimension of K doesn't match the system");
+  }
+  K = k;
+
+  if (!(l(0, 0) == 0 && l.rows() == l.cols() && l.rows() == 1)) {
+    if (l.rows() != X || l.cols() != Y) {
+      throw std::invalid_argument("The dimension of L doesn't match the system");
+    }
+    L = l;
+  }
+
+  if (!(i(0, 0) == 0 && i.rows() == i.cols() && i.rows() == 1)) {
+    if (i.rows() != U || i.cols() != Y) {
+      throw std::invalid_argument("The dimension of I doesn't match the system");
+    }
+    I = i;
+  }
 }
