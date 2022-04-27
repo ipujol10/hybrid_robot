@@ -19,3 +19,11 @@ Matrix StateFeedback::get_action(const Matrix &x) {
   u = -K * x;
   return u;
 }
+
+void StateFeedback::initialise() {
+  /*
+   * Put here the N gain (Precompensator) // TODO
+   * */
+
+  ALC = model.get_A() - L * model.get_C();
+}

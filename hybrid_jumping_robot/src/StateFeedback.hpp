@@ -25,14 +25,19 @@ private:
   const int U{}; //!< number of inputs
   const int Y{}; //!< number of outputs
 
+  // Additional Matrices
+  Matrix ALC; //!< A - L*C already calculated
+
 public:
   StateFeedback();
 
-  StateFeedback(const Matrix &K);
+  explicit StateFeedback(const Matrix &K);
 
-  StateFeedback(const Model &model);
+  explicit StateFeedback(const Model &model);
 
   Matrix get_action(const Matrix &x);
+
+  void initialise();
 };
 
 
