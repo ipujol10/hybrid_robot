@@ -33,7 +33,22 @@ Matrix StateFeedback::get_u() const {
 }
 
 Matrix StateFeedback::estimate_state(const Matrix &y, Float64 dt) {
-  // TODO: see if it has to change as it is probably a discretitatzion
+  // Nbar is to map the reference to the control offset. Here is precalculated
+  Matrix sys(X + Y, X + U);
+  sys << model.get_A(), model.get_B(), model.get_C(), model.get_D();
+
+  // Find the inverse
+  Matrix invSys(X + U, X + Y);
+
+  if (model.U < model.Y) { // more outputs than inputs --> left inverse
+    invSys = (sys.transpose() * sys).inverse() * sys.transpose();
+  } else { // more inputs than outputs --> right inverse
+    invSys = sys.transpose() * (sys * sys.transpose()).inverse();
+  }
+
+  // Split in Nx and Nu and calculate N
+  N_bar = K * invSys.block(0, X, X, Y) + invSys.block(X, X, U, Y);
+
   return x_hat + (ALC * x_hat + model.get_B() * u + L * y) * dt;
 }
 
