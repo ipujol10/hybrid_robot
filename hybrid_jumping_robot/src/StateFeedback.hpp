@@ -34,7 +34,10 @@ public:
 
   explicit StateFeedback(const Matrix &K);
 
-  explicit StateFeedback(const Model &model);
+  StateFeedback(const Model &model, const Matrix &k, const Matrix &l = Matrix{{0}}, const Matrix &i = Matrix{{0}});
+
+  StateFeedback(const Matrix &A, const Matrix &B, const Matrix &C, const Matrix &D, const Matrix &k,
+                const Matrix &l = Matrix{{0}}, const Matrix &i = Matrix{{0}});
 
   Matrix get_action(const Matrix &x);
 

@@ -20,6 +20,8 @@ public:
 
   Model();
 
+  Model(const Matrix &a, const Matrix &b, const Matrix &c, const Matrix &d);
+
   void
   set_model(const Matrix &a, const Matrix &b, const Matrix &c, const Matrix &d);
 

@@ -9,6 +9,16 @@ Model::Model(int states, int inputs, int outputs) : X(states), U(inputs), Y(outp
 
 Model::Model() = default;
 
+Model::Model(const Matrix &a, const Matrix &b, const Matrix &c, const Matrix &d) : X(a.rows()), U(b.cols()),
+                                                                                   Y(c.rows()) {
+  A = Matrix(X, X);
+  B = Matrix(X, U);
+  C = Matrix(Y, X); /*NOLINT*/
+  D = Matrix(Y, U);
+
+  set_model(a, b, c, d);
+}
+
 void Model::set_model(const Matrix &a, const Matrix &b, const Matrix &c,
                       const Matrix &d) {
   if (a.rows() != X || a.cols() != X) {

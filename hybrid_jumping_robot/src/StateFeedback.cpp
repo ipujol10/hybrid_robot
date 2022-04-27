@@ -6,7 +6,10 @@ StateFeedback::StateFeedback(const Matrix &K) : K(K) { /*NOLINT*/
 
 }
 
-StateFeedback::StateFeedback(const Model &model) : model(model), X(model.X), Y(model.Y), U(model.U) {
+StateFeedback::StateFeedback(const Model &model, const Matrix &k, const Matrix &l, const Matrix &i) : model(model),
+                                                                                                      X(model.X),
+                                                                                                      Y(model.Y),
+                                                                                                      U(model.U) {
   x_hat = Matrix(X, 1);
   u = Matrix(U, 1);
   r = Matrix(Y, 1);
@@ -14,6 +17,22 @@ StateFeedback::StateFeedback(const Model &model) : model(model), X(model.X), Y(m
   L = Matrix(X, Y);
   I = Matrix(U, Y);
   K = Matrix(U, X);
+
+  initialise(k, l, i);
+}
+
+StateFeedback::StateFeedback(const Matrix &A, const Matrix &B, const Matrix &C, const Matrix &D, const Matrix &k,
+                             const Matrix &l, const Matrix &i) : model(A, B, C, D), X(A.cols()), U(B.cols()),
+                                                                 Y(C.rows()) {
+  x_hat = Matrix(X, 1);
+  u = Matrix(U, 1);
+  r = Matrix(Y, 1);
+  w_hat = Matrix(U, 1);
+  L = Matrix(X, Y);
+  I = Matrix(U, Y);
+  K = Matrix(U, X);
+
+  initialise(k, l, i);
 }
 
 Matrix StateFeedback::get_action(const Matrix &x) {
