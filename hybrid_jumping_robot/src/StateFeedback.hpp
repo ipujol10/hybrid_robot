@@ -27,6 +27,7 @@ private:
 
   // Additional Matrices
   Matrix ALC; //!< A - L*C already calculated
+  Matrix N_bar; //!< Mapping the reference to a control input
 
 public:
   StateFeedback();
@@ -38,6 +39,12 @@ public:
   Matrix get_action(const Matrix &x);
 
   void initialise();
+
+  [[nodiscard]] Matrix get_u() const;
+
+  Matrix estimate_state(const Matrix &y, Float64 dt);
+
+  void update(const Matrix &y, Float64 dt);
 };
 
 
