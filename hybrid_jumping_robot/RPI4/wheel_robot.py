@@ -2,10 +2,10 @@
 
 import rospy
 from std_msgs.msg import Float64
-from geometry.msgs import Vector3
+from geometry_msgs.msg import Vector3
 import math
 import serial
-import time
+from time import time
 
 
 class wheel_robot:
@@ -14,8 +14,8 @@ class wheel_robot:
     velocity_left = 0.0
     velocity_right = 0.0
     #meassurea this
-    base_withd = 1
-    wheel_radii = 16/2
+    base_withd = 0.232
+    wheel_radii = 0.162/2
 
     vl = 0.0
     vr = 0.0
@@ -24,7 +24,7 @@ class wheel_robot:
     y_pos = 0.0
     theta_pos = 0.0
 
-    dt = time.now
+    dt = time()
 
     def __init__(self, name):
         self.angle_left = 0.0
@@ -80,7 +80,7 @@ class wheel_robot:
                 try:
                     data_input_left = self.left_wheel_serial.readline()
                     data_arr_left = data_input_left.split(",")
-                    self.velocity_left = data_arr_left[0].split(":")[1]
+                    self.velocity_left = -round(float(data_arr_left[0].split(":")[1]), 3)
                     angle_out_left = data_arr_left[1].split(":")
                     self.angle_left = angle_out_left[1].rstrip()
 
@@ -93,7 +93,7 @@ class wheel_robot:
                 try:
                     data_input_right = self.right_wheel_serial.readline()
                     data_arr_right = data_input_right.split(",")
-                    self.velocity_right = data_arr_right[0].split(":")[1]
+                    self.velocity_right = round(float(data_arr_right[0].split(":")[1]), 3)
                     angle_out_right = data_arr_right[1].split(":")
                     self.angle_right = angle_out_right[1].rstrip()
 
@@ -133,28 +133,34 @@ class wheel_robot:
         self.serBreak.close()
 
 
-    def rpmtovel(rpm, self):
-        v = (2 * math.pi * self.wheel_radii * rpm) / 60
+    def rpmtovel(self,rpm):
+        v = (2 * math.pi * self.wheel_radii * rpm ) / 60.0
         return v
 
     ## not sure on this eq.
     def odom(self):
         pos = self.caldot()
-        self.x_pos -= pos['xdot']
-        self.y_pos -= pos['ydot']
-        self.theta_pos -= pos['thetadot']
+        self.x_pos += round(pos['xdot'],4)
+        self.y_pos += round(pos['ydot'],4)
+        self.theta_pos += round(pos['thetadot'],2)
+        rospy.loginfo_throttle(1, ("x pos is {}\t y pos is {}\t oriantation theta is {}").format(self.x_pos, self.y_pos, self.theta_pos))
 
     def caldot(self):
         self.calvrvrl()
-        xdot = (self.wheel_radii/2) * (self.vr + self.vl) * math.cos(self.theta_pos)
-        ydot = (self.wheel_radii/2) * (self.vr + self.vl) * math.sin(self.theta_pos)
-        thetadot = (self.wheel_radii/self.base_withd) * (self.vr - self.vl)
-
+        #xdot = (self.wheel_radii/2) * (self.vr + self.vl) * math.cos(self.theta_pos) # Think the reason why we got a longer distance was that we multiplied wheel_radii twice
+        #ydot = (self.wheel_radii/2) * (self.vr + self.vl) * math.sin(self.theta_pos)
+        xdot = (self.vr + self.vl) * math.cos(self.theta_pos)
+        ydot = (self.vr + self.vl) * math.sin(self.theta_pos)
+        #thetadot = (self.wheel_radii/self.base_withd) * (self.vr - self.vl)
+        thetadot = (self.vr - self.vl) / self.base_withd
         return {'xdot': xdot, 'ydot': ydot, 'thetadot': thetadot}
 
     def calvrvrl(self):
-        self.vr = self.rpmtovel(self.velocity_right)
-        self.vl = self.rpmtovel(self.velocity_left)
+        self.vr = round(self.rpmtovel(self.velocity_right),4)
+        self.vl = round(self.rpmtovel(self.velocity_left),4)
+        file1 = open("myfile.txt", "a")  # append mode
+        file1.write("{}\t{}\n".format(self.vr, self.vl))
+        file1.close()
 
 
 if __name__ == '__main__':
