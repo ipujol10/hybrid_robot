@@ -30,6 +30,14 @@ public:
   void set_C(const Matrix &c);
 
   void set_D(const Matrix &d);
+
+  [[nodiscard]] Matrix get_A() const;
+
+  [[nodiscard]] Matrix get_B() const;
+
+  [[nodiscard]] Matrix get_C() const;
+
+  [[nodiscard]] Matrix get_D() const;
 };
 
 

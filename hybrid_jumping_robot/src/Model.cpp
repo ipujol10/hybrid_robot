@@ -72,3 +72,19 @@ void Model::set_D(const Matrix &d) {
     this->D = d;
   }
 }
+
+Matrix Model::get_A() const {
+  return A;
+}
+
+Matrix Model::get_B() const {
+  return B;
+}
+
+Matrix Model::get_C() const {
+  return C;
+}
+
+Matrix Model::get_D() const {
+  return D;
+}
