@@ -89,7 +89,10 @@ class MPU9250:
         self.address = address
         self.configMPU9250(GFS_250, AFS_2G)
         self.configAK8963(AK8963_MODE_C100HZ, AK8963_BIT_16)
-
+        self.mBias = [95.256666667, 163.328333333, -643.036666667]
+        self.mScale = [2.215, 2.431666667, 0.505]
+        self.gBias = [-3.688333333, 2.896666667, 15.915]
+        self.aBias = [-55.036666667, 22.14, 526.353333333]
     ## Search Device
     #  @param [in] self The object pointer.
     #  @retval true device connected
@@ -198,9 +201,9 @@ class MPU9250:
         y = self.dataConv(data[3], data[2])
         z = self.dataConv(data[5], data[4])
 
-        x = round(x*self.ares, 3)
-        y = round(y*self.ares, 3)
-        z = round(z*self.ares, 3)
+        x = round(x*self.ares, 3) - self.aBias[0]
+        y = round(y*self.ares, 3) - self.aBias[1]
+        z = round(z*self.ares, 3) - self.aBias[2]
 
         return {"x": -10*y, "y": -10*x, "z": 10*z}
 
@@ -216,9 +219,9 @@ class MPU9250:
         y = self.dataConv(data[3], data[2])
         z = self.dataConv(data[5], data[4])
 
-        x = round(x*self.gres, 3)
-        y = round(y*self.gres, 3)
-        z = round(z*self.gres, 3)
+        x = round(x*self.gres, 3)-self.gBias[0]
+        y = round(y*self.gres, 3)-self.gBias[1]
+        z = round(z*self.gres, 3)-self.gBias[2]
 
         return {"x":y, "y":x, "z":-z}
 
@@ -246,6 +249,14 @@ class MPU9250:
                 x = round(x * self.mres * self.magXcoef, 3)
                 y = round(y * self.mres * self.magYcoef, 3)
                 z = round(z * self.mres * self.magZcoef, 3)
+
+                x -= self.mBias[0]
+                y -= self.mBias[1]
+                z -= self.mBias[2]
+
+                x *= self.mScale[0]
+                y *= self.mScale[1]
+                z *= self.mScale[2]
 
         return {"x":x, "y":y, "z":z}
 

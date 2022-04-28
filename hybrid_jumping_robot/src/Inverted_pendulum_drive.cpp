@@ -5,8 +5,8 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
     pid(name, target, Kp, Ki, Kd, sample_time, ros::Time::now()), rate(100), state(state) {
   ros::NodeHandle nh;
 //    inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1000);
-  inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
-  inverted_pitch_sub = nh.subscribe(inverted_pitch_connection, 1, &IPD::callbackPitch, this);
+  inverted_vel_pub = nh.advertise<std_msgs::Float64>("/HJC/Vel_robot/Set_velocity", 1);
+  inverted_pitch_sub = nh.subscribe("/HJC/IMU/Pitch", 1, &IPD::callbackPitch, this);
   state_sub = nh.subscribe("/HJC/State_machine/State", 1, &IPD::callbackState, this);
   if (state == -1) {
     active = true;
