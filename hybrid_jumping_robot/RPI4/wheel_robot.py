@@ -5,7 +5,7 @@ from std_msgs.msg import Float64
 from geometry_msgs.msg import Vector3
 import math
 import serial
-from time import time
+import time
 
 
 class wheel_robot:
@@ -24,12 +24,12 @@ class wheel_robot:
     y_pos = 0.0
     theta_pos = 0.0
 
-    dt = time()
+
 
     def __init__(self, name):
         self.angle_left = 0.0
         self.angle_right = 0.0
-
+        self.oldTime = time.time()
         rospy.init_node(name, anonymous=True)
         self.rate = rospy.Rate(280)
         self.sub_set_velocity = rospy.Subscriber('/HJC/Vel_robot/Set_velocity', Float64, self.set_velocity_cb)
@@ -134,7 +134,8 @@ class wheel_robot:
 
 
     def rpmtovel(self,rpm):
-        v = (2 * math.pi * self.wheel_radii * rpm ) / 60.0
+        v = ((math.pi * self.wheel_radii * rpm ) / 60.0) # meters a second
+        v = v * (time.time()-self.oldTime ) #time
         return v
 
     ## not sure on this eq.
@@ -158,6 +159,7 @@ class wheel_robot:
     def calvrvrl(self):
         self.vr = round(self.rpmtovel(self.velocity_right),4)
         self.vl = round(self.rpmtovel(self.velocity_left),4)
+        self.oldTime = time.time()
         file1 = open("myfile.txt", "a")  # append mode
         file1.write("{}\t{}\n".format(self.vr, self.vl))
         file1.close()
