@@ -85,8 +85,14 @@ void loop() {
     stepper.setRPM(cmd.toInt());
   }
   String ret = "RPM:";
+  if(cmd.toInt()>0){
   ret.concat(stepper.encoder.getRPM());
+  }
+  if(cmd.toInt()<0){
+    ret.concat(-stepper.encoder.getRPM());
+  }
   ret.concat(",Pitch:");
   ret.concat(stepper.encoder.getAngle());
   Serial1.println(ret);
+  delay(5);
 }
