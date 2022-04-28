@@ -27,8 +27,31 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
 }
 
 IPD::IPD(const Matrix &target, const Matrix &K, const Matrix &initial_state,
-         Float64 frequency, int state) : lqr(K), rate(frequency), state(state), sys_states(initial_state - target),
-                                         target(target), angular_velocity(.4) {
+         Float64 frequency, int state) : stateFeedback(K), rate(frequency), state(state),
+                                         sys_states(initial_state - target), target(target), angular_velocity(.4) {
+  ros::NodeHandle nh;
+  inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
+  inverted_pitch_sub = nh.subscribe(inverted_pitch_connection, 1, &IPD::callbackPitch, this);
+  state_sub = nh.subscribe("/HJC/State_machine/State", 1, &IPD::callbackState, this);
+  inverted_vel_sub = nh.subscribe(inverted_current_vel_connection, 1, &IPD::callbackVel, this);
+  if (state == -1) {
+    active = true;
+  } else {
+    active = false;
+  }
+  isPID = false;
+
+  last_time = ros::Time::now();
+  Ts = 1 / frequency;
+
+  Pitch = initial_state(0, 0);
+  PitchVel = initial_state(1, 0);
+}
+
+IPD::IPD(const Matrix &target, const Matrix &A, const Matrix &B, const Matrix &C, const Matrix &D, const Matrix &K,
+         const Matrix &initial_state, Float64 frequency, int state, const Matrix &L,
+         const Matrix &I) : stateFeedback(A, B, C, D, K, L, I), rate(frequency), state(state),
+                            sys_states(initial_state - target), target(target), angular_velocity(.4) {
   ros::NodeHandle nh;
   inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
   inverted_pitch_sub = nh.subscribe(inverted_pitch_connection, 1, &IPD::callbackPitch, this);
@@ -92,9 +115,9 @@ void IPD::loop() {
 //                               Velocity - target.back()};
 //        auto y = vector_sum({Pitch, Position, PitchVel, Velocity}, target);
 //        auto y = vector_sum({Pitch, PitchVel}, target);
-        auto u = lqr.get_action(sys_states);
+        auto u = stateFeedback.get_action(sys_states);
 //        ROS_WARN("Action: %f", u.at(0));
-//        sys_states = lqr.get_states(u, sys_states);
+//        sys_states = stateFeedback.get_states(u, sys_states);
 //        velocity = sys_states.back();
         auto acc_rpm = conv::rads_to_rpm(u(0, 0));
         out << "u: " << acc_rpm << "\n";

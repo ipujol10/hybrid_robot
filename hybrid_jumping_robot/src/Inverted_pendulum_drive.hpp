@@ -18,7 +18,7 @@
 class IPD {
 private:
   PID pid;
-  StateFeedback lqr;
+  StateFeedback stateFeedback;
   VelocitySmooth angular_velocity;
   ros::Publisher inverted_vel_pub;
   ros::Subscriber inverted_pitch_sub;
@@ -49,6 +49,10 @@ public:
 
   IPD(const Matrix &target, const Matrix &K, const Matrix &initial_state, Float64 frequency,
       int state = -1);
+
+  IPD(const Matrix &target, const Matrix &A, const Matrix &B, const Matrix &C, const Matrix &D, const Matrix &K,
+      const Matrix &initial_state, Float64 frequency, int state = -1, const Matrix &L = Matrix{{0}},
+      const Matrix &I = Matrix{{0}});
 
   void loop();
 
