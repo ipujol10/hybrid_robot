@@ -70,7 +70,7 @@ class IMU:
         return {"pitch": pitch, "roll": roll}
 
     def calculateAngularVelocity(self, pitch, now):
-        pitch - self.oldPitch / now.secs - self.oldTime
+        (pitch - self.oldPitch) / (now.secs - self.oldTime)
         self.oldTime = now.secs
         self.oldPitch = pitch
         return pitch

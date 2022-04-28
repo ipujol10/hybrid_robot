@@ -24,7 +24,7 @@ void IPD::callbackPitch(const std_msgs::Float64 &data) {
 
 void IPD::loop() {
   while (ros::ok()) {
-    if (true) {
+    if (active) {
       std_msgs::Float64 data;
       auto velocity = pid.update(Pitch, ros::Time::now(), true, 30, -30);
       data.data = velocity;
