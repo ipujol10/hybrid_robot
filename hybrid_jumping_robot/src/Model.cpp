@@ -21,29 +21,10 @@ Model::Model(const Matrix &a, const Matrix &b, const Matrix &c, const Matrix &d)
 
 void Model::set_model(const Matrix &a, const Matrix &b, const Matrix &c,
                       const Matrix &d) {
-  if (a.rows() != X || a.cols() != X) {
-    throw std::invalid_argument("The dimensions of the matrix doesn't match with the model");
-  }
-  this->A = a;
-
-  if (!(b.rows() == b.cols() && b.rows() == 1 && b(0, 0) == 0)) {
-    if (b.rows() != X || b.cols() != U) {
-      throw std::invalid_argument("The dimensions of the matrix doesn't match with the model");
-    }
-    this->B = b;
-  }
-
-  if (c.rows() != Y || c.cols() != X) {
-    throw std::invalid_argument("The dimensions of the matrix doesn't match with the model");
-  }
-  this->C = c;
-
-  if (!(d.rows() == d.cols() && d.rows() == 1 && d(0, 0) == 0)) {
-    if (d.rows() != Y || d.cols() != U) {
-      throw std::invalid_argument("The dimensions of the matrix doesn't match with the model");
-    }
-    this->D = d;
-  }
+  set_A(a);
+  set_B(b);
+  set_C(c);
+  set_D(d);
 }
 
 void Model::set_A(const Matrix &a) {
