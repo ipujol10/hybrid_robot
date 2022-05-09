@@ -68,4 +68,27 @@
     <child link="base_short"/>
     <origin xyz="${-(base_high_length+base_short_length)*0.5} 0 0"/>
   </joint>
+
+  <link name="motor_base">
+    <visual>
+      <geometry>
+        <box size="${motor_base_length} ${motor_base_width}  ${motor_base_height}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${motor_base_length} ${motor_base_width}  ${motor_base_height}"/>
+      </geometry>
+    </collision>
+    <xacro:box_inertial mass="${motor_base_mass}" length="${motor_base_length}" width="${motor_base_width}"
+                        height="${motor_base_height}"/>
+  </link>
+
+  <joint name="base_motor_base_joint" type="fixed">
+    <axis xyz="1 0 0"/>
+    <parent link="base_high"/>
+    <child link="motor_base"/>
+    <origin xyz="${motor_base_length*0.5+base_high_length*0.5} 0 0"/>
+  </joint>
 </robot>

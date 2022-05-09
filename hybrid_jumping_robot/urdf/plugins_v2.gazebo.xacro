@@ -6,4 +6,7 @@
   <gazebo reference="base_short">
     <material>Gazebo/Blue</material>
   </gazebo>
+  <gazebo reference="motor_base">
+    <material>Gazebo/Red</material>
+  </gazebo>
 </robot>
