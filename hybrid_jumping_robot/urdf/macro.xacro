@@ -27,7 +27,7 @@
 
         <xacro:if value="${position == 'back'}">
             <joint name="${position}_${side}_wheel_joint" type="continuous">
-                <xacro:property name="origin_x" value="${-(base_length/2-0.05)}"/>
+                <xacro:property name="origin_x" value="${-(base_length/2-0.005)}"/>
                 <xacro:property name="origin_y" value="${(base_width + wheel_width)/2}"/>
                 <xacro:if value="${side == 'right'}">
                     <xacro:property name="origin_y" value="${-(base_width + wheel_width)/2}"/>

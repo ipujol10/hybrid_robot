@@ -4,7 +4,7 @@
   <xacro:include filename="$(find hybrid_jumping_robot)/urdf/material.xacro"/>
   <xacro:include filename="$(find hybrid_jumping_robot)/urdf/plugins_v2.gazebo.xacro"/>
   <xacro:include filename="$(find hybrid_jumping_robot)/urdf/macro.xacro"/>
-  <xacro:include filename="$(find hybrid_jumping_robot)/urdf/transmission.xacro"/>
+  <xacro:include filename="$(find hybrid_jumping_robot)/urdf/transmission_v2.xacro"/>
 
   <!-- Wheels -->
   <xacro:property name="wheel_r" value="0.075"/>
@@ -21,7 +21,7 @@
 
   <!-- Short part -->
   <xacro:property name="base_short_height" value="0.02"/>
-  <xacro:property name="base_short_length" value="0.1"/>
+  <xacro:property name="base_short_length" value="0.15"/>
   <xacro:property name="base_short_mass" value="0.2"/>
 
   <!-- Motor -->
@@ -91,4 +91,13 @@
     <child link="motor_base"/>
     <origin xyz="${motor_base_length*0.5+base_high_length*0.5} 0 0"/>
   </joint>
+
+  <xacro:wheel position="front" side="right" parent="motor_base" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
+               base_length="${motor_base_length}" base_width="${base_width}" mass="${front_wheel_mass}"/>
+  <xacro:wheel position="front" side="left" parent="motor_base" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
+               base_length="${motor_base_length}" base_width="${base_width}" mass="${front_wheel_mass}"/>
+  <xacro:wheel position="back" side="right" parent="base_short" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
+               base_length="${base_short_length}" base_width="${base_width}" mass="${back_wheel_mass}"/>
+  <xacro:wheel position="back" side="left" parent="base_short" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
+               base_length="${base_short_length}" base_width="${base_width}" mass="${back_wheel_mass}"/>
 </robot>
