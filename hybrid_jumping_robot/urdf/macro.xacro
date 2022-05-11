@@ -25,12 +25,14 @@
 
         </link>
 
+        <xacro:property name="clear" value="0.009"/>
+
         <xacro:if value="${position == 'back'}">
             <joint name="${position}_${side}_wheel_joint" type="continuous">
-                <xacro:property name="origin_x" value="${-(base_length/2-0.005)}"/>
-                <xacro:property name="origin_y" value="${(base_width + wheel_width)/2}"/>
+                <xacro:property name="origin_x" value="${-(base_length/2-0.010)}"/>
+                <xacro:property name="origin_y" value="${(base_width + wheel_width)/2 + clear}"/>
                 <xacro:if value="${side == 'right'}">
-                    <xacro:property name="origin_y" value="${-(base_width + wheel_width)/2}"/>
+                    <xacro:property name="origin_y" value="${-(base_width + wheel_width)/2 - clear}"/>
                 </xacro:if>
                 <axis xyz="0 0 1" rpy="0 0 0"/>
                 <parent link="${parent}"/>
@@ -43,9 +45,9 @@
         <xacro:if value="${position == 'front'}">
             <joint name="${position}_${side}_wheel_joint" type="continuous">
                 <xacro:property name="origin_x" value="${0}"/>
-                <xacro:property name="origin_y" value="${(base_width + wheel_width)/2}"/>
+                <xacro:property name="origin_y" value="${(base_width + wheel_width)/2 + clear}"/>
                 <xacro:if value="${side == 'right'}">
-                    <xacro:property name="origin_y" value="${-(base_width + wheel_width)/2}"/>
+                    <xacro:property name="origin_y" value="${-(base_width + wheel_width)/2 - clear}"/>
                 </xacro:if>
                 <axis xyz="0 0 1" rpy="0 0 0"/>
                 <parent link="${parent}"/>
