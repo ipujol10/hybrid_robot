@@ -17,18 +17,18 @@
   <!-- High part -->
   <xacro:property name="base_high_height" value="0.0801"/>
   <xacro:property name="base_high_length" value="0.01"/>
-  <xacro:property name="base_high_mass" value="0.2"/>
+  <xacro:property name="base_high_mass" value="0.017062817412333738"/>
 
   <!-- Short part -->
   <xacro:property name="base_short_height" value="0.012"/>
   <xacro:property name="base_short_length" value="0.14"/>
-  <xacro:property name="base_short_mass" value="0.2"/>
+  <xacro:property name="base_short_mass" value="0.035787182587666264"/>
 
   <!-- Motor -->
   <xacro:property name="motor_base_length" value="0.0585"/>
   <xacro:property name="motor_base_width" value="${base_width}"/>
   <xacro:property name="motor_base_height" value="${base_high_height}"/>
-  <xacro:property name="motor_base_mass" value="0.4"/>
+  <xacro:property name="motor_base_mass" value="0.73466"/>
 
   <link name="base_high">
     <visual>
@@ -81,8 +81,17 @@
         <box size="${motor_base_length} ${motor_base_width}  ${motor_base_height}"/>
       </geometry>
     </collision>
-    <xacro:box_inertial mass="${motor_base_mass}" length="${motor_base_length}" width="${motor_base_width}"
-                        height="${motor_base_height}"/>
+<!--    <xacro:box_inertial mass="${motor_base_mass}" length="${motor_base_length}" width="${motor_base_width}"-->
+<!--                        height="${motor_base_height}"/>-->
+    <inertial>
+      <mass value="${motor_base_mass}"/>
+      <inertia ixx="${178281296.78/1000000000}"
+               ixy="${17082829.61/1000000000}"
+               ixz="${15751727.91/1000000000}"
+               iyy="${87803241.16/1000000000}"
+               iyz="${88582169.30/1000000000}"
+               izz="${102100565.99/1000000000}"/>
+    </inertial>
   </link>
 
   <joint name="base_motor_base_joint" type="fixed">
