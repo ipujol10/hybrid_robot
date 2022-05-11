@@ -9,8 +9,8 @@
   <!-- Wheels -->
   <xacro:property name="wheel_r" value="0.075"/>
   <xacro:property name="wheel_width" value="0.015"/>
-  <xacro:property name="front_wheel_mass" value="0.3"/>
-  <xacro:property name="back_wheel_mass" value="0.3"/>
+  <xacro:property name="front_wheel_mass" value="0.279"/>
+  <xacro:property name="back_wheel_mass" value="0.09589"/>
 
   <!-- Body -->
   <xacro:property name="base_width" value="0.1772"/>

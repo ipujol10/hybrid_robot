@@ -17,10 +17,28 @@
                 </geometry>
             </collision>
             <xacro:if value="${position == 'back'}">
-                <xacro:cylinder_inertial mass="${0.025}" height="${wheel_width}" radii="${wheel_r}"/>
+<!--                <xacro:cylinder_inertial mass="${0.025}" height="${wheel_width}" radii="${wheel_r}"/>-->
+                <inertial>
+                    <mass value="${mass}"/>
+                    <inertia ixx="181652.29"
+                             ixy="0.0"
+                             ixz="0.0"
+                             iyy="181652.29"
+                             iyz="0.0"
+                             izz="361145.59"/>
+                </inertial>
             </xacro:if>
             <xacro:if value="${position == 'front'}">
-                <xacro:cylinder_inertial mass="${mass}" height="${wheel_width}" radii="${wheel_r}"/>
+<!--                <xacro:cylinder_inertial mass="${mass}" height="${wheel_width}" radii="${wheel_r}"/>-->
+                <inertial>
+                    <mass value="${mass}"/>
+                    <inertia ixx="528551.19"
+                             ixy="0.0"
+                             ixz="0.0"
+                             iyy="528551.19"
+                             iyz="0.0"
+                             izz="1050820.37"/>
+                </inertial>
             </xacro:if>
 
         </link>
