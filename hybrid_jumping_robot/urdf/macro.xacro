@@ -20,24 +20,24 @@
 <!--                <xacro:cylinder_inertial mass="${0.025}" height="${wheel_width}" radii="${wheel_r}"/>-->
                 <inertial>
                     <mass value="${mass}"/>
-                    <inertia ixx="181652.29"
+                    <inertia ixx="${181652.29/1000000000}"
                              ixy="0.0"
                              ixz="0.0"
-                             iyy="181652.29"
+                             iyy="${181652.29/1000000000}"
                              iyz="0.0"
-                             izz="361145.59"/>
+                             izz="${361145.59/1000000000}"/>
                 </inertial>
             </xacro:if>
             <xacro:if value="${position == 'front'}">
 <!--                <xacro:cylinder_inertial mass="${mass}" height="${wheel_width}" radii="${wheel_r}"/>-->
                 <inertial>
                     <mass value="${mass}"/>
-                    <inertia ixx="528551.19"
+                    <inertia ixx="${528551.19/1000000000}"
                              ixy="0.0"
                              ixz="0.0"
-                             iyy="528551.19"
+                             iyy="${528551.19/1000000000}"
                              iyz="0.0"
-                             izz="1050820.37"/>
+                             izz="${1050820.37/1000000000}"/>
                 </inertial>
             </xacro:if>
 
