@@ -103,14 +103,14 @@ class wheel_robot:
                     print("Error Occurs, Exiting Program")
             self.odom()
             vel = float(self.velocity_left) + float(self.velocity_right) * 0.5
-            pos_msg = Vector3
+            pos_msg = Vector3()
             pos_msg.x = self.x_pos
             pos_msg.y = self.y_pos
             pos_msg.z = self.theta_pos
             self.pub_current_pos.publish(pos_msg)
-            self.pub_current_velocity.publish(Float64(float(self.rpmtovel(vel))))
-            self.pub_left_wheel_pos.publish(Float64(float(self.angle_left)))
-            self.pub_right_wheel_pos.publish(Float64(float(self.angle_right)))
+            self.pub_current_velocity.publish(float(self.rpmtovel(vel)))
+            self.pub_left_wheel_pos.publish(float(self.angle_left))
+            self.pub_right_wheel_pos.publish(float(self.angle_right))
             self.rate.sleep()
         self.left_wheel_serial.close()
         self.right_wheel_serial.close()
