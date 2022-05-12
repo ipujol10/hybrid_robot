@@ -1,0 +1,21 @@
+<launch>
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find hybrid_jumping_robot)/config/hybrid_robotV0_3_control.yaml"  command="load"/>
+
+
+    <!-- load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+          output="screen" ns="/hybrid_robotV0_2" args=" front_left_wheel_joint_velocity_controller
+                                                        front_right_wheel_joint_velocity_controller
+                                                        joint_state_controller
+                                                        "/>
+
+
+    <!-- convert joint states to TF transforms for rviz, etc -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+          respawn="false" output="screen">
+        <remap from="/joint_states" to="/hybrid_robotV0_2/joint_states" />
+    </node>
+
+</launch>

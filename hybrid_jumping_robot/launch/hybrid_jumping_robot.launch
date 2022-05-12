@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <launch>
-    <param name="robot_description" command="$(find xacro)/xacro '$(find hybrid_jumping_robot)/urdf/first_modelV0_2.urdf.xacro' use_gazebo_sim:=true"/>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find hybrid_jumping_robot)/urdf/last_model.urdf.xacro' use_gazebo_sim:=true"/>
     <param name="/use_sim_time" value="true" />
     <!-- ==================================================== -->
     <!-- Gazebo specific options                              -->
     <!-- ==================================================== -->
     <arg name="gazebo_gui" default="true"/>
-    <arg name="paused" default="true"/>
+    <arg name="paused" default="false"/>
 
     <!-- ==================================================== -->
     <!-- Launch Gazebo with a world                           -->
@@ -27,10 +27,10 @@
     <arg name="pitch" default="0"/>
     <arg name="yaw" default="0"/>
 
-    <node name="hybrid_robotv0_2_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" respawn="false"
+    <node name="hybrid_robotv0_3_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" respawn="false"
           args="-urdf -param robot_description -model hybrid_robotV0_2 -x $(arg x) -y $(arg y) -z $(arg z)
           -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
-    <include file="$(find hybrid_jumping_robot)/launch/control_jumping_robot.launch" />
+    <include file="$(find hybrid_jumping_robot)/launch/control_jumping_robot_v2.launch" />
 
 <!--     <node pkg="hybrid_jumping_robot" name="Hybrid_jumping_Robot" type="Hybrid_jumping_Robot.py" output="screen"/> -->
 <!--     <node pkg="hybrid_jumping_robot" name="Hybrid_jumping_Robot" type="hybrid_jumping_robot" output="screen" -->
