@@ -14,6 +14,7 @@ private:
   ros::Publisher left_front_wheel_publisher;
   ros::Publisher right_front_wheel_publisher;
   ros::Publisher current_velocity_publisher;
+  ros::Publisher current_wheel_pos_publisher;
   ros::Subscriber vel_sub;
   ros::Subscriber state_sub;
   std::string left_front_wheel_connection = "/hybrid_robotV0_2/front_left_wheel_joint_velocity_controller/command";
@@ -21,10 +22,12 @@ private:
   std::string joint_state_connection = "/hybrid_robotV0_2/joint_states";
   std::string commanded_velocity_connection = "/HJC/Vel_robot/Set_velocity";
   std::string current_velocity_connection = "/HJC/Vel_robot/Current_velocity";
+  std::string current_position_connection = "/HJC/Vel_robot/Current_position";
   ros::Rate rate;
   PID pid;
 
   Float64 now_velocity;
+  Float64 now_position;
   bool can_clear;
 
 private:

@@ -141,3 +141,5 @@ Float64 PID::range_limiter(Float64 input, Float64 upper, Float64 lower) {
   if (input > upper) return upper;
   return input;
 }
+
+PID::PID() = default;

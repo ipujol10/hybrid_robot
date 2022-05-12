@@ -2,7 +2,6 @@
 #include "Data.hpp"
 #include <geometry_msgs/Quaternion.h>
 #include <cmath>
-#include <acado_toolkit.hpp>
 #include <vector>
 
 #ifndef HYBRID_JUMPING_ROBOT_CONVERSIONS_HPP
@@ -21,15 +20,15 @@ namespace conv {
   /// \return Roll-Pitch-Yaw
   RPY quaternion_to_rpy(geometry_msgs::Quaternion q);
 
-  /// Convert a vector into a nx1 matrix
-  /// \param vector the vector to convert
-  /// \return the matrix
-  ACADO::DMatrix vector_to_matrix(const std::vector<Float64> &vector);
+  /// Convert from rpm to rad/s
+  /// \param rpm velocity in rpm
+  /// \return velocity in rad/s
+  Float64 rpm_to_rads(Float64 rpm);
 
-  /// convert a nx1 matrix into a vector
-  /// \param M the matrix
-  /// \return the vector
-  std::vector<Float64> matrix_to_vector(const ACADO::DMatrix &M);
+  /// Convert form rad/s to rpm
+  /// \param rads velocity in rad/s
+  /// \return velocity in rpm
+  Float64 rads_to_rpm(Float64 rads);
 }
 
 

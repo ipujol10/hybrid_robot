@@ -25,9 +25,6 @@ find_package(gazebo REQUIRED)
 # CMake module(s) path
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR} )
 
-find_package(Eigen3 3.3 REQUIRED NO_MODULE)
-find_package( ACADO REQUIRED )
-
 catkin_package(
     DEPENDS
         gazebo_ros
@@ -40,7 +37,6 @@ catkin_package(
 include_directories(
      # include
      ${catkin_INCLUDE_DIRS}
-     ${ACADO_INCLUDE_DIRS}
 )
 
 set(CMAKE_CXX_STANDARD 17)
@@ -49,7 +45,7 @@ add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(src)
 include_directories(src)
 #target_link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} Eigen3::Eigen)
-target_link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} ${ACADO_SHARED_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES})
 
 #find_library(PID_TEST_LIBRARY PID_Test HINTS /home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/tests/PID)
 #add_subdirectory(tests)

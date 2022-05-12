@@ -10,6 +10,7 @@
     <xacro:property name="wheel_r" value="0.075"/>
     <xacro:property name="wheel_width" value="0.05"/>
     <xacro:property name="wheel_mass" value="0.3"/>
+    <xacro:property name="wheel_back_mass" value="0.05"/>
     <xacro:property name="base_length" value="0.215"/>
     <xacro:property name="base_width" value="0.1772"/>
     <xacro:property name="base_height" value="0.0801"/>
@@ -89,9 +90,9 @@
                  base_length="${motor_base_length}" base_width="${base_width}" mass="${wheel_mass}"/>
     <xacro:wheel position="front" side="left" parent="motor_base" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
                  base_length="${motor_base_length}" base_width="${base_width}" mass="${wheel_mass}"/>
-    <xacro:wheel position="back" side="right" parent="extension" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
-                 base_length="${base_length}" base_width="${base_width}" mass="${wheel_mass}"/>
     <xacro:wheel position="back" side="left" parent="extension" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
-                 base_length="${base_length}" base_width="${base_width}" mass="${wheel_mass}"/>
+                 base_length="${base_length}" base_width="${base_width}" mass="${wheel_back_mass}"/>
+    <xacro:wheel position="back" side="right" parent="extension" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
+                 base_length="${base_length}" base_width="${base_width}" mass="${wheel_back_mass}"/>
 
 </robot>

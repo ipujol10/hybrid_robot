@@ -10,8 +10,9 @@ A = double(subs(Ap, parameters, values)); % A matrix with numerical values
 B = double(subs(Bp, parameters, values)); % B matrix with numerical values
 
 %% Output
-% C = [1 0 0 0; 0 1 0 0]; % get theta and phi as the output
-C = [0 1 0 0]; % get the phi as the output
+% C = [1 0 0 0; 0 1 0 0; 0 0 0 1]; % get theta, phi and ph1 as the output
+C = eye(4);
+% C = [0 1 0 0]; % get the phi as the output
 % C = [1 0 0 0]; % get the theta as the output
 D = 0; % D matrix
 
@@ -41,7 +42,7 @@ else
 %     R = 1;
     
     %% Descrete
-    Ts = 1/200; % sample time
+    Ts = 1/100; % sample time
     sys_d = c2d(sys, Ts); % obatin the discrete system
     Ad = sys_d.a; % discrete A
     Bd = sys_d.b; % discrete B
