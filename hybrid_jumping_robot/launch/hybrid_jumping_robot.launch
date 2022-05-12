@@ -7,7 +7,7 @@
     <!-- Gazebo specific options                              -->
     <!-- ==================================================== -->
     <arg name="gazebo_gui" default="true"/>
-    <arg name="paused" default="true"/>
+    <arg name="paused" default="false"/>
 
     <!-- ==================================================== -->
     <!-- Launch Gazebo with a world                           -->
@@ -27,8 +27,8 @@
     <arg name="pitch" default="0"/>
     <arg name="yaw" default="0"/>
 
-    <node name="hybrid_robotv0_2_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" respawn="false"
-          args="-urdf -param robot_description -model hybrid_robotV0_2 -x $(arg x) -y $(arg y) -z $(arg z)
+    <node name="hybrid_robotv0_3_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" respawn="false"
+          args="-urdf -param robot_description -model hybrid_robotV0_3 -x $(arg x) -y $(arg y) -z $(arg z)
           -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
     <include file="$(find hybrid_jumping_robot)/launch/control_jumping_robot.launch" />
 
