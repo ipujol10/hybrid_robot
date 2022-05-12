@@ -36,6 +36,7 @@ class IMU:
         self.mpu.calibrateMPU6500() # Calibrate sensors
         self.mpu.configure() # The calibration function resets the sensors, so you need to reconfigure them
         #self.madgwick_angles = MadgwickAHRS()
+        self.oldTime = time.time()
 
     def loop(self):
         while not rospy.is_shutdown():
@@ -62,7 +63,7 @@ class IMU:
         pitch = round(math.atan2(accelX, math.sqrt(accelY * accelY + accelZ * accelZ)), 3)
         roll = round(math.atan2(accelY, math.sqrt(accelX * accelX + accelZ * accelZ)),3)
         if accelZ < 0:
-            pitch = -pitch
+            pitch = math.pi-pitch
         pitch = self.notch(pitch, self.oldPitch)
         roll = self.notch(roll, self.oldRoll)
         self.oldPitch = pitch
@@ -70,7 +71,7 @@ class IMU:
         return {"pitch": pitch, "roll": roll}
 
     def calculateAngularVelocity(self, pitch, now):
-        (pitch - self.oldPitch) / (now.secs - self.oldTime)
+        (pitch - self.oldPitch) / (time.time() - self.oldTime)
         self.oldTime = now.secs
         self.oldPitch = pitch
         return pitch
