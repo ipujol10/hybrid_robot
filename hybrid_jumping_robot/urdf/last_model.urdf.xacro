@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+
+<robot name="hybrid_robotv0_3" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find hybrid_jumping_robot)/urdf/material.xacro"/>
+  <xacro:include filename="$(find hybrid_jumping_robot)/urdf/plugins_v2.gazebo.xacro"/>
+  <xacro:include filename="$(find hybrid_jumping_robot)/urdf/macro.xacro"/>
+  <xacro:include filename="$(find hybrid_jumping_robot)/urdf/transmission_v2.xacro"/>
+
+  <!-- Wheels -->
+  <xacro:property name="wheel_r" value="0.075"/>
+  <xacro:property name="wheel_width" value="0.015"/>
+  <xacro:property name="front_wheel_mass" value="0.279"/>
+  <xacro:property name="back_wheel_mass" value="0.09589"/>
+
+  <!-- Body -->
+  <xacro:property name="base_width" value="0.1772"/>
+  <!-- High part -->
+  <xacro:property name="base_high_height" value="0.0801"/>
+  <xacro:property name="base_high_length" value="0.01"/>
+  <xacro:property name="base_high_mass" value="0.017062817412333738"/>
+
+  <!-- Short part -->
+  <xacro:property name="base_short_height" value="0.012"/>
+  <xacro:property name="base_short_length" value="0.14"/>
+  <xacro:property name="base_short_mass" value="0.035787182587666264"/>
+
+  <!-- Motor -->
+  <xacro:property name="motor_base_length" value="0.0585"/>
+  <xacro:property name="motor_base_width" value="${base_width}"/>
+  <xacro:property name="motor_base_height" value="${base_high_height}"/>
+  <xacro:property name="motor_base_mass" value="0.73466"/>
+
+  <link name="base_high">
+    <visual>
+      <geometry>
+        <box size="${base_high_length} ${base_width} ${base_high_height}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${base_high_length} ${base_width} ${base_high_height}"/>
+      </geometry>
+    </collision>
+    <xacro:box_inertial mass="${base_high_mass}" length="${base_high_length}" width="${base_width}"
+                        height="${base_high_height}"/>
+  </link>
+
+  <link name="base_short">
+    <visual>
+      <geometry>
+        <box size="${base_short_length} ${base_width} ${base_short_height}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${base_short_length} ${base_width} ${base_short_height}"/>
+      </geometry>
+    </collision>
+    <xacro:box_inertial mass="${base_short_mass}" length="${base_short_length}" width="${base_width}"
+                        height="${base_short_height}"/>
+  </link>
+
+  <joint name="base_high_short" type="fixed">
+    <axis xyz="1 0 0"/>
+    <parent link="base_high"/>
+    <child link="base_short"/>
+    <origin xyz="${-(base_high_length+base_short_length)*0.5} 0 0"/>
+  </joint>
+
+  <link name="motor_base">
+    <visual>
+      <geometry>
+        <box size="${motor_base_length} ${motor_base_width}  ${motor_base_height}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${motor_base_length} ${motor_base_width}  ${motor_base_height}"/>
+      </geometry>
+    </collision>
+<!--    <xacro:box_inertial mass="${motor_base_mass}" length="${motor_base_length}" width="${motor_base_width}"-->
+<!--                        height="${motor_base_height}"/>-->
+    <inertial>
+      <mass value="${motor_base_mass}"/>
+<!--      <inertia ixx="${178281296.78/1000000000}"-->
+<!--               ixy="${17082829.61/1000000000}"-->
+<!--               ixz="${15751727.91/1000000000}"-->
+<!--               iyy="${87803241.16/1000000000}"-->
+<!--               iyz="${88582169.30/1000000000}"-->
+<!--               izz="${102100565.99/1000000000}"/>-->
+      <inertia ixx="0.00308579"
+               ixy="0.0"
+               ixz="0.0"
+               iyy="0.00059331"
+               iyz="0.0"
+               izz="0.00305473"/>
+    </inertial>
+  </link>
+
+  <joint name="base_motor_base_joint" type="fixed">
+    <axis xyz="1 0 0"/>
+    <parent link="base_high"/>
+    <child link="motor_base"/>
+    <origin xyz="${motor_base_length*0.5+base_high_length*0.5} 0 0"/>
+  </joint>
+
+  <xacro:wheel position="front" side="right" parent="motor_base" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
+               base_length="${motor_base_length}" base_width="${base_width}" mass="${front_wheel_mass}"/>
+  <xacro:wheel position="front" side="left" parent="motor_base" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
+               base_length="${motor_base_length}" base_width="${base_width}" mass="${front_wheel_mass}"/>
+  <xacro:wheel position="back" side="right" parent="base_short" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
+               base_length="${base_short_length}" base_width="${base_width}" mass="${back_wheel_mass}"/>
+  <xacro:wheel position="back" side="left" parent="base_short" wheel_r="${wheel_r}" wheel_width="${wheel_width}"
+               base_length="${base_short_length}" base_width="${base_width}" mass="${back_wheel_mass}"/>
+</robot>
