@@ -241,6 +241,5 @@ std::array<Matrix, 5> IPD::get_matrix() {
 
   return out;
 }
-}
 
 
