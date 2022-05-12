@@ -9,7 +9,7 @@ void callback(const std_msgs::Int8 &data) {
 }
 
 int main(int argc, char **argv) {
-  ros::init(argc, argv, "TwoWS_node");
+  ros::init(argc, argv, "TwowWS_node");
   ros::NodeHandle nh;
   ros::Subscriber state_sub = nh.subscribe("/HJC/State_machine/State", 1, callback);
   ros::Rate loop_rate(280);
