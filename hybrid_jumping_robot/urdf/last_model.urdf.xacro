@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<robot name="hybrid_robotv0_3" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="hybrid_robotv0_2" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="$(find hybrid_jumping_robot)/urdf/material.xacro"/>
   <xacro:include filename="$(find hybrid_jumping_robot)/urdf/plugins_v2.gazebo.xacro"/>
   <xacro:include filename="$(find hybrid_jumping_robot)/urdf/macro.xacro"/>

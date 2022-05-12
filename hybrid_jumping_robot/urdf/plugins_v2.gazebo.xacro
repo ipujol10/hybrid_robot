@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="hybrid_robotv0_3" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="hybrid_robotv0_2" xmlns:xacro="http://ros.org/wiki/xacro">
   <gazebo reference="base_high">
     <material>Gazebo/Blue</material>
   </gazebo>
