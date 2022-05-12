@@ -26,6 +26,7 @@ private:
   ros::Rate rate;
   int state;
   bool active;
+  Float64 old_velocity;
 
 public:
     IPD(const std::string& name , Float64 target, Float64 Kp, Float64 Ki, Float64 Kd , Float64 sample_time, int state = -1);
@@ -35,6 +36,7 @@ private:
     void callbackPitch(const std_msgs::Float64 &data);
     void callbackState(const std_msgs::Int8 &data);
     Float64 Pitch;
+    Float64 filter(Float64 new_vel, Float64 old_vel, Float64 alpha);
 };
 
 

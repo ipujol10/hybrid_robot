@@ -27,6 +27,7 @@ void IPD::loop() {
     if (true) {
       std_msgs::Float64 data;
       auto velocity = pid.update(Pitch, ros::Time::now(), true, 70, -70);
+      velocity = filter(velocity,old_velocity, 0.8);
       data.data = velocity;
       inverted_vel_pub.publish(data);
     }
@@ -41,4 +42,10 @@ void IPD::callbackState(const std_msgs::Int8 &data) {
   } else {
     active = false;
   }
+}
+
+Float64 IPD::filter(Float64 new_vel, Float64 old_vel, Float64 alpha) {
+    auto res = (new_vel * (1-alpha) ) + (old_vel * alpha);
+    old_velocity = new_vel;
+    return res;
 }
