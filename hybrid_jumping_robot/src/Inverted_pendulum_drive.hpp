@@ -34,6 +34,7 @@ private:
   Matrix target;
   int state;
   bool active;
+
   bool isPID;
   ros::Time last_time;
 
@@ -42,6 +43,7 @@ private:
   Float64 Velocity;
   Float64 Position;
   Float64 Ts; //!< Sample time
+
 
 public:
   IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time,
@@ -59,6 +61,7 @@ public:
   static std::array<Matrix, 5> get_matrix();
 
 private:
+
   void callbackPitch(const std_msgs::Float64 &data);
 
   void callbackState(const std_msgs::Int8 &data);
@@ -66,6 +69,7 @@ private:
   void callbackVel(const std_msgs::Float64 &data);
 
   void callbackPos(const std_msgs::Float64 &data);
+
 };
 
 

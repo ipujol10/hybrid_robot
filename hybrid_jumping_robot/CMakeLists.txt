@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
         roscpp
         std_msgs
         sensor_msgs
+        geometry_msgs
         gazebo_ros
         controller_manager
         joint_state_controller

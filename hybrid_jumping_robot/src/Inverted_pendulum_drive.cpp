@@ -8,8 +8,8 @@ IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float6
                                          state(state), angular_velocity(.4) {
   ros::NodeHandle nh;
 //    inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1000);
-  inverted_vel_pub = nh.advertise<std_msgs::Float64>(inverted_vel_connection, 1);
-  inverted_pitch_sub = nh.subscribe(inverted_pitch_connection, 1, &IPD::callbackPitch, this);
+  inverted_vel_pub = nh.advertise<std_msgs::Float64>("/HJC/Vel_robot/Set_velocity", 1);
+  inverted_pitch_sub = nh.subscribe("/HJC/IMU/Pitch", 1, &IPD::callbackPitch, this);
   state_sub = nh.subscribe("/HJC/State_machine/State", 1, &IPD::callbackState, this);
   inverted_pos_sub = nh.subscribe(inverted_pos_connection, 1, &IPD::callbackPos, this);
   inverted_vel_sub = nh.subscribe(inverted_current_vel_connection, 1, &IPD::callbackVel, this);
@@ -100,6 +100,7 @@ void IPD::loop() {
   std_srvs::Empty pauseSrv;
   std_srvs::Empty unpauseSrv;
   while (ros::ok()) {
+
     auto now = ros::Time::now();
     pauseGazebo.call(pauseSrv);
     Matrix current_real_state{{Pitch},
@@ -129,6 +130,7 @@ void IPD::loop() {
         out << "New Velocity: " << velocity << ", Current Velocity: " << Velocity << "\n";
 //        ROS_WARN("Velocity: %f", velocity);
       }
+
       data.data = velocity;
       inverted_vel_pub.publish(data);
     }
@@ -239,3 +241,6 @@ std::array<Matrix, 5> IPD::get_matrix() {
 
   return out;
 }
+}
+
+
