@@ -9,6 +9,6 @@ struct RPY {
 
 enum class System {
   NONE,
-  N_2_states
+  N_2_states_phi_u
 };
 #endif //HYBRID_JUMPING_ROBOT_DATA_HPP

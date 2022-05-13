@@ -209,37 +209,37 @@ void IPD::callbackState(const std_msgs::Int8 &data) {
 //}
 
 std::array<Matrix, 5> IPD::get_matrix(const System &value) {
-  std::array<Matrix, 5> out;
-  // A matrix
-  Matrix A{{0,                1},
-           {85.4043194374686, 0}};
-  out.at(0) = A;
+  switch (value) {
+    case System::NONE:
+      throw std::invalid_argument("A system must be selected (Different than 'NONE')");
 
-  // B matrix
-  Matrix B{{0},
-           {0.65293822199899}};
-  out.at(1) = B;
+    case System::N_2_states_phi_u:
+      std::array<Matrix, 5> out;
+      // A matrix
+      Matrix A{{0,                1},
+               {85.4043194374686, 0}};
+      out.at(0) = A;
 
-  // C matrix
-  Matrix C{{1, 0},
-           {0, 1}};
-  out.at(2) = C;
+      // B matrix
+      Matrix B{{0},
+               {0.65293822199899}};
+      out.at(1) = B;
 
-  // K matrix
-  Matrix K{{370.789576601112, 44.33501015724}};
-  out.at(3) = K;
+      // C matrix
+      Matrix C{{1, 0},
+               {0, 1}};
+      out.at(2) = C;
 
-  // K observer matrix
-//  ACADO::DMatrix KObs(2, 2);
-//  KObs(0, 0) = 1.00104772344165;
-//  KObs(1, 0) = 0.427165035127185;
-//  KObs(0, 1) = 0.0049967972077693;
-//  KObs(1, 1) = 1.00006886107095;
-  Matrix KObs{{1.00104772344165,   0.427165035127185},
-              {0.0049967972077693, 1.00006886107095}};
-  out.at(4) = KObs;
+      // K matrix
+      Matrix K{{370.789576601112, 44.33501015724}};
+      out.at(3) = K;
 
-  return out;
+      Matrix L{{1.00104772344165,   0.427165035127185},
+               {0.0049967972077693, 1.00006886107095}};
+      out.at(4) = L;
+
+      return out;
+  }
 }
 
 
