@@ -1,9 +1,13 @@
+#define PAUSE_SIM_DEBUG
+
 #include "Inverted_pendulum_drive.hpp"
 #include <iostream>
+#ifdef FILES_OUTPUT_DEBUG
 #include <fstream>
+#endif
+#ifdef PAUSE_SIM_DEBUG
 #include <std_srvs/Empty.h>
-
-#define PAUSE_SIM_DEBUG
+#endif
 
 IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time,
          int state, Float64 frequency) : pid(name, target, Kp, Ki, Kd, sample_time, ros::Time::now()), rate(frequency),
@@ -95,10 +99,12 @@ void IPD::loop() {
 #ifdef PAUSE_SIM_DEBUG
   ros::NodeHandle nh;
 #endif
+#ifdef FILES_OUTPUT_DEBUG
   std::ofstream out;
   out.open("/home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/bagfiles/states.txt", std::ios::out);
   std::ofstream times;
   times.open("/home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/bagfiles/times.txt");
+#endif
 #ifdef PAUSE_SIM_DEBUG
   ros::ServiceClient pauseGazebo = nh.serviceClient<std_srvs::Empty>("/gazebo/pause_physics");
   ros::ServiceClient unpauseGazebo = nh.serviceClient<std_srvs::Empty>("/gazebo/unpause_physics");
@@ -129,13 +135,15 @@ void IPD::loop() {
 //        sys_states = stateFeedback.get_states(u, sys_states);
 //        velocity = sys_states.back();
         auto acc_rpm = conv::rads_to_rpm(u(0, 0));
-        out << "u: " << acc_rpm << "\n";
         velocity = Velocity + acc_rpm * Ts;
         auto real_states = sys_states + target;
         ROS_INFO("acc (u) = % .5f", acc_rpm);
         ROS_INFO("[Pitch, Pitch_Velocity]: [% .5f, %.5f]", real_states(0, 0), real_states(1, 0));
         ROS_INFO("Velocity: % .5f\n", Velocity);
+#ifdef FILES_OUTPUT_DEBUG
+        out << "u: " << acc_rpm << "\n";
         out << "New Velocity: " << velocity << ", Current Velocity: " << Velocity << "\n";
+#endif
 //        ROS_WARN("Velocity: %f", velocity);
       }
 
@@ -143,16 +151,20 @@ void IPD::loop() {
       inverted_vel_pub.publish(data);
     }
 //    out << "Pitch Velocity: " << PitchVel << "\n";
+#ifdef FILES_OUTPUT_DEBUG
     out << "[Pitch, Pitch_Velocity]: " << sys_states + target << "\n";
     out << "\n";
     times << (ros::Time::now() - now).toNSec() << "\n";
+#endif
 #ifdef PAUSE_SIM_DEBUG
     unpauseGazebo.call(unpauseSrv);
 #endif
     ros::spinOnce();
     rate.sleep();
   }
+#ifdef FILES_OUTPUT_DEBUG
   out.close();
+#endif
 }
 
 void IPD::callbackState(const std_msgs::Int8 &data) {

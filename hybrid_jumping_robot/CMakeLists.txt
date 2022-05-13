@@ -41,6 +41,8 @@ include_directories(
 
 set(CMAKE_CXX_STANDARD 17)
 
+add_compile_definitions(FILES_OUTPUT_DEBUG)
+
 add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(src)
 include_directories(src)
