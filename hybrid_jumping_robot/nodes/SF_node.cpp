@@ -7,11 +7,12 @@ int main(int argc, char **argv) {
   ros::init(argc, argv, "State_feedback_node");
   ros::NodeHandle nh;
   auto ipd = initiate();
+  ipd.loop();
   return 0;
 }
 
 IPD initiate() {
-  auto matrix = IPD::get_matrix();
+  auto matrix = IPD::get_matrix(System::N_2_states_phi_u);
   Matrix target{{M_PI_2},
                 {0}};
   Matrix initial_state{{1.5},
