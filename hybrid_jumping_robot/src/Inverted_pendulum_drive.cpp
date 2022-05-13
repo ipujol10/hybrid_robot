@@ -1,4 +1,4 @@
-#define PAUSE_SIM_DEBUG
+//#define PAUSE_SIM_DEBUG
 
 #include "Inverted_pendulum_drive.hpp"
 #include <iostream>
