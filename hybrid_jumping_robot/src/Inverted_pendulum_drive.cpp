@@ -3,6 +3,8 @@
 #include <fstream>
 #include <std_srvs/Empty.h>
 
+#define PAUSE_SIM_DEBUG
+
 IPD::IPD(const std::string &name, Float64 target, Float64 Kp, Float64 Ki, Float64 Kd, Float64 sample_time,
          int state, Float64 frequency) : pid(name, target, Kp, Ki, Kd, sample_time, ros::Time::now()), rate(frequency),
                                          state(state), angular_velocity(.4) {
@@ -90,19 +92,25 @@ void IPD::callbackPos(const std_msgs::Float64 &data) {
 }
 
 void IPD::loop() {
+#ifdef PAUSE_SIM_DEBUG
   ros::NodeHandle nh;
+#endif
   std::ofstream out;
   out.open("/home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/bagfiles/states.txt", std::ios::out);
   std::ofstream times;
   times.open("/home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/bagfiles/times.txt");
+#ifdef PAUSE_SIM_DEBUG
   ros::ServiceClient pauseGazebo = nh.serviceClient<std_srvs::Empty>("/gazebo/pause_physics");
   ros::ServiceClient unpauseGazebo = nh.serviceClient<std_srvs::Empty>("/gazebo/unpause_physics");
   std_srvs::Empty pauseSrv;
   std_srvs::Empty unpauseSrv;
+#endif
   while (ros::ok()) {
 
     auto now = ros::Time::now();
+#ifdef PAUSE_SIM_DEBUG
     pauseGazebo.call(pauseSrv);
+#endif
     Matrix current_real_state{{Pitch},
                               {PitchVel}};
     sys_states = current_real_state - target;
@@ -138,7 +146,9 @@ void IPD::loop() {
     out << "[Pitch, Pitch_Velocity]: " << sys_states + target << "\n";
     out << "\n";
     times << (ros::Time::now() - now).toNSec() << "\n";
+#ifdef PAUSE_SIM_DEBUG
     unpauseGazebo.call(unpauseSrv);
+#endif
     ros::spinOnce();
     rate.sleep();
   }
