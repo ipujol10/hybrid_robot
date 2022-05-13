@@ -83,3 +83,6 @@ target_link_libraries(Jump_node ${roscpp_LIBRARIES} Robot)
 
 add_executable(State_machine_node nodes/State_machine_node.cpp)
 target_link_libraries(State_machine_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(SF_node nodes/SF_node.cpp)
+target_link_libraries(SF_node ${roscpp_LIBRARIES} Robot)
