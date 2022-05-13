@@ -6,4 +6,9 @@ struct RPY {
   Float64 pitch;
   Float64 yaw;
 };
+
+enum class System {
+  NONE,
+  N_2_states
+};
 #endif //HYBRID_JUMPING_ROBOT_DATA_HPP

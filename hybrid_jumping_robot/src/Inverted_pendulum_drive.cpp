@@ -208,7 +208,7 @@ void IPD::callbackState(const std_msgs::Int8 &data) {
 //  return out;
 //}
 
-std::array<Matrix, 5> IPD::get_matrix() {
+std::array<Matrix, 5> IPD::get_matrix(const System &value) {
   std::array<Matrix, 5> out;
   // A matrix
   Matrix A{{0,                1},

@@ -8,6 +8,7 @@
 #include "Types.hpp"
 #include "StateFeedback.hpp"
 #include "VelocitySmooth.hpp"
+#include "Data.hpp"
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Float64.h>
@@ -58,7 +59,7 @@ public:
 
   void loop();
 
-  static std::array<Matrix, 5> get_matrix();
+  static std::array<Matrix, 5> get_matrix(const System &value = System::NONE);
 
 private:
 
