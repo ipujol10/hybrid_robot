@@ -1,11 +1,11 @@
 %% Load the Kinematics
-Good_kinmeatics
+Final_Kinematics
 
 %% Get center of mass
-Good_CM
+Final_CM
 
 %% Get inertias
-Good_Inertias
+Final_Inertias
 
 %% Obtain the numerical matrices
 parameters = {d, mw, mb, g, alpha, beta, Iw, Ib, R};
