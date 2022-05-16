@@ -1,4 +1,5 @@
 #include "StateFeedback.hpp"
+#include <iostream>
 
 StateFeedback::StateFeedback() = default;
 
@@ -41,7 +42,7 @@ Matrix StateFeedback::get_action(const Matrix &x) {
 }
 
 void StateFeedback::initialise(const Matrix &k, const Matrix &l, const Matrix &i) {
-  set_gains(k, k, i);
+  set_gains(k, l, i);
 
   // Nbar is to map the reference to the control offset. Here is precalculated
   Matrix sys(X + Y, X + U);

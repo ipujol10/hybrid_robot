@@ -41,6 +41,8 @@ include_directories(
 
 set(CMAKE_CXX_STANDARD 17)
 
+#add_compile_definitions(FILES_OUTPUT_DEBUG)
+
 add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(src)
 include_directories(src)
@@ -83,3 +85,6 @@ target_link_libraries(Jump_node ${roscpp_LIBRARIES} Robot)
 
 add_executable(State_machine_node nodes/State_machine_node.cpp)
 target_link_libraries(State_machine_node ${roscpp_LIBRARIES} Robot)
+
+add_executable(SF_node nodes/SF_node.cpp)
+target_link_libraries(SF_node ${roscpp_LIBRARIES} Robot)
