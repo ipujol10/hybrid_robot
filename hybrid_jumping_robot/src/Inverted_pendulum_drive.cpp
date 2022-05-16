@@ -253,7 +253,7 @@ std::array<Matrix, 5> IPD::get_matrix(const System &value) {
       out.at(2) = C;
 
       // K matrix
-      Matrix K{{370.789576601112, 44.33501015724}};
+      Matrix K{{1000.789576601112, 20.33501015724}};
       out.at(3) = K;
 
       Matrix L{{1.00104772344165,   0.427165035127185},
