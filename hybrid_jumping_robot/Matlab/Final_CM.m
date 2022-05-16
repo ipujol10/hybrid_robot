@@ -13,7 +13,7 @@ base_high_length = 0.01;
 back_wheels_mass = 0.09589;
 
 % center of mass
-mb = motor_mass + base_short_mass + base_high_mass + 2*back_wheels_mass; % mass of the body
+mb_val = motor_mass + base_short_mass + base_high_mass + 2*back_wheels_mass; % mass of the body
 
 cm_bh = (motor_length + base_high_length)/2; % the position of the center of mass of the base_high
 bhc = cm_bh * base_high_mass; % contribution to the cm of the base_high
