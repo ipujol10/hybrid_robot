@@ -13,7 +13,7 @@ PID::PID( const std::string &name,Float64 target = M_PI/2, Float64 KP=0.2,Float6
     CurrentTime = current_time;
     LastTime = CurrentTime;
     SetPoint = target;
-    clear();
+//    clear();
 
 
 }

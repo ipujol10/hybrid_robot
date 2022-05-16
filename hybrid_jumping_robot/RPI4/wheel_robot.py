@@ -120,9 +120,9 @@ class wheel_robot:
         self.set_velocity = data.data
 
         if self.left_wheel_serial.writable():
-            self.left_wheel_serial.write(str(self.set_velocity) + '\n')
+            self.left_wheel_serial.write(str(-self.set_velocity*10) + '\n')
         if self.right_wheel_serial.writable():
-            self.right_wheel_serial.write(str(self.set_velocity) + '\n')
+            self.right_wheel_serial.write(str(-self.set_velocity*10) + '\n')
         if self.serBreak.writable():
             self.serBreak.write(str(int(self.set_velocity))+'\n')
             print(str(int(self.set_velocity)))
