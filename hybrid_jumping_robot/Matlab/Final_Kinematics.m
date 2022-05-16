@@ -5,7 +5,7 @@ clc;
 format longg;
 
 %% Variables
-syms theta(t) x(t) d mw mb g alpha beta Iw Ib R tau
+syms theta(t) x(t) d mw mb g alpha beta Iw Ib R
 
 %% Derivatives of the states
 x1 = diff(x, t); % dx/dt
