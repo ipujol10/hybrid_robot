@@ -75,7 +75,9 @@ IPD::IPD(const Matrix &target, const Matrix &A, const Matrix &B, const Matrix &C
   Ts = 1 / frequency;
 
   Pitch = initial_state(0, 0);
-  PitchVel = initial_state(1, 0);
+  Position = initial_state(0, 0);
+  PitchVel = initial_state(2, 0);
+  Velocity = initial_state(3, 0);
 }
 
 
@@ -119,7 +121,9 @@ void IPD::loop() {
     pauseGazebo.call(pauseSrv);
 #endif
     Matrix current_real_state{{Pitch},
-                              {PitchVel}};
+                              {Position},
+                              {PitchVel},
+                              {Velocity}};
     sys_states = current_real_state - target;
     if (active) {
       std_msgs::Float64 data;
@@ -286,6 +290,32 @@ std::array<Matrix, 5> IPD::get_matrix(const System &value) {
 
       // K matrix
       K = Matrix{{1081.07147050386, 1569.97730085885, 239.080981590753, 3106.63019708095}};
+      out.at(3) = K;
+
+      L = Matrix{{10,                0,  1,  0},
+                 {0,                 20, 0,  1},
+                 {47.2746736626568,  0,  30, 0},
+                 {-1.34433823959577, 0,  0,  68.7565805306348}};
+      out.at(4) = L;
+      break;
+
+    case System::k_manual:
+      A = Matrix{{0,                1},
+                 {85.4043194374686, 0}};
+      out.at(0) = A;
+
+      // B matrix
+      B = Matrix{{0},
+                 {0.65293822199899}};
+      out.at(1) = B;
+
+      // C matrix
+      C = Matrix{{1, 0},
+                 {0, 1}};
+      out.at(2) = C;
+
+      // K matrix
+      K = Matrix{{1, 1, 1, 1}};
       out.at(3) = K;
 
       L = Matrix{{10,                0,  1,  0},
