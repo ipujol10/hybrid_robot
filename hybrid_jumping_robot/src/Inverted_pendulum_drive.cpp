@@ -26,7 +26,7 @@ void IPD::loop() {
   while (ros::ok()) {
     if (true) {
       std_msgs::Float64 data;
-      auto velocity = pid.update(Pitch, ros::Time::now(), true, 70, -70);
+      auto velocity = pid.update(Pitch, ros::Time::now(), true, 100, -100);
       velocity = filter(velocity,old_velocity, 0.8);
       data.data = velocity;
       inverted_vel_pub.publish(data);

@@ -141,9 +141,9 @@ class wheel_robot:
     ## not sure on this eq.
     def odom(self):
         pos = self.caldot()
-        self.x_pos += round(pos['xdot'],4)
-        self.y_pos += round(pos['ydot'],4)
-        self.theta_pos += round(pos['thetadot'],2)
+        self.x_pos -= round(pos['xdot'],4)
+        self.y_pos -= round(pos['ydot'],4)
+        self.theta_pos -= round(pos['thetadot'],2)
         rospy.loginfo_throttle(1, ("x pos is {}\t y pos is {}\t oriantation theta is {}").format(self.x_pos, self.y_pos, self.theta_pos))
 
     def caldot(self):
