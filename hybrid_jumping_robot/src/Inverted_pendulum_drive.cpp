@@ -300,18 +300,24 @@ std::array<Matrix, 5> IPD::get_matrix(const System &value) {
       break;
 
     case System::k_manual:
-      A = Matrix{{0,                1},
-                 {85.4043194374686, 0}};
+      A = Matrix{{0,                 0, 1, 0},
+                 {0,                 0, 0, 1},
+                 {47.2746736626568,  0, 0, 0},
+                 {-1.34433823959577, 0, 0, 0}};
       out.at(0) = A;
 
       // B matrix
       B = Matrix{{0},
-                 {0.65293822199899}};
+                 {0},
+                 {0.0968725463390153},
+                 {-0.00331057279509083}};
       out.at(1) = B;
 
       // C matrix
-      C = Matrix{{1, 0},
-                 {0, 1}};
+      C = Matrix{{1, 0, 0, 0},
+                 {0, 1, 0, 0},
+                 {0, 0, 1, 0},
+                 {0, 0, 0, 1}};
       out.at(2) = C;
 
       // K matrix
