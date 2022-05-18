@@ -1,5 +1,6 @@
 %% Total inertia of the front wheels
-Iw_val = 2 * 0.00105082037;
+% Iw_val = 2 * 0.00105082037;
+Iw_val = 2 * 0.00036114559;
 
 %% Inertias of each part of the body
 % Inertia back wheels
