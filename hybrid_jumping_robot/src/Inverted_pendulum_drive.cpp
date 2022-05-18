@@ -244,6 +244,30 @@ std::array<Matrix, 5> IPD::get_matrix(const System &value) {
 
     case System::N_2_states_phi_u:
       // A matrix
+      A = Matrix{{0,                1},
+                 {85.4043194374686, 0}};
+      out.at(0) = A;
+
+      // B matrix
+      B = Matrix{{0},
+                 {0.65293822199899}};
+      out.at(1) = B;
+
+      // C matrix
+      C = Matrix{{1, 0},
+                 {0, 1}};
+      out.at(2) = C;
+
+      // K matrix
+      K = Matrix{{370.789576601112, 44.33501015724}};
+      out.at(3) = K;
+
+      L = Matrix{{1.00104772344165,   0.427165035127185},
+                 {0.0049967972077693, 1.00006886107095}};
+      out.at(4) = L;
+      break;
+
+    case System::pole_placement:
       A = Matrix{{0,                 0, 1, 0},
                  {0,                 0, 0, 1},
                  {47.2746736626568,  0, 0, 0},
@@ -262,30 +286,6 @@ std::array<Matrix, 5> IPD::get_matrix(const System &value) {
                  {0, 1, 0, 0},
                  {0, 0, 1, 0},
                  {0, 0, 0, 1}};
-      out.at(2) = C;
-
-      // K matrix
-      K = Matrix{{370.789576601112, 44.33501015724}};
-      out.at(3) = K;
-
-      L = Matrix{{1.00104772344165,   0.427165035127185},
-                 {0.0049967972077693, 1.00006886107095}};
-      out.at(4) = L;
-      break;
-
-    case System::pole_placement:
-      A = Matrix{{0,                1},
-                 {85.4043194374686, 0}};
-      out.at(0) = A;
-
-      // B matrix
-      B = Matrix{{0},
-                 {0.65293822199899}};
-      out.at(1) = B;
-
-      // C matrix
-      C = Matrix{{1, 0},
-                 {0, 1}};
       out.at(2) = C;
 
       // K matrix
