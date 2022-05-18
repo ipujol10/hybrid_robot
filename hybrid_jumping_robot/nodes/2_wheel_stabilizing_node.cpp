@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
   ros::Subscriber state_sub = nh.subscribe("/HJC/State_machine/State", 1, callback);
   ros::Rate loop_rate(280);
   auto matrix = IPD::get_matrix(System::k_manual);
-  Matrix target{{M_PI_2},
+  Matrix target{{1.49},
                 {0},
                 {0},
                 {0}};
