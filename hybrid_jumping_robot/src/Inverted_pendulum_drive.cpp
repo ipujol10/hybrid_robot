@@ -120,7 +120,7 @@ void IPD::loop() {
     Matrix current_real_state{{Pitch},
                               {PitchVel}};
     sys_states = current_real_state - target;
-    if (active) {
+    if (true) {
       std_msgs::Float64 data;
       Float64 velocity = 0;
       if (isPID) {

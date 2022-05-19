@@ -42,7 +42,7 @@ q1 = diff(q, t); % the derivate respect time of the states
 M = simplify([diff(Q, theta2), diff(Q, x2)]); % obtain the friction matrix
 M1 = simplify(inv(M)); % inverse of M
 h = simplify(subs(Q, {theta2, x2}, {0, 0}) + diag([alpha beta])*q1); % corriolis, gravity effect and inertia
-gq = [1; -1]; % the input matrix
+gq = [Iw; -Iw]; % the input matrix
 
 Anl = [q1; simplify(-M1*h)]; % The A matrix on the non-linear form
 Bnl = [0; 0; simplify(M1*gq)]; % The B matrix on the non-linear form
