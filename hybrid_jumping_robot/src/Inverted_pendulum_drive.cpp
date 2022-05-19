@@ -2,6 +2,7 @@
 
 #include "Inverted_pendulum_drive.hpp"
 #include <iostream>
+
 #ifdef FILES_OUTPUT_DEBUG
 #include <fstream>
 #endif
@@ -74,7 +75,9 @@ IPD::IPD(const Matrix &target, const Matrix &A, const Matrix &B, const Matrix &C
   Ts = 1 / frequency;
 
   Pitch = initial_state(0, 0);
-  PitchVel = initial_state(1, 0);
+  Position = initial_state(0, 0);
+  PitchVel = initial_state(2, 0);
+  Velocity = initial_state(3, 0);
 }
 
 
@@ -118,7 +121,9 @@ void IPD::loop() {
     pauseGazebo.call(pauseSrv);
 #endif
     Matrix current_real_state{{Pitch},
-                              {PitchVel}};
+                              {Position},
+                              {PitchVel},
+                              {Velocity}};
     sys_states = current_real_state - target;
     if (true) {
       std_msgs::Float64 data;
@@ -232,33 +237,163 @@ void IPD::callbackState(const std_msgs::Int8 &data) {
 
 std::array<Matrix, 5> IPD::get_matrix(const System &value) {
   std::array<Matrix, 5> out;
+  Matrix A, B, C, K, L;
   switch (value) {
     case System::NONE:
       throw std::invalid_argument("A system must be selected (Different than 'NONE')");
 
     case System::N_2_states_phi_u:
       // A matrix
-      Matrix A{{0,                1},
-               {85.4043194374686, 0}};
+      A = Matrix{{0,                1},
+                 {85.4043194374686, 0}};
       out.at(0) = A;
 
       // B matrix
-      Matrix B{{0},
-               {0.65293822199899}};
+      B = Matrix{{0},
+                 {0.65293822199899}};
       out.at(1) = B;
 
       // C matrix
-      Matrix C{{1, 0},
-               {0, 1}};
+      C = Matrix{{1, 0},
+                 {0, 1}};
       out.at(2) = C;
 
       // K matrix
-      Matrix K{{370.789576601112, 44.33501015724}};
+      K = Matrix{{370.789576601112, 44.33501015724}};
       out.at(3) = K;
 
-      Matrix L{{1.00104772344165,   0.427165035127185},
-               {0.0049967972077693, 1.00006886107095}};
+      L = Matrix{{1.00104772344165,   0.427165035127185},
+                 {0.0049967972077693, 1.00006886107095}};
       out.at(4) = L;
+      break;
+
+    case System::pole_placement:
+      A = Matrix{{0,                 0, 1, 0},
+                 {0,                 0, 0, 1},
+                 {47.2746736626568,  0, 0, 0},
+                 {-1.34433823959577, 0, 0, 0}};
+      out.at(0) = A;
+
+      // B matrix
+      B = Matrix{{0},
+                 {0},
+                 {0.0968725463390153},
+                 {-0.00331057279509083}};
+      out.at(1) = B;
+
+      // C matrix
+      C = Matrix{{1, 0, 0, 0},
+                 {0, 1, 0, 0},
+                 {0, 0, 1, 0},
+                 {0, 0, 0, 1}};
+      out.at(2) = C;
+
+      // K matrix
+      K = Matrix{{802.882847764951, 0, 139.094311369446, 784.988650429386}};
+      out.at(3) = K;
+
+      L = Matrix{{0,                 0,  1,  0},
+                 {0,                 10, 0,  1},
+                 {47.2746736626568,  0,  30, 0},
+                 {-1.34433823959577, 0,  0,  68.7565805306348}};
+      out.at(4) = L;
+      break;
+
+    case System::k_manual:
+      A = Matrix{{0,                 0, 1, 0},
+                 {0,                 0, 0, 1},
+                 {47.2746736626568,  0, 0, 0},
+                 {-1.34433823959577, 0, 0, 0}};
+      out.at(0) = A;
+
+      // B matrix
+      B = Matrix{{0},
+                 {0},
+                 {0.0968725463390153},
+                 {-0.00331057279509083}};
+      out.at(1) = B;
+
+      // C matrix
+      C = Matrix{{1, 0, 0, 0},
+                 {0, 1, 0, 0},
+                 {0, 0, 1, 0},
+                 {0, 0, 0, 1}};
+      out.at(2) = C;
+
+      // K matrix
+      K = Matrix{{750, 500, 100.5, 50.5}};
+      out.at(3) = K;
+
+      L = Matrix{{10,                0,  1,  0},
+                 {0,                 20, 0,  1},
+                 {47.2746736626568,  0,  30, 0},
+                 {-1.34433823959577, 0,  0,  68.7565805306348}};
+      out.at(4) = L;
+      break;
+
+    case System::tuned_manual:
+      A = Matrix{{0,                 0, 1, 0},
+                 {0,                 0, 0, 1},
+                 {47.2746736626568,  0, 0, 0},
+                 {-1.34433823959577, 0, 0, 0}};
+      out.at(0) = A;
+
+      // B matrix
+      B = Matrix{{0},
+                 {0},
+                 {0.0968725463390153},
+                 {-0.00331057279509083}};
+      out.at(1) = B;
+
+      // C matrix
+      C = Matrix{{1, 0, 0, 0},
+                 {0, 1, 0, 0},
+                 {0, 0, 1, 0},
+                 {0, 0, 0, 1}};
+      out.at(2) = C;
+
+      // K matrix
+      K = Matrix{{802.88, 0, 139.09, 784.99}};
+      out.at(3) = K;
+
+      L = Matrix{{10,                0,  1,  0},
+                 {0,                 20, 0,  1},
+                 {47.2746736626568,  0,  30, 0},
+                 {-1.34433823959577, 0,  0,  68.7565805306348}};
+      out.at(4) = L;
+      break;
+
+    case System::LQR:
+      A = Matrix{{0,                 0, 1, 0},
+                 {0,                 0, 0, 1},
+                 {47.2746736626568,  0, 0, 0},
+                 {-1.34433823959577, 0, 0, 0}};
+      out.at(0) = A;
+
+      // B matrix
+      B = Matrix{{0},
+                 {0},
+                 {0.0968725463390153},
+                 {-0.00331057279509083}};
+      out.at(1) = B;
+
+      // C matrix
+      C = Matrix{{1, 0, 0, 0},
+                 {0, 1, 0, 0},
+                 {0, 0, 1, 0},
+                 {0, 0, 0, 1}};
+      out.at(2) = C;
+
+      // K matrix
+      K = Matrix{{991.909531865653, 0.930291450322719, 145.759105890912, 58.798408812102}};
+      out.at(3) = K;
+
+      L = Matrix{{1.0023446186431,     0,                   0.00999790502270166, 0},
+                 {0,                   0.618055294598948,   0,                   0.00723641117238562},
+                 {0.473109854821532,   0,                   1.00136453279657,    0},
+                 {-0.0134538110133856, 0.00105579634750382, 0,                   0.618061483637312}};
+      out.at(4) = L;
+      break;
   }
   return out;
 }
