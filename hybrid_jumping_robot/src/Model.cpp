@@ -1,4 +1,5 @@
 #include "Model.hpp"
+#include <iostream>
 
 Model::Model(int states, int inputs, int outputs) : X(states), U(inputs), Y(outputs) {
   A = Matrix(X, X);
@@ -52,6 +53,7 @@ void Model::set_C(const Matrix &c) {
 
 void Model::set_D(const Matrix &d) {
   if (!(d.rows() == d.cols() && d.rows() == 1 && d(0, 0) == 0)) {
+      std::cout << d << std::endl;
     if (d.rows() != Y || d.cols() != U) {
       throw std::invalid_argument("The dimensions of the matrix doesn't match with the model");
     }
