@@ -114,9 +114,9 @@ void IPD::loop() {
   std_srvs::Empty pauseSrv;
   std_srvs::Empty unpauseSrv;
 #endif
-  while (ros::ok()) {
+  auto lastTime = ros::Time::now();
 
-    auto now = ros::Time::now();
+  while (ros::ok()) {
 #ifdef PAUSE_SIM_DEBUG
     pauseGazebo.call(pauseSrv);
 #endif
@@ -135,7 +135,8 @@ void IPD::loop() {
 //                               Velocity - target.back()};
 //        auto y = vector_sum({Pitch, Position, PitchVel, Velocity}, target);
 //        auto y = vector_sum({Pitch, PitchVel}, target);
-        auto u = stateFeedback.get_action(sys_states);
+//        auto u = stateFeedback.get_action(sys_states);
+        auto u = stateFeedback.update(sys_states, (ros::Time::now()-lastTime).toSec());
 //        ROS_WARN("Action: %f", u.at(0));
 //        sys_states = stateFeedback.get_states(u, sys_states);
 //        velocity = sys_states.back();
@@ -164,6 +165,7 @@ void IPD::loop() {
 #ifdef PAUSE_SIM_DEBUG
     unpauseGazebo.call(unpauseSrv);
 #endif
+    lastTime = ros::Time::now();
     ros::spinOnce();
     rate.sleep();
   }
