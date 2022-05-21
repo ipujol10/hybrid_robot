@@ -71,7 +71,7 @@ Matrix StateFeedback::estimate_state(const Matrix &y, Float64 dt) {
   return x_hat + (ALC * x_hat + model.get_B() * u + L * y) * dt;
 }
 
-void StateFeedback::update(const Matrix &y, Float64 dt) {
+Matrix StateFeedback::update(const Matrix &y, Float64 dt) {
   // Update the state estimate
   if (X == Y) { // if it's Full State Feedback
     x_hat = y; // directly the new x_hat are the measured states
@@ -88,6 +88,8 @@ void StateFeedback::update(const Matrix &y, Float64 dt) {
   // get the offset to control the disturbance w
   w_hat += I * (y - r) * dt;
   u += w_hat;
+
+  return u;
 }
 
 void StateFeedback::set_gains(const Matrix &k, const Matrix &l, const Matrix &i) {

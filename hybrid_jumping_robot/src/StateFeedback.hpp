@@ -47,7 +47,7 @@ public:
 
   Matrix estimate_state(const Matrix &y, Float64 dt);
 
-  void update(const Matrix &y, Float64 dt);
+  Matrix update(const Matrix &y, Float64 dt);
 
 private:
   void set_gains(const Matrix &k, const Matrix &l, const Matrix &i);
