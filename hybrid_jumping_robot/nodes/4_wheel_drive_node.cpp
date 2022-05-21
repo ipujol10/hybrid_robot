@@ -12,15 +12,18 @@ int main(int argc, char **argv) {
     ros::NodeHandle nh;
     ros::Subscriber state_sub = nh.subscribe("/HJC/State_machine/State", 1, callback);
     ros::Publisher vel_pub = nh.advertise<std_msgs::Float64>("/HJC/Vel_robot/Set_velocity",10);
-    ros::Rate loop_rate(280);
+    ros::Rate loop_rate(1);
     ros::spinOnce();
     loop_rate.sleep();
+    int iter =0;
     while(ros::ok()){
+        iter++;
         if(state == 1){
             std_msgs::Float64 data;
 
-            data.data = -35;
+            data.data = -35* iter;
             vel_pub.publish(data);
+
         }
         ros::spinOnce();
         loop_rate.sleep();
