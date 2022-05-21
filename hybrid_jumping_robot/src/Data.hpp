@@ -10,7 +10,9 @@ struct RPY {
 enum class System {
   NONE,
   N_2_states_phi_u,
-  pole_placement,
-  k_manual
+  pole_placement, // poles = {0, -1, -3, -6.87565805306348}
+  k_manual,
+  tuned_manual,
+  LQR
 };
 #endif //HYBRID_JUMPING_ROBOT_DATA_HPP
