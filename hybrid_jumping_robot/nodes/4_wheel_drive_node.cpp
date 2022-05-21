@@ -18,6 +18,7 @@ int main(int argc, char **argv) {
     while(ros::ok()){
         if(state == 1){
             std_msgs::Float64 data;
+
             data.data = -35;
             vel_pub.publish(data);
         }
