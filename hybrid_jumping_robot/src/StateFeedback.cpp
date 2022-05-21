@@ -58,8 +58,8 @@ void StateFeedback::initialise(const Matrix &k, const Matrix &l, const Matrix &i
   }
 
   // Split in Nx and Nu and calculate N
-  N_bar = k * invSys.block(0, X, X, Y) + invSys.block(X, X, U, Y);
-  ALC = model.get_A() - l * model.get_C();
+  N_bar = K * invSys.block(0, X, X, Y) + invSys.block(X, X, U, Y);
+  ALC = model.get_A() - L * model.get_C();
 }
 
 Matrix StateFeedback::get_u() const {
