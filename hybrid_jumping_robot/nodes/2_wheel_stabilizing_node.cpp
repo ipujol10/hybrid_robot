@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
   ros::Rate loop_rate(280);
 
   auto matrix = IPD::get_matrix(System::k_manual);
-  Matrix target{{1.49},
+  Matrix target{{1.42},
                 {0},
                 {0},
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
                        {0}};
 
   IPD ipd(target, matrix.at(0), matrix.at(1), matrix.at(2), Matrix{{0}}, matrix.at(3), initial_state, 200, -1,
-          matrix.at(4));
+          matrix.at(4), Matrix{{0.0, 0, 0, 0}});
 
 //  IPD ipd("stabilizing", M_PI_2, 27, 0, 5.5e-1, 9.9e-3, 3);
 
