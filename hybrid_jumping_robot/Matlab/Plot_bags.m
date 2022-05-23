@@ -68,5 +68,10 @@ odom_stat.max = max(odom_ts);
 odom_stat.min = min(odom_ts);
 odom_stat.distance = max(odom_ts) - min(odom_ts);
 
+%% PID
+pid_bag = rosbag("../bagfiles/PID/2022-05-12-11-16-50.bag");
+
+%% State feedback
+
 %% LQR
 % lqr_bag = rosbag("../bagfiles/LQR/2022-05-21-10-41-08.bag");
