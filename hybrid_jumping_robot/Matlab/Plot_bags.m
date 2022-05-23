@@ -77,14 +77,16 @@ plot_data(pid_bag, time, 26.916614532470703, 37.619056940078735, "PID controller
 sf_bag = rosbag("../bagfiles/State_feedback/2022-05-21-10-51-38.bag");
 time = first_time_rosbag(sf_bag);
 plot_data(sf_bag, time, 65.525068759918210, 79.028335809707640, "State feedback controller test")
-% pitch = select(sf_bag, "Topic", "/HJC/IMU/Pitch");
-% ts = timeseries(pitch, "Data");
-% ts.Data = ts.Data*180/pi;
-% ts.Time = ts.Time - time*ones(size(ts.Time));
-% plot(ts)
 
 %% LQR
-% lqr_bag = rosbag("../bagfiles/LQR/2022-05-21-10-41-08.bag");
+lqr_bag = rosbag("../bagfiles/LQR/2022-05-21-10-41-08.bag");
+time = first_time_rosbag(lqr_bag);
+plot_data(lqr_bag, time, 99.886942148208620, 1.324009280204773e+02, "LQR controller test")
+pitch = select(lqr_bag, "Topic", "/HJC/IMU/Pitch");
+ts = timeseries(pitch, "Data");
+ts.Data = ts.Data*180/pi;
+ts.Time = ts.Time - time*ones(size(ts.Time));
+plot(ts)
 
 %% Function
 function plot_data(bag, zero_time, start_time, end_time, title_name)
