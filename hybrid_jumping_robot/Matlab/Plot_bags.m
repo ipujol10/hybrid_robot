@@ -82,11 +82,6 @@ plot_data(sf_bag, time, 65.525068759918210, 79.028335809707640, "State feedback 
 lqr_bag = rosbag("../bagfiles/LQR/2022-05-21-10-41-08.bag");
 time = first_time_rosbag(lqr_bag);
 plot_data(lqr_bag, time, 99.886942148208620, 1.324009280204773e+02, "LQR controller test")
-pitch = select(lqr_bag, "Topic", "/HJC/IMU/Pitch");
-ts = timeseries(pitch, "Data");
-ts.Data = ts.Data*180/pi;
-ts.Time = ts.Time - time*ones(size(ts.Time));
-plot(ts)
 
 %% Function
 function plot_data(bag, zero_time, start_time, end_time, title_name)
