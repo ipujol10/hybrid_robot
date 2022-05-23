@@ -139,3 +139,18 @@ legend(legends)
 title(title_name + " $$(x, \dot{x})$$", 'interpreter','latex')
 xlabel("Time [s]")
 end
+
+function min_time = first_time_rosbag(bag)
+bags = select(bag, "Topic", "/HJC/IMU/Pitch");
+bags = [bags select(bag, "Topic", "/HJC/Vel_robot/Current_pos")];
+bags = [bags select(bag, "Topic", "/HJC/IMU/AngularVelocity")];
+bags = [bags select(bag, "Topic", "/HJC/Vel_robot/Current_velocity")];
+
+min_time = bags(1).StartTime;
+for i = 2:size(bags,2)
+    current_time = bags(i).StartTime;
+    if current_time < min_time
+        min_time = current_time;
+    end
+end
+end
