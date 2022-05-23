@@ -83,6 +83,33 @@ lqr_bag = rosbag("../bagfiles/LQR/2022-05-21-10-41-08.bag");
 time = first_time_rosbag(lqr_bag);
 plot_data(lqr_bag, time, 99.886942148208620, 1.324009280204773e+02, "LQR controller test")
 
+%% Angular Velocity
+angular_vel_bag = rosbag("../bagfiles/angularVelocity/2022-05-23-14-39-26.bag");
+time = angular_vel_bag.StartTime;
+st = time + 53.516805171966550;
+et = st + 5.566037654876709;
+
+figure
+hold on
+% Angular velocity
+sel = select(angular_vel_bag, "Time", [st et], "Topic", "/HJC/IMU/AngularVelocity");
+ts = timeseries(sel, "Data");
+ts.Time = ts.Time - st*ones(size(ts.Time));
+ts.Data = ts.Data*30/pi;
+plot(ts)
+
+% Linear Velocity
+sel = select(angular_vel_bag, "Time", [st et], "Topic", "/HJC/Vel_robot/Current_velocity");
+ts = timeseries(sel, "Data");
+ts.Time = ts.Time - st*ones(size(ts.Time));
+plot(ts)
+
+legend("Angular","Linear")
+ylabel("Angular velocity [rpm]")
+xlabel("Time [s]")
+title("Angular velocity test")
+hold off
+
 %% Function
 function plot_data(bag, zero_time, start_time, end_time, title_name)
 st = zero_time + start_time;
@@ -113,7 +140,7 @@ ts.Time = ts.Time - st*ones(size(ts.Time));
 ts.Data = ts.Data*30/pi;
 plot(ts)
 legends = [legends "Angular velocity"];
-ylabel("Angular velocity [rev/min]");
+ylabel("Angular velocity [rpm]");
 
 legend(legends)
 xlabel("Time [s]")
