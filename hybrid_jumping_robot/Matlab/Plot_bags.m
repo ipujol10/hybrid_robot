@@ -70,8 +70,72 @@ odom_stat.distance = max(odom_ts) - min(odom_ts);
 
 %% PID
 pid_bag = rosbag("../bagfiles/PID/2022-05-12-11-16-50.bag");
+plot_data(pid_bag, 1652347020.50021, 26.916614532470703, 37.619056940078735, "PID controller test")
 
 %% State feedback
 
 %% LQR
 % lqr_bag = rosbag("../bagfiles/LQR/2022-05-21-10-41-08.bag");
+
+%% Function
+function plot_data(bag, zero_time, start_time, end_time, title_name)
+st = zero_time + start_time;
+et = zero_time + end_time;
+
+pitch = select(bag, "Time", [st, et], "Topic", "/HJC/IMU/Pitch");
+position = select(bag, "Time", [st, et], "Topic", "/HJC/Vel_robot/Current_pos");
+angular_velocity = select(bag, "Time", [st, et], "Topic", "/HJC/IMU/AngularVelocity");
+velocity = select(bag, "Time", [st, et], "Topic", "/HJC/Vel_robot/Current_velocity");
+
+figure
+legends = [];
+hold on
+
+% Pitch
+yyaxis left
+ts = timeseries(pitch, "Data");
+ts.Time = ts.Time - st*ones(size(ts.Time));
+ts.Data = ts.Data*180/pi;
+plot(ts)
+legends = [legends "Pitch"];
+ylabel("Pitch [º]")
+
+% Angular velocity
+yyaxis right
+ts = timeseries(angular_velocity, "Data");
+ts.Time = ts.Time - st*ones(size(ts.Time));
+ts.Data = ts.Data*30/pi;
+plot(ts)
+legends = [legends "Angular velocity"];
+ylabel("Angular velocity [rev/min]");
+
+legend(legends)
+xlabel("Time [s]")
+title(title_name + " $$(\theta, \dot{\theta})$$", 'interpreter','latex')
+hold off
+
+figure
+hold on
+legends = [];
+
+% Position
+yyaxis left
+ts = timeseries(position, "X");
+ts.Time = ts.Time - st*ones(size(ts.Time));
+plot(ts)
+legends = [legends "Position"];
+ylabel("Positon [m]")
+
+% Velocity
+yyaxis right
+ts = timeseries(velocity, "Data");
+ts.Time = ts.Time - st*ones(size(ts.Time));
+ts.Data = ts.Data*1e3;
+plot(ts)
+legends = [legends "Velocity"];
+ylabel("Velocity [mm/s]")
+
+legend(legends)
+title(title_name + " $$(x, \dot{x})$$", 'interpreter','latex')
+xlabel("Time [s]")
+end
