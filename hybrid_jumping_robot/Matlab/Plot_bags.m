@@ -42,18 +42,19 @@ title("Pitch tests")
 hold off
 
 %% Odometry
-figure
 odom_bag = rosbag("../bagfiles/odom_test/testOdom_new.bag");
-odom_right = select(odom_bag, "Topic", "/HJC/Vel_robot/Right_wheel_pos");
-odom_left = select(odom_bag, "Topic", "/HJC/Vel_robot/Left_wheel_pos");
-odom_right_ts = timeseries(odom_right, "Data");
-odom_right_ts.Time = odom_right_ts.Time - odom_bag.StartTime*ones(size(odom_right_ts.Time));
-odom_left_ts = timeseries(odom_left, "Data");
-odom_left_ts.Time = odom_left_ts.Time - odom_bag.StartTime*ones(size(odom_left_ts.Time));
-plot(odom_left_ts)
-hold on
-plot(odom_right_ts)
-hold off
+odom_pos = select(odom_bag, "Topic", "/HJC/Vel_robot/Current_pos");
+odom_ts = timeseries(odom_pos, "X");
+odom_ts.Time = odom_ts.Time - odom_ts.Time(1,1)*ones(size(odom_ts.Time));
+figure
+plot(odom_ts)
+title("Odometry test")
+ylabel("Distance [m]")
+xlabel("Time [s]")
+
+odom_stat.max = max(odom_ts);
+odom_stat.min = min(odom_ts);
+odom_stat.distance = max(odom_ts) - min(odom_ts);
 
 %% LQR
 % lqr_bag = rosbag("../bagfiles/LQR/2022-05-21-10-41-08.bag");
