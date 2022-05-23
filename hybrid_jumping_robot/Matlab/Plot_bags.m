@@ -43,14 +43,26 @@ hold off
 
 %% Odometry
 odom_bag = rosbag("../bagfiles/odom_test/testOdom_new.bag");
+
 odom_pos = select(odom_bag, "Topic", "/HJC/Vel_robot/Current_pos");
-odom_ts = timeseries(odom_pos, "X");
+odom_ts = timeseries(odom_pos, "X", "Y");
 odom_ts.Time = odom_ts.Time - odom_ts.Time(1,1)*ones(size(odom_ts.Time));
+odom_ts.Data = -odom_ts.Data;
+
+odom_ts2 = timeseries(odom_pos, "Z");
+odom_ts2.Time = odom_ts2.Time - odom_ts2.Time(1,1)*ones(size(odom_ts2.Time));
+
 figure
+hold on
 plot(odom_ts)
-title("Odometry test")
 ylabel("Distance [m]")
+yyaxis right
+plot(odom_ts2)
+ylabel("Angle turned [º]")
+title("Odometry test")
 xlabel("Time [s]")
+legend("x position", "y position", "yaw")
+hold off
 
 odom_stat.max = max(odom_ts);
 odom_stat.min = min(odom_ts);
