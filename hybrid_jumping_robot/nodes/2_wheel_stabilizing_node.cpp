@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
                        {0},
                        {0},
                        {0}};
-  IPD ipd(target, matrix.at(0), matrix.at(1), matrix.at(2), Matrix{{0}}, matrix.at(3), initial_state, 200, -1,
+  IPD ipd(target, matrix.at(0), matrix.at(1), matrix.at(2), Matrix{{0}}, matrix.at(3), initial_state, 200, 3,
           matrix.at(4), Matrix{{0.0, 0, 0, 0}});
 //  IPD ipd("stabilizing", M_PI_2, 27, 0, 5.5e-1, 9.9e-3, 3);
 

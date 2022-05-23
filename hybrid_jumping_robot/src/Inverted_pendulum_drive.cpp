@@ -125,7 +125,7 @@ void IPD::loop() {
                               {PitchVel},
                               {Velocity}};
     sys_states = current_real_state - target;
-    if (true) {
+    if (active) {
       std_msgs::Float64 data;
       Float64 velocity = 0;
       if (isPID) {
@@ -321,7 +321,7 @@ std::array<Matrix, 5> IPD::get_matrix(const System &value) {
       out.at(2) = C;
 
       // K matrix
-      K = Matrix{{802.88,0,139.09,784.99}};
+      K = Matrix{{991.91,0.9,145.76,58.8}};
       out.at(3) = K;
 
       L = Matrix{{10,                0,  1,  0},

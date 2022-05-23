@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+<!--    <include file="$(find hybrid_jumping_robot)/launch/control_jumping_robot_v2.launch" />-->
+
+<!--     <node pkg="hybrid_jumping_robot" name="Hybrid_jumping_Robot" type="Hybrid_jumping_Robot.py" output="screen"/> -->
+<!--     <node pkg="hybrid_jumping_robot" name="Hybrid_jumping_Robot" type="hybrid_jumping_robot" output="screen" -->
+<!--           launch-prefix="bash -c 'sleep 6; $0 $@' " /> -->
+<!--    <node pkg="hybrid_jumping_robot" name="Stabilize" type="Stabilize.py" output="screen"/>-->
+<!--    <node pkg="hybrid_jumping_robot" name="record" type="record_bag.sh"/>-->
+<!--    <node pkg="hybrid_jumping_robot" name="Vel_node" type="Vel_node" output="screen"/>-->
+<!--    <node pkg="hybrid_jumping_robot" name="IMU_node" type="IMU_node" output="screen"/>-->
+<!--     <node pkg="hybrid_jumping_robot" name="IPD_node" type="IPD_node" output="screen"/> -->
+     <node pkg="hybrid_jumping_robot" name="State_machine_node" type="State_machine_node" output="screen"/>
+     <node pkg="hybrid_jumping_robot" name="Wheel_4_break_node" type="Wheel_4_break_node" output="screen"/>
+     <node pkg="hybrid_jumping_robot" name="Wheel_4_drive_node" type="Wheel_4_drive_node" output="screen"/>
+     <node pkg="hybrid_jumping_robot" name="Wheel_2_stabilizing_node" type="Wheel_2_stabilizing_node" output="screen"/>
+<!--    <node pkg="hybrid_jumping_robot" name="SF_node" type="SF_node" output="screen"/>-->
+
+</launch>

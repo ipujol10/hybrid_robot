@@ -20,9 +20,11 @@ int main(int argc, char **argv) {
         iter++;
         if(state == 1){
             std_msgs::Float64 data;
-
-            data.data = -35* iter;
+            data.data = 5* iter/2;
+            std::cout << data << std::endl;
+            std::cout << iter << std::endl;
             vel_pub.publish(data);
+
 
         }
         ros::spinOnce();
