@@ -12,8 +12,8 @@ parameters = {d, mw, mb, g, alpha, beta, Iw, Ib, R};
 % values = {cm, 2*0.279, mb_val, 9.81, 0, 0, Iw_val, Ib_val, 0.075};
 values = {cm, 2*back_wheels_mass, mb_val, 9.81, 0, 0, Iw_val, Ib_val, 0.075};
 
-A = double(subs(subs(Ap, parameters, values), parameters, values)); % A matrix with numerical values
-B = double(subs(subs(Bp, parameters, values), parameters, values)); % B matrix with numerical values
+A = double(subs(Ap, parameters, values)); % A matrix with numerical values
+B = double(subs(Bp, parameters, values)); % B matrix with numerical values
 
 %% Output
 C = eye(4);

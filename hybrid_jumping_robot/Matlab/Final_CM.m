@@ -26,4 +26,4 @@ cm_w = cm_bs + base_short_length/2 - 0.01; % the position of the center of mass 
 wc = cm_w * 2*back_wheels_mass; % contribution to the cm of the wheels
 
 %% Center of mass
-cm = (bhc + bsc + wc)/mb; % the center of mass of the body
+cm = (bhc + bsc + wc)/mb_val; % the center of mass of the body
