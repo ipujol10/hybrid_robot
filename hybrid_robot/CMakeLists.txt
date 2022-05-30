@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(hybrid_jumping_robot)
+project(hybrid_robot)
 
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
      set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
