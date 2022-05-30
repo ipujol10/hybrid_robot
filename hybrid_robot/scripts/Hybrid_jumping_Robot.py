@@ -155,4 +155,4 @@ class OperatedRobot:
 
 
 if __name__ == '__main__':
-    r = OperatedRobot('hybrid_jumping_robot', 36.0, 0.075)
+    r = OperatedRobot('hybrid_robot', 36.0, 0.075)

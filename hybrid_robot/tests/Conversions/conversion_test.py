@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import unittest
-from hybrid_jumping_robot.scripts import Conversions
+from hybrid_robot.scripts import Conversions
 from geometry_msgs.msg import Quaternion
 
 

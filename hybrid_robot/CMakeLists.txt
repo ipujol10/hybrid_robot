@@ -49,7 +49,7 @@ include_directories(src)
 #target_link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} Eigen3::Eigen)
 target_link_libraries(${PROJECT_NAME} Robot ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES})
 
-#find_library(PID_TEST_LIBRARY PID_Test HINTS /home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_jumping_robot/tests/PID)
+#find_library(PID_TEST_LIBRARY PID_Test HINTS /home/ipujol/AAU/S10/catkin_ws/src/hybrid_robot/hybrid_robot/tests/PID)
 #add_subdirectory(tests)
 #add_executable(Tests tests/Tests.cpp)
 #target_link_libraries(Tests ${CATKIN_LIBRARIES} ${roscpp_LIBRARIES} ${PID_TEST_LIBRARY} Robot)
