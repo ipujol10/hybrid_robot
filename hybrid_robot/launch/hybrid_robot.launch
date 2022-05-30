@@ -32,7 +32,7 @@
           args="-urdf -param robot_description -model hybrid_robotV0_2 -x $(arg x) -y $(arg y) -z $(arg z)
           -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
     <include file="$(find hybrid_jumping_robot)/launch/control_jumping_robot_v2.launch" />
-<!--    <include file="$(find hybrid_robot)/launch/control_jumping_robot_v2.launch" />-->
+<!--    <include file="$(find hybrid_robot)/launch/control_robot_v2.launch" />-->
 
 <!--     <node pkg="hybrid_robot" name="Hybrid_jumping_Robot" type="Hybrid_jumping_Robot.py" output="screen"/> -->
 <!--     <node pkg="hybrid_robot" name="Hybrid_jumping_Robot" type="hybrid_robot" output="screen" -->

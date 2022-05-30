@@ -397,7 +397,7 @@ std::array<Matrix, 5> IPD::get_matrix(const System &value) {
       out.at(4) = L;
       break;
 
-    case pole_placement_discrete:
+    case System::pole_placement_discrete:
       A = Matrix{{0,                 0, 1, 0},
                  {0,                 0, 0, 1},
                  {47.2746736626568,  0, 0, 0},

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-    <name>hybrid_jumping_robot</name>
+    <name>hybrid_robot</name>
     <version>0.0.0</version>
     <description>The hybrid_jumping_robot package</description>
 
