@@ -56,3 +56,10 @@ To be able to run the prototype it is needed to upload the following scripts int
 * **wheel_robot.py** into the RPI.
 * **wheel_HC_new.ino** into both UstepperS.
 * **breakmodeteensy.ino** into the Arduino UNO.
+
+## Diagrams
+### ROS node communication
+
+![ROS Connection](./hybrid_robot/images/nodecom.drawio.png)
+### Electronic schematic
+![Electronic schematic](./hybrid_robot/images/shcematics2.png)
