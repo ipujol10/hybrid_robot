@@ -2,7 +2,7 @@
 
 <launch>
   <param name="robot_description"
-         command="$(find xacro)/xacro '$(find hybrid_jumping_robot)/urdf/last_model.urdf.xacro' use_gazebo_sim:=true"/>
+         command="$(find xacro)/xacro '$(find hybrid_robot)/urdf/last_model.urdf.xacro' use_gazebo_sim:=true"/>
   <!-- ==================================================== -->
   <!-- Gazebo specific options                              -->
   <!-- ==================================================== -->
@@ -15,7 +15,7 @@
   <!-- Startup simulated world -->
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find hybrid_jumping_robot)/worlds/blank.world"/>
+    <arg name="world_name" value="$(find hybrid_robot)/worlds/blank.world"/>
     <arg name="verbose" value="true"/>
     <arg name="paused" value="$(arg paused)"/>
     <arg name="gui" value="$(arg gazebo_gui)"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <launch>
-    <param name="robot_description" command="$(find xacro)/xacro '$(find hybrid_jumping_robot)/urdf/first_modelV0_2.urdf.xacro' use_gazebo_sim:=true"/>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find hybrid_robot)/urdf/first_modelV0_2.urdf.xacro' use_gazebo_sim:=true"/>
     <!-- ==================================================== -->
     <!-- Gazebo specific options                              -->
     <!-- ==================================================== -->
