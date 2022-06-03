@@ -2,10 +2,10 @@
 
 <robot name="hybrid_robotv0_2" xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:include filename="$(find hybrid_jumping_robot)/urdf/material.xacro"/>
-    <xacro:include filename="$(find hybrid_jumping_robot)/urdf/plugins.gazebo.xacro"/>
-    <xacro:include filename="$(find hybrid_jumping_robot)/urdf/macro.xacro"/>
-    <xacro:include filename="$(find hybrid_jumping_robot)/urdf/transmission.xacro"/>
+    <xacro:include filename="$(find hybrid_robot)/urdf/material.xacro"/>
+    <xacro:include filename="$(find hybrid_robot)/urdf/plugins.gazebo.xacro"/>
+    <xacro:include filename="$(find hybrid_robot)/urdf/macro.xacro"/>
+    <xacro:include filename="$(find hybrid_robot)/urdf/transmission.xacro"/>
 
     <xacro:property name="wheel_r" value="0.075"/>
     <xacro:property name="wheel_width" value="0.05"/>

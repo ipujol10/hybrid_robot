@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <launch>
-    <param name="robot_description" command="$(find xacro)/xacro '$(find hybrid_jumping_robot)/urdf/last_model.urdf.xacro' use_gazebo_sim:=true"/>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find hybrid_robot)/urdf/last_model.urdf.xacro' use_gazebo_sim:=true"/>
 <!--    <param name="robot_description" command="$(find xacro)/xacro '$(find hybrid_robot)/urdf/last_model.urdf.xacro' use_gazebo_sim:=true"/>-->
     <param name="/use_sim_time" value="true" />
     <!-- ==================================================== -->
@@ -15,7 +15,7 @@
     <!-- ==================================================== -->
     <!-- Startup simulated world -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find hybrid_jumping_robot)/worlds/blank.world"/>
+        <arg name="world_name" value="$(find hybrid_robot)/worlds/blank.world"/>
         <arg name="verbose" value="true"/>
         <arg name="paused" value="$(arg paused)"/>
         <arg name="gui" value="$(arg gazebo_gui)"/>
@@ -31,21 +31,21 @@
     <node name="hybrid_robotv0_2_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" respawn="false"
           args="-urdf -param robot_description -model hybrid_robotV0_2 -x $(arg x) -y $(arg y) -z $(arg z)
           -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
-    <include file="$(find hybrid_jumping_robot)/launch/control_jumping_robot_v2.launch" />
+    <include file="$(find hybrid_robot)/launch/control_robot_v2.launch" />
 <!--    <include file="$(find hybrid_robot)/launch/control_robot_v2.launch" />-->
 
-<!--     <node pkg="hybrid_robot" name="Hybrid_jumping_Robot" type="Hybrid_jumping_Robot.py" output="screen"/> -->
-<!--     <node pkg="hybrid_robot" name="Hybrid_jumping_Robot" type="hybrid_robot" output="screen" -->
+<!--     <node pkg="hybrid_robot" name="Hybrid_Robot" type="Hybrid_Robot.py" output="screen"/> -->
+<!--     <node pkg="hybrid_robot" name="Hybrid_Robot" type="hybrid_robot" output="screen" -->
 <!--           launch-prefix="bash -c 'sleep 6; $0 $@' " /> -->
 <!--    <node pkg="hybrid_robot" name="Stabilize" type="Stabilize.py" output="screen"/>-->
 <!--    <node pkg="hybrid_robot" name="record" type="record_bag.sh"/>-->
-    <node pkg="hybrid_jumping_robot" name="Vel_node" type="Vel_node" output="screen"/>
-    <node pkg="hybrid_jumping_robot" name="IMU_node" type="IMU_node" output="screen"/>
+    <node pkg="hybrid_robot" name="Vel_node" type="Vel_node" output="screen"/>
+    <node pkg="hybrid_robot" name="IMU_node" type="IMU_node" output="screen"/>
 <!--     <node pkg="hybrid_robot" name="IPD_node" type="IPD_node" output="screen"/> -->
 <!--     <node pkg="hybrid_robot" name="State_machine_node" type="State_machine_node" output="screen"/> -->
 <!--     <node pkg="hybrid_robot" name="Wheel_4_break_node" type="Wheel_4_break_node" output="screen"/> -->
 <!--     <node pkg="hybrid_robot" name="Wheel_4_drive_node" type="Wheel_4_drive_node" output="screen"/> -->
 <!--     <node pkg="hybrid_robot" name="Wheel_2_stabilizing_node" type="Wheel_2_stabilizing_node" output="screen"/> -->
-    <node pkg="hybrid_jumping_robot" name="SF_node" type="SF_node" output="screen"/>
+    <node pkg="hybrid_robot" name="SF_node" type="SF_node" output="screen"/>
 
 </launch>
